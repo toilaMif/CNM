@@ -1,0 +1,345 @@
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <h1>⚙️ Cài đặt hệ thống</h1>
+  <p>Quản lý thông tin tài khoản admin và cấu hình hệ thống</p>
+</div>
+
+<!-- ALERTS -->
+<div id="alertContainer"></div>
+
+<!-- SETTINGS CONTAINER -->
+<div class="settings-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1200px;">
+
+  <!-- ACCOUNT SETTINGS -->
+  <div class="table-container">
+    <div class="table-header">
+      <h3>👤 Thông tin tài khoản</h3>
+    </div>
+
+    <div style="padding: 30px;">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="settingsEmail" readonly />
+      </div>
+d
+      <div class="form-group">
+        <label>Tên đầy đủ</label>
+        <input type="text" id="settingsFullName" placeholder="Nhập tên đầy đủ..." />
+      </div>
+
+      <div class="form-group">
+        <label>Số điện thoại</label>
+        <input type="tel" id="settingsPhoneNumber" placeholder="Nhập số điện thoại..." />
+      </div>
+
+      <div class="form-group">
+        <label>Địa chỉ</label>
+        <input type="text" id="settingsAddress" placeholder="Nhập địa chỉ..." />
+      </div>
+
+      <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="updateAccountSettings()">
+        💾 Cập nhật thông tin
+      </button>
+    </div>
+  </div>
+
+  <!-- SECURITY SETTINGS -->
+  <div class="table-container">
+    <div class="table-header">
+      <h3>🔒 Bảo mật</h3>
+    </div>
+
+    <div style="padding: 30px;">
+      <div style="margin-bottom: 20px;">
+        <h4 style="color: #33CC00; margin-bottom: 12px;">Đổi mật khẩu</h4>
+        <div class="form-group">
+          <label>Mật khẩu hiện tại</label>
+          <input type="password" id="currentPassword" placeholder="Nhập mật khẩu hiện tại..." />
+        </div>
+
+        <div class="form-group">
+          <label>Mật khẩu mới</label>
+          <input type="password" id="newPassword" placeholder="Nhập mật khẩu mới..." />
+        </div>
+
+        <div class="form-group">
+          <label>Xác nhận mật khẩu mới</label>
+          <input type="password" id="confirmPassword" placeholder="Xác nhận mật khẩu mới..." />
+        </div>
+
+        <button class="btn btn-warning" style="width: 100%;" onclick="changePassword()">
+          🔐 Đổi mật khẩu
+        </button>
+      </div>
+
+      <div style="padding-top: 20px; border-top: 1px solid rgba(51, 204, 0, 0.2);">
+        <h4 style="color: #33CC00; margin-bottom: 12px; margin-top: 0;">Các phiên đăng nhập khác</h4>
+        <p style="color: #b0b8cc; margin-bottom: 12px;">Đăng xuất khỏi tất cả các thiết bị khác</p>
+        <button class="btn btn-danger" style="width: 100%;" onclick="logoutAllDevices()">
+          🚪 Đăng xuất tất cả
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SYSTEM SETTINGS -->
+<div class="table-container" style="margin-top: 30px;">
+  <div class="table-header">
+    <h3>🔧 Cài đặt hệ thống</h3>
+  </div>
+
+  <div style="padding: 30px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div>
+        <h4 style="color: #33CC00; margin-bottom: 12px;">Cập nhật dữ liệu</h4>
+        <button class="btn btn-secondary" style="width: 100%;">
+          🔄 Đồng bộ dữ liệu
+        </button>
+      </div>
+
+      <div>
+        <h4 style="color: #33CC00; margin-bottom: 12px;">Sao lưu</h4>
+        <button class="btn btn-secondary" style="width: 100%;">
+          💾 Tạo bản sao lưu
+        </button>
+      </div>
+
+      <div>
+        <h4 style="color: #33CC00; margin-bottom: 12px;">Logs</h4>
+        <button class="btn btn-secondary" style="width: 100%;" onclick="viewLogs()">
+          📋 Xem nhật ký hoạt động
+        </button>
+      </div>
+
+      <div>
+        <h4 style="color: #33CC00; margin-bottom: 12px;">Thống kê</h4>
+        <button class="btn btn-secondary" style="width: 100%;" onclick="viewStatistics()">
+          📊 Xem thống kê
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION INFO -->
+<div class="table-container" style="margin-top: 30px;">
+  <div class="table-header">
+    <h3>ℹ️ Thông tin phiên làm việc</h3>
+  </div>
+
+  <div style="padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <p style="color: #b0b8cc; margin-bottom: 4px;">Đăng nhập lúc:</p>
+      <p id="loginTime" style="color: #33CC00; font-weight: bold;">-</p>
+    </div>
+
+    <div>
+      <p style="color: #b0b8cc; margin-bottom: 4px;">IP địa chỉ:</p>
+      <p id="ipAddress" style="color: #33CC00; font-weight: bold;">-</p>
+    </div>
+
+    <div>
+      <p style="color: #b0b8cc; margin-bottom: 4px;">Trình duyệt:</p>
+      <p id="browserInfo" style="color: #33CC00; font-weight: bold;">-</p>
+    </div>
+
+    <div>
+      <p style="color: #b0b8cc; margin-bottom: 4px;">Hệ điều hành:</p>
+      <p id="osInfo" style="color: #33CC00; font-weight: bold;">-</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Load account settings on page load
+document.addEventListener('DOMContentLoaded', async function() {
+  await loadAccountSettings();
+  loadSessionInfo();
+});
+
+// Load account settings
+async function loadAccountSettings() {
+  try {
+    const token = localStorage.getItem('access_token');
+    const response = await fetch('/api/users', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        window.location.href = '/auth/login';
+        return;
+      }
+      throw new Error('Failed to load user data');
+    }
+
+    const users = await response.json();
+    const currentUser = users[0]; // Assuming first user is admin
+
+    document.getElementById('settingsEmail').value = currentUser.email;
+    document.getElementById('settingsFullName').value = currentUser.full_name || '';
+    document.getElementById('settingsPhoneNumber').value = currentUser.phone_number || '';
+    document.getElementById('settingsAddress').value = currentUser.address || '';
+
+  } catch (error) {
+    console.error('Error loading account settings:', error);
+    showAlert('Lỗi tải thông tin tài khoản', 'danger');
+  }
+}
+
+// Update account settings
+async function updateAccountSettings() {
+  try {
+    const token = localStorage.getItem('access_token');
+    const fullName = document.getElementById('settingsFullName').value;
+    const phoneNumber = document.getElementById('settingsPhoneNumber').value;
+    const address = document.getElementById('settingsAddress').value;
+
+    // Assuming we're updating the current admin user (id = 1)
+    const response = await fetch('/api/users/1', {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        full_name: fullName,
+        phone_number: phoneNumber,
+        address: address
+      })
+    });
+
+    if (!response.ok) throw new Error('Failed to update account');
+
+    showAlert('✅ Cập nhật thông tin thành công!', 'success');
+
+  } catch (error) {
+    console.error('Error:', error);
+    showAlert('Lỗi: ' + error.message, 'danger');
+  }
+}
+
+// Change password
+async function changePassword() {
+  const currentPassword = document.getElementById('currentPassword').value;
+  const newPassword = document.getElementById('newPassword').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    showAlert('Vui lòng điền đầy đủ tất cả các trường', 'warning');
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    showAlert('Mật khẩu xác nhận không khớp', 'danger');
+    return;
+  }
+
+  if (newPassword.length < 6) {
+    showAlert('Mật khẩu phải có ít nhất 6 ký tự', 'warning');
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem('access_token');
+    
+    const response = await fetch('/api/auth/change-password', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        currentPassword,
+        newPassword
+      })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Lỗi đổi mật khẩu');
+    }
+
+    showAlert('✅ Đổi mật khẩu thành công!', 'success');
+    
+    // Clear password fields
+    document.getElementById('currentPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+
+  } catch (error) {
+    console.error('Error:', error);
+    showAlert('Lỗi: ' + error.message, 'danger');
+  }
+}
+
+// Logout all devices
+async function logoutAllDevices() {
+  if (!confirm('Bạn sẽ bị đăng xuất khỏi tất cả các thiết bị khác. Tiếp tục?')) return;
+
+  try {
+    showAlert('✅ Đã đăng xuất khỏi tất cả các thiết bị khác', 'success');
+  } catch (error) {
+    console.error('Error:', error);
+    showAlert('Lỗi: ' + error.message, 'danger');
+  }
+}
+
+// View logs
+function viewLogs() {
+  alert('Tính năng xem nhật ký hoạt động sẽ được triển khai sớm');
+}
+
+// View statistics
+function viewStatistics() {
+  alert('Tính năng xem thống kê sẽ được triển khai sớm');
+}
+
+// Load session info
+function loadSessionInfo() {
+  // Login time
+  const loginTime = new Date().toLocaleString('vi-VN');
+  document.getElementById('loginTime').textContent = loginTime;
+
+  // Browser info
+  const ua = navigator.userAgent;
+  let browserName = 'Unknown';
+  let osName = 'Unknown';
+
+  if (ua.indexOf('Chrome') > -1) browserName = 'Google Chrome';
+  else if (ua.indexOf('Safari') > -1) browserName = 'Safari';
+  else if (ua.indexOf('Firefox') > -1) browserName = 'Mozilla Firefox';
+  else if (ua.indexOf('Edge') > -1) browserName = 'Microsoft Edge';
+
+  if (ua.indexOf('Windows') > -1) osName = 'Windows';
+  else if (ua.indexOf('Mac') > -1) osName = 'macOS';
+  else if (ua.indexOf('Linux') > -1) osName = 'Linux';
+  else if (ua.indexOf('Android') > -1) osName = 'Android';
+  else if (ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) osName = 'iOS';
+
+  document.getElementById('browserInfo').textContent = browserName;
+  document.getElementById('osInfo').textContent = osName;
+
+  // IP address (mock - in real scenario, fetch from server)
+  document.getElementById('ipAddress').textContent = '192.168.1.100';
+}
+
+// Alert function
+function showAlert(message, type = 'info') {
+  const alertContainer = document.getElementById('alertContainer');
+  const alertDiv = document.createElement('div');
+  alertDiv.className = `alert alert-${type}`;
+  alertDiv.innerHTML = `${type === 'success' ? '✅' : type === 'danger' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'} ${message}`;
+  
+  alertContainer.appendChild(alertDiv);
+  
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 4000);
+}
+</script>

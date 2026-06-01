@@ -1,0 +1,140 @@
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+<div class="logo">
+    <img src="/images/uploads/share/logo.png" alt="logo">
+    <span>AgroShop</span>
+</div>
+
+    <ul class="menu">
+
+        <li class="active">
+
+            <a href="/admin/dashboard">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                Dashboard
+
+            </a>
+
+        </li>
+
+        <li>
+
+            <a href="/admin/users/create">
+
+                <i class="fa-regular fa-user"></i>
+
+                Tạo tài khoản
+
+            </a>
+
+        </li>
+
+        <li>
+<!-- 
+            <a href="/sale/order-manager">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                Quản lý đơn hàng
+
+            </a> -->
+
+        </li>
+
+        <!-- <li>
+
+            <a href="/sale/profile">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                Thông tin cá nhân
+
+            </a>
+
+        </li> -->
+
+    </ul>
+
+    <!-- GOAL -->
+    <!-- <div class="goal-box">
+
+        <h4>Mục tiêu quý 4</h4>
+
+        <div class="progress">
+
+            <div class="progress-bar"></div>
+
+        </div>
+
+        <p>75% Hoàn thành</p>
+
+    </div> -->
+
+    <!-- LOGOUT -->
+    <div class="sidebar-footer">
+    <!-- USER INFO -->
+        <!-- <li class="sidebar-profile">
+
+            <a href="/sale/profile">
+
+                <img
+                    src="<%= user?.avatar || '/uploads/avatar/default-avatar.png' %>"
+                    alt="User Avatar"
+                    class="profile-avatar"
+                >
+
+                <div class="profile-info">
+
+                    <h4>Thông tin cá nhân</h4>
+
+                </div>
+
+            </a>
+
+        </li> -->
+
+        <button
+            id="logoutBtn"
+            class="logout-btn"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            Đăng xuất
+
+        </button>
+
+    </div>
+
+</aside>
+
+<script>
+document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+
+  if (!confirm('Bạn có chắc muốn đăng xuất?')) return;
+
+  try {
+
+    const res = await fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Logout failed');
+    }
+
+    localStorage.clear();
+    window.location.href = '/login';
+
+  } catch (err) {
+    alert(err.message);
+  }
+});
+    
+</script>

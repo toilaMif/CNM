@@ -1,0 +1,412 @@
+<!-- HEADER -->
+<header class="pm-header">
+
+  <div>
+    <h1>Quản lý chương trình khuyến mãi</h1>
+
+    <p>
+      Tạo chương trình hiển thị trên Home hoặc cho Sale chọn khi lập đơn hàng.
+    </p>
+  </div>
+
+  <div class="pm-actions">
+    <button
+      id="btnOpenCreateProgram"
+      class="btn btn-primary"
+      type="button"
+    >
+      <i class="fa-solid fa-plus"></i>
+      <span>Tạo chương trình</span>
+    </button>
+  </div>
+
+</header>
+
+<!-- FILTER -->
+<section class="filter-card">
+
+  <div class="filter-group">
+    <label>Tìm kiếm</label>
+
+    <div class="input-icon">
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+      <input
+        id="searchProgram"
+        type="text"
+        placeholder="Nhập tên chương trình..."
+      >
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <label>Trạng thái hoạt động</label>
+
+    <select id="filterActive">
+      <option value="">Tất cả</option>
+      <option value="1">Đang hoạt động</option>
+      <option value="0">Ngưng hoạt động</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label>Hiển thị Home</label>
+
+    <select id="filterHome">
+      <option value="">Tất cả</option>
+      <option value="1">Có hiển thị</option>
+      <option value="0">Không hiển thị</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label>Sale thấy</label>
+
+    <select id="filterSale">
+      <option value="">Tất cả</option>
+      <option value="1">Sale thấy</option>
+      <option value="0">Sale không thấy</option>
+    </select>
+  </div>
+
+</section>
+
+<!-- PROGRAM GRID -->
+<section class="program-section">
+  <div
+    id="programGrid"
+    class="program-grid"
+  ></div>
+</section>
+
+<!-- =======================================================
+     MODAL
+======================================================= -->
+
+<div
+  id="programModal"
+  class="modal-overlay hidden"
+>
+
+  <div class="modal-card">
+
+    <!-- MODAL HEADER -->
+    <div class="modal-header">
+
+      <div>
+        <h2 id="modalTitle">
+          Tạo chương trình
+        </h2>
+
+        <p>
+          Thông tin này sẽ được dùng cho Home
+          và Sale khi tạo đơn.
+        </p>
+      </div>
+
+      <button
+        id="btnCloseProgramModal"
+        class="btn-icon"
+        type="button"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+    </div>
+
+    <!-- FORM -->
+    <form
+      id="programForm"
+      class="program-form"
+      enctype="multipart/form-data"
+    >
+
+      <input
+        type="hidden"
+        id="paymentTermTemplateId"
+      >
+
+      <input
+        type="hidden"
+        id="imageUrl"
+        name="image_url"
+      >
+
+      <input
+        type="hidden"
+        id="bannerUrl"
+        name="banner_url"
+      >
+
+      <!-- ROW -->
+      <div class="form-row">
+
+        <div class="form-group">
+          <label>
+            Tên chương trình <span>*</span>
+          </label>
+
+          <input
+            id="termName"
+            type="text"
+            placeholder="VD: Ưu đãi đại lý mùa vụ tháng 6"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Đối tượng</label>
+
+          <select id="targetAudience">
+            <option value="DEALER">Đại lý</option>
+            <option value="CUSTOMER">Khách hàng</option>
+            <option value="ALL">Tất cả</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="form-group">
+
+        <label>Mô tả</label>
+
+        <textarea
+          id="description"
+          rows="3"
+          placeholder="VD: Công nợ 30 ngày, hoa hồng trả sớm 0.1% mỗi ngày..."
+        ></textarea>
+
+      </div>
+
+      <!-- IMAGE -->
+      <div class="form-section-title">
+        Ảnh chương trình
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+
+          <label>Ảnh card</label>
+
+          <input
+            id="imageFile"
+            name="image_file"
+            type="file"
+            accept="image/*"
+          >
+
+          <small>
+            Ảnh này dùng cho card chương trình
+            bên dưới Home.
+          </small>
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Ảnh banner</label>
+
+          <input
+            id="bannerFile"
+            name="banner_file"
+            type="file"
+            accept="image/*"
+          >
+
+          <small>
+            Ảnh này dùng cho banner lớn trên Home.
+          </small>
+
+        </div>
+
+      </div>
+
+      <!-- PREVIEW -->
+      <div class="preview-grid">
+
+        <div class="preview-box">
+
+          <div>
+            <label>Xem trước ảnh card</label>
+
+            <p id="imagePreviewName">
+              Chưa chọn ảnh card mới.
+            </p>
+          </div>
+
+          <img
+            id="imagePreview"
+            src="/images/uploads/products/default.jpg"
+            alt="Preview ảnh card"
+          >
+
+        </div>
+
+        <div class="preview-box">
+
+          <div>
+            <label>Xem trước ảnh banner</label>
+
+            <p id="bannerPreviewName">
+              Chưa chọn ảnh banner mới.
+            </p>
+          </div>
+
+          <img
+            id="bannerPreview"
+            src="/images/uploads/products/default.jpg"
+            alt="Preview ảnh banner"
+          >
+
+        </div>
+
+      </div>
+
+      <!-- CONFIG -->
+      <div class="form-section-title">
+        Cấu hình công nợ / hoa hồng
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+          <label>Số ngày công nợ</label>
+
+          <input
+            id="creditDays"
+            type="number"
+            min="0"
+            placeholder="VD: 30"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Thứ tự hiển thị</label>
+
+          <input
+            id="displayOrder"
+            type="number"
+            min="0"
+            placeholder="VD: 1"
+          >
+        </div>
+
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+          <label>Hoa hồng trả sớm / ngày (%)</label>
+
+          <input
+            id="earlyCommissionRate"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="VD: 0.1"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Lãi trễ hạn / ngày (%)</label>
+
+          <input
+            id="lateInterestRate"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="VD: 0.2"
+          >
+        </div>
+
+      </div>
+
+      <!-- SWITCH -->
+      <div class="form-section-title">
+        Trạng thái hiển thị
+      </div>
+
+      <div class="switch-grid">
+
+        <label class="switch-card">
+
+          <input
+            id="isActive"
+            type="checkbox"
+            checked
+          >
+
+          <span>
+            <strong>Chương trình hoạt động</strong>
+
+            <small>
+              Tắt mục này thì Home và Sale đều không dùng.
+            </small>
+          </span>
+
+        </label>
+
+        <label class="switch-card">
+
+          <input
+            id="displayOnHome"
+            type="checkbox"
+          >
+
+          <span>
+            <strong>Hiển thị trên Home</strong>
+
+            <small>
+              Bật để đại lý thấy ở trang chủ.
+            </small>
+          </span>
+
+        </label>
+
+        <label class="switch-card">
+
+          <input
+            id="visibleToSale"
+            type="checkbox"
+            checked
+          >
+
+          <span>
+            <strong>Hiển thị cho Sale</strong>
+
+            <small>
+              Bật để Sale chọn khi tạo đơn hàng.
+            </small>
+          </span>
+
+        </label>
+
+      </div>
+
+      <!-- ACTION -->
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          id="btnCancelProgram"
+          class="btn btn-secondary"
+        >
+          Hủy
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          Lưu chương trình
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

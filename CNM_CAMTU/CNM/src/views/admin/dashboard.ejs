@@ -1,0 +1,108 @@
+<link rel="stylesheet" href="/css/pages/admin/dashboard.css">
+<link rel="stylesheet" href="/css/pages/admin/admin-sidebar.css">
+
+<div class="admin-content">
+
+  <div class="page-header">
+    <h1>📊 Dashboard</h1>
+    <p>Tổng quan hệ thống quản lý</p>
+  </div>
+  
+
+  <!-- STATS -->
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <div class="label">👥 Tổng tài khoản</div>
+      <div class="value" id="totalUsers">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="label">Hoạt động</div>
+      <div class="value" id="activeUsers">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="label">Bị khóa</div>
+      <div class="value" id="lockedUsers">0</div>
+    </div>
+
+  </div>
+
+
+
+  <!-- TABLE -->
+  <div class="table-container">
+
+  <div class="table-header">
+    <h3>Danh sách tài khoản</h3>
+
+    <a href="/admin/users/create" class="btn-create">
+      + Tạo tài khoản
+    </a>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-box">
+    <input
+      type="text"
+      id="searchUsers"
+      placeholder="Tìm kiếm tài khoản..."
+    />
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-box">
+
+    <select id="filterRole">
+      <option value="">-- Tất cả chức vụ --</option>
+      <option value="2">Nhân viên bán hàng</option>
+      <option value="4">Nhân viên kho</option>
+      <option value="5">Quản lý</option>
+      <option value="6">Nhân viên Marketing</option>
+    </select>
+
+    <select id="filterStatus">
+      <option value="">-- Tất cả trạng thái --</option>
+      <option value="1">Hoạt động</option>
+      <option value="0">Không hoạt động</option>
+    </select>
+
+    <!-- <select id="filterProvince">
+      <option value="">-- Tất cả tỉnh --</option>
+    </select> -->
+
+  </div>
+    <div class="table-wrapper">
+
+      <table class="users-table">
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Họ tên</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="usersTableBody">
+          <tr>
+            <td colspan="7" class="loading">
+              Đang tải dữ liệu...
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="/js/pages/admin/dashboard.js"></script>

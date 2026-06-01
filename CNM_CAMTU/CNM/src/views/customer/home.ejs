@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgroShop - Sản phẩm nông nghiệp</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/pages/customer/home.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" class="brand">
+          <img src="/images/uploads/share/logo1.png" alt="AgroShop" />
+          <span>AgroShop</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Điều hướng chính">
+          <a class="active" href="/">Trang chủ</a>
+          <a href="#promotionSection">Khuyến mãi</a>
+          <a href="#productList">Sản phẩm</a>
+          <a href="#categorySection">Danh mục</a>
+          <a href="/ai-chat">AI Support</a>
+        </nav>
+
+        <div class="site-actions">
+          <button class="icon-btn" type="button" aria-label="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </button>
+          <button class="icon-btn" type="button" aria-label="Tài khoản">
+            <i class="fa-solid fa-circle-user"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ================= HERO BANNER KHUYẾN MÃI ================= -->
+      <section class="hero-section" id="heroBanner">
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <span class="hero-kicker">Chương trình dành cho đại lý</span>
+
+            <h1 id="bannerTitle">Đang tải chương trình khuyến mãi...</h1>
+
+            <h2 id="bannerSubtitle">
+              Các ưu đãi công nợ, chiết khấu và hoa hồng mới nhất
+            </h2>
+
+            <p id="bannerDescription">
+              AgroShop đang tải chương trình ưu đãi phù hợp cho đại lý.
+            </p>
+
+            <div class="hero-promo-meta" id="bannerPromoMeta"></div>
+
+            <div class="hero-actions">
+              <a id="bannerButton" href="#promotionSection" class="primary-btn">
+                Xem chương trình
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+
+              <button id="nextPromotionBtn" class="secondary-btn" type="button">
+                Chương trình khác
+                <i class="fa-solid fa-rotate"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-media">
+            <img
+              id="bannerImage"
+              src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"
+              alt="Chương trình khuyến mãi AgroShop"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PROMOTION CAROUSEL ================= -->
+      <section class="promotion-section" id="promotionSection">
+        <div class="section-heading">
+          <div>
+            <h2>Chương trình khuyến mãi dành cho đại lý</h2>
+            <p>Các ưu đãi đang được áp dụng tại AgroShop.</p>
+          </div>
+        </div>
+
+        <div class="promotion-carousel">
+          <button
+            class="promotion-nav promotion-nav--prev"
+            id="promotionPrevBtn"
+            type="button"
+            aria-label="Lướt sang trái"
+          >
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+
+          <div id="promotionGrid" class="promotion-grid"></div>
+
+          <button
+            class="promotion-nav promotion-nav--next"
+            id="promotionNextBtn"
+            type="button"
+            aria-label="Lướt sang phải"
+          >
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= CATEGORY / SEARCH ================= -->
+      <section class="shop-toolbar" id="categorySection">
+        <div class="toolbar-panel">
+          <div class="category-strip" aria-label="Danh mục sản phẩm">
+            <button class="category-btn active" type="button" data-id="">
+              Tất cả
+            </button>
+            <button class="category-btn" type="button" data-id="1">
+              Phân bón
+            </button>
+            <button class="category-btn" type="button" data-id="2">
+              Thuốc BVTV
+            </button>
+            <button class="category-btn" type="button" data-id="3">
+              Hạt giống
+            </button>
+            <button class="category-btn" type="button" data-id="4">
+              Dụng cụ nông nghiệp
+            </button>
+          </div>
+
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Tìm kiếm sản phẩm..."
+            />
+            <button id="searchBtn" type="button">Tìm</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PRODUCTS ================= -->
+      <section class="product-section" id="productList">
+        <div class="section-heading">
+          <div>
+            <h2>Danh sách sản phẩm</h2>
+            <p id="productCountText">Đang tải sản phẩm...</p>
+          </div>
+
+          <a href="#productList" class="ghost-link">
+            Xem thêm
+            <i class="fa-solid fa-chevron-right"></i>
+          </a>
+        </div>
+
+        <div id="productGrid" class="product-grid"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div>
+          <div class="footer-brand">
+            <img src="/images/uploads/share/logo1.png" alt="AgroShop" />
+            <span>AgroShop</span>
+          </div>
+          <p>© 2026 AgroShop. Đồng hành cùng nhà nông bằng công nghệ.</p>
+        </div>
+
+        <div class="footer-links">
+          <a href="/">Trang chủ</a>
+          <a href="#promotionSection">Khuyến mãi</a>
+          <a href="#productList">Sản phẩm</a>
+          <a href="#categorySection">Danh mục</a>
+          <a href="/ai-chat">AI Support</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ================= AI CHAT BOX ================= -->
+    <div class="ai-chat-box" id="aiChatBox">
+      <div class="ai-chat-header">
+        <div class="ai-chat-title">
+          <div class="ai-chat-avatar">
+            <i class="fa-solid fa-robot"></i>
+            <span></span>
+          </div>
+          <div>
+            <strong>AgroBot</strong>
+          </div>
+        </div>
+
+        <button id="closeChat" type="button" aria-label="Đóng chat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="ai-chat-body" id="chatBody">
+        <div class="chat-welcome chat-reply">
+          <span class="chat-welcome__icon">
+            <i class="fa-solid fa-robot"></i>
+          </span>
+          <div>
+            <strong>Xin chào, mình là AgroBot</strong>
+            <p>Mình có thể giúp gì cho bạn hôm nay?</p>
+          </div>
+        </div>
+
+        <div class="chat-quick-actions" aria-label="Gợi ý câu hỏi nhanh"></div>
+      </div>
+
+      <div class="mini-chat-attachment" id="miniChatAttachment" hidden>
+        <img id="miniChatAttachmentImage" alt="Ảnh đã chọn" />
+        <div class="mini-chat-attachment__info">
+          <strong id="miniChatAttachmentName"></strong>
+          <span id="miniChatAttachmentMeta"></span>
+        </div>
+        <button
+          class="mini-chat-attachment__remove"
+          id="miniChatRemoveImage"
+          type="button"
+          aria-label="Xóa ảnh"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="ai-chat-input">
+        <button
+          class="chat-attach-btn"
+          id="miniChatAttachBtn"
+          type="button"
+          aria-label="Chọn ảnh"
+        >
+          <i class="fa-regular fa-image"></i>
+        </button>
+
+        <input
+          class="chat-image-input"
+          id="miniChatImageInput"
+          type="file"
+          accept="image/*"
+        />
+
+        <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." />
+
+        <button id="sendChat" type="button" aria-label="Gửi tin nhắn">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+    <button
+      class="open-chat-btn"
+      id="openChatBtn"
+      type="button"
+      aria-label="Mở AgroBot"
+    >
+      <i class="fa-solid fa-robot"></i>
+      <span></span>
+    </button>
+
+    <script src="/js/pages/customer/home.js"></script>
+  </body>
+</html>

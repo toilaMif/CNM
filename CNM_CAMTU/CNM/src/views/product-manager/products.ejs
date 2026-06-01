@@ -1,0 +1,421 @@
+<div class="page-header">
+  <div>
+    <h1>Quản lý sản phẩm</h1>
+    <p>CRUD sản phẩm, quản lý giá bán và danh mục sản phẩm.</p>
+  </div>
+
+  <button id="openCreateModalBtn" class="btn-primary" type="button">
+    <i class="fa-solid fa-plus"></i>
+    Thêm sản phẩm
+  </button>
+</div>
+
+<!-- FILTER -->
+<section class="filter-card">
+
+  <div class="filter-group">
+    <label>Tìm kiếm</label>
+    <input id="searchInput" type="text" placeholder="Tên sản phẩm, SKU, thương hiệu...">
+  </div>
+
+  <div class="filter-group">
+    <label>Danh mục</label>
+    <select id="categoryFilter">
+      <option value="">Tất cả danh mục</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label>Sắp xếp</label>
+    <select id="sortFilter">
+      <option value="newest">Mới nhất</option>
+      <option value="oldest">Cũ nhất</option>
+      <option value="price_asc">Giá tăng dần</option>
+      <option value="price_desc">Giá giảm dần</option>
+      <option value="name_asc">Tên A-Z</option>
+      <option value="name_desc">Tên Z-A</option>
+    </select>
+  </div>
+
+  <div class="filter-actions">
+    <button id="filterBtn" class="btn-secondary" type="button">
+      <i class="fa-solid fa-filter"></i>
+      Lọc
+    </button>
+
+    <button id="resetFilterBtn" class="btn-light" type="button">
+      <i class="fa-solid fa-rotate-left"></i>
+      Reset
+    </button>
+  </div>
+
+</section>
+
+<!-- TABLE -->
+<section class="table-card">
+
+  <div class="table-header">
+    <h2>Danh sách sản phẩm</h2>
+    <p id="tableSummary">Đang tải dữ liệu...</p>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Sản phẩm</th>
+          <th>Danh mục</th>
+          <th>Đơn vị</th>
+          <th>Giá bán</th>
+          <th>Trạng thái</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+
+      <tbody id="productTableBody">
+        <tr>
+          <td colspan="7" class="empty-cell">Đang tải sản phẩm...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button id="prevPageBtn" class="btn-light" type="button">Trước</button>
+    <span id="pageInfo">Trang 1</span>
+    <button id="nextPageBtn" class="btn-light" type="button">Sau</button>
+  </div>
+
+</section>
+
+<!-- CREATE / EDIT MODAL -->
+<div id="productModal" class="modal-overlay hidden">
+
+  <div class="modal-card modal-card-large">
+
+    <div class="modal-header">
+      <h2 id="modalTitle">Thêm sản phẩm</h2>
+
+      <button id="closeModalBtn" class="modal-close" type="button">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <form id="productForm" enctype="multipart/form-data">
+
+      <input type="hidden" id="ProductID" name="ProductID">
+      <input type="hidden" id="ImageID" name="ImageID">
+
+      <!-- =========================
+           THÔNG TIN CHUNG
+      ========================== -->
+      <div class="section-title">
+        <h3>Thông tin sản phẩm</h3>
+        <p>Thông tin này lưu vào bảng products.</p>
+      </div>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Tên sản phẩm <span>*</span></label>
+          <input id="ProductName" name="ProductName" type="text" placeholder="Nhập tên sản phẩm">
+          <small id="errorProductName" class="error-message"></small>
+        </div>
+
+        <div class="form-group">
+          <label>Giá bán <span>*</span></label>
+          <input id="Price" name="Price" type="number" min="0" placeholder="Ví dụ: 145000">
+          <small id="errorPrice" class="error-message"></small>
+        </div>
+
+        <div class="form-group">
+          <label>Danh mục <span>*</span></label>
+          <select id="CategoryID" name="CategoryID">
+            <option value="">-- Chọn danh mục --</option>
+          </select>
+          <small id="errorCategoryID" class="error-message"></small>
+        </div>
+
+        <div class="form-group">
+          <label>Đơn vị tính <span>*</span></label>
+          <select id="UnitID" name="UnitID">
+            <option value="">-- Chọn đơn vị --</option>
+          </select>
+          <small id="errorUnitID" class="error-message"></small>
+        </div>
+
+        <div class="form-group">
+          <label>Trạng thái <span>*</span></label>
+          <select id="StatusID" name="StatusID">
+            <option value="">-- Chọn trạng thái --</option>
+          </select>
+          <small id="errorStatusID" class="error-message"></small>
+        </div>
+
+        <div class="form-group">
+          <label>Hiển thị ở website</label>
+          <select id="IsActive" name="IsActive">
+            <option value="1">Hiển thị</option>
+            <option value="0">Tạm ẩn</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Thương hiệu</label>
+          <input id="Brand" name="Brand" type="text" placeholder="Ví dụ: AgriCare">
+        </div>
+
+        <div class="form-group">
+          <label>Xuất xứ</label>
+          <input id="OriginCountry" name="OriginCountry" type="text" placeholder="Ví dụ: Việt Nam">
+        </div>
+
+        <div class="form-group">
+          <label>Khối lượng / quy cách</label>
+          <input id="Weight" name="Weight" type="number" min="0" step="0.01" placeholder="Ví dụ: 0.5">
+        </div>
+
+        <div class="form-group">
+          <label>Ảnh sản phẩm</label>
+          <input id="ProductImage" name="image" type="file" accept="image/jpeg,image/png,image/webp">
+          <small class="hint-text">Hỗ trợ JPG, PNG, WEBP. Field upload phải tên là image.</small>
+        </div>
+
+      </div>
+
+      <div class="form-group full">
+        <label>Mô tả sản phẩm</label>
+        <textarea id="Description" name="Description" rows="3" placeholder="Nhập mô tả sản phẩm"></textarea>
+      </div>
+
+      <div class="form-group full">
+        <label>Thành phần / hàm lượng kỹ thuật</label>
+        <textarea id="TechnicalContent" name="TechnicalContent" rows="3" placeholder="Ví dụ: NPK 20-20-15, Zn, Bo, Humic..."></textarea>
+      </div>
+
+      <div class="form-group full">
+        <label>Hướng dẫn sử dụng</label>
+        <textarea id="UsageInstructions" name="UsageInstructions" rows="3" placeholder="Ví dụ: Pha 20-30g/bình 16 lít hoặc bón 200-500kg/ha."></textarea>
+      </div>
+
+      <!-- =========================
+           PHÂN BÓN EXTRA
+           CategoryID = 1
+      ========================== -->
+      <div id="fertilizerSection" class="type-section hidden">
+
+        <div class="section-title">
+          <h3>Thông tin phân bón</h3>
+          <p>Dữ liệu phần này sẽ được ghép vào mô tả, thành phần kỹ thuật và hướng dẫn sử dụng của sản phẩm.</p>
+        </div>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Loại phân bón</label>
+            <select id="FertilizerType">
+              <option value="">-- Chọn loại phân --</option>
+              <option value="Phân bón lá">Phân bón lá</option>
+              <option value="Phân bón gốc">Phân bón gốc</option>
+              <option value="Phân hữu cơ">Phân hữu cơ</option>
+              <option value="Phân vi sinh">Phân vi sinh</option>
+              <option value="Phân NPK">Phân NPK</option>
+              <option value="Trung vi lượng">Trung vi lượng</option>
+              <option value="Chất cải tạo đất">Chất cải tạo đất</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Thành phần chính</label>
+            <input id="FertilizerMainContent" type="text" placeholder="Ví dụ: N 20%, P2O5 20%, K2O 15%, TE">
+          </div>
+
+          <div class="form-group">
+            <label>Công dụng chính</label>
+            <input id="FertilizerBenefit" type="text" placeholder="Ví dụ: Kích rễ, xanh lá, nuôi trái, cải tạo đất">
+          </div>
+
+          <div class="form-group">
+            <label>Cây trồng phù hợp</label>
+            <input id="FertilizerCrops" type="text" placeholder="Ví dụ: Lúa, rau màu, cây ăn trái, cà phê">
+          </div>
+
+          <div class="form-group">
+            <label>Thời điểm sử dụng</label>
+            <input id="FertilizerUseTime" type="text" placeholder="Ví dụ: Sau trồng, trước ra hoa, sau thu hoạch">
+          </div>
+
+          <div class="form-group">
+            <label>Liều lượng phân bón</label>
+            <input id="FertilizerDosage" type="text" placeholder="Ví dụ: 20-30g/bình 16 lít hoặc 200-500kg/ha">
+          </div>
+
+        </div>
+
+        <div class="form-group full">
+          <label>Lưu ý an toàn / bảo quản</label>
+          <textarea id="FertilizerSafety" rows="3" placeholder="Ví dụ: Không pha với thuốc có tính kiềm mạnh; bảo quản nơi khô ráo."></textarea>
+        </div>
+
+      </div>
+
+      <!-- =========================
+           THUỐC BVTV EXTRA
+           CategoryID = 2
+      ========================== -->
+      <div id="pesticideSection" class="type-section pesticide-section hidden">
+
+        <div class="section-title">
+          <h3>Thông tin thuốc BVTV</h3>
+          <p>Chọn từng nhóm thông tin bên dưới để nhập dữ liệu thuốc bảo vệ thực vật.</p>
+        </div>
+
+        <!-- DANH SÁCH NHÓM THÔNG TIN -->
+        <div class="pesticide-step-list">
+
+          <button type="button" class="pesticide-step-btn active" data-target="pesticideBasicPanel">
+            <span>
+              <i class="fa-solid fa-flask"></i>
+              Thông tin cơ bản
+            </span>
+            <small>Tên thuốc, mô tả thuốc</small>
+          </button>
+
+          <button type="button" class="pesticide-step-btn" data-target="pesticideUsagePanel">
+            <span>
+              <i class="fa-solid fa-spray-can-sparkles"></i>
+              Cách dùng & liều lượng
+            </span>
+            <small>Liều lượng, cách dùng, thời điểm, cách ly</small>
+          </button>
+
+          <button type="button" class="pesticide-step-btn" data-target="pesticideTargetPanel">
+            <span>
+              <i class="fa-solid fa-seedling"></i>
+              Cây trồng & sâu bệnh
+            </span>
+            <small>Chọn cây trồng và đối tượng gây hại</small>
+          </button>
+
+          <button type="button" class="pesticide-step-btn" data-target="pesticideSafetyPanel">
+            <span>
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              An toàn sử dụng
+            </span>
+            <small>Mức độc, cảnh báo, phòng ngừa</small>
+          </button>
+
+        </div>
+
+        <!-- PANEL 1 -->
+        <div id="pesticideBasicPanel" class="pesticide-panel active">
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Tên thuốc</label>
+              <input id="PesticideName" type="text" placeholder="Ví dụ: NeemCare 300EC">
+            </div>
+
+            <div class="form-group">
+              <label>Mô tả ngắn</label>
+              <input id="PesticideDescriptionShort" type="text" placeholder="Ví dụ: Thuốc trừ sâu sinh học">
+            </div>
+
+          </div>
+
+          <div class="form-group full">
+            <label>Mô tả thuốc BVTV</label>
+            <textarea id="PesticideDescription" rows="3" placeholder="Nhập mô tả riêng cho thuốc BVTV"></textarea>
+          </div>
+
+        </div>
+
+        <!-- PANEL 2 -->
+        <div id="pesticideUsagePanel" class="pesticide-panel hidden">
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Liều lượng</label>
+              <input id="Dosage" type="text" placeholder="Ví dụ: 15-25ml/bình 16 lít">
+            </div>
+
+            <div class="form-group">
+              <label>Cách dùng</label>
+              <input id="Method" type="text" placeholder="Ví dụ: Pha nước và phun đều hai mặt lá">
+            </div>
+
+            <div class="form-group">
+              <label>Thời điểm dùng</label>
+              <input id="Time" type="text" placeholder="Ví dụ: Sáng sớm hoặc chiều mát">
+            </div>
+
+            <div class="form-group">
+              <label>Thời gian cách ly</label>
+              <input id="HarvestInterval" type="text" placeholder="Ví dụ: 7 ngày">
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PANEL 3 -->
+        <div id="pesticideTargetPanel" class="pesticide-panel hidden">
+
+          <div class="form-group full">
+            <label>Cây trồng áp dụng</label>
+            <select id="CropIDs" multiple></select>
+            <small class="hint-text">Giữ Ctrl để chọn nhiều cây trồng.</small>
+          </div>
+
+          <div class="form-group full">
+            <label>Sâu bệnh / đối tượng gây hại</label>
+            <select id="PestIDs" multiple></select>
+            <small class="hint-text">Giữ Ctrl để chọn nhiều sâu bệnh.</small>
+          </div>
+
+        </div>
+
+        <!-- PANEL 4 -->
+        <div id="pesticideSafetyPanel" class="pesticide-panel hidden">
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Mức độc</label>
+              <select id="ToxicID">
+                <option value="">-- Chọn mức độc --</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="form-group full">
+            <label>Cảnh báo an toàn</label>
+            <textarea id="SafetyWarning" rows="3" placeholder="Ví dụ: Mang găng tay, khẩu trang khi sử dụng."></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label>Biện pháp phòng ngừa</label>
+            <textarea id="Precaution" rows="3" placeholder="Ví dụ: Không ăn uống khi pha thuốc. Rửa tay sau khi sử dụng."></textarea>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+        <button id="cancelModalBtn" type="button" class="btn-light">Hủy</button>
+        <button type="submit" class="btn-primary">
+          <i class="fa-solid fa-floppy-disk"></i>
+          Lưu
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

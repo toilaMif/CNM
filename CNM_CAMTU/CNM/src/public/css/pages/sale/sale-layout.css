@@ -1,0 +1,55 @@
+/* =========================================================
+   SALE COMMON LAYOUT
+   Chỉ định khung content bên phải sidebar
+   Không style chi tiết sidebar
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f4f7ef;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  color: #1f2937;
+}
+
+.sale-layout {
+  min-height: 100vh;
+  background: #f4f7ef;
+}
+
+/* Sidebar Sale fixed 280px */
+.sale-page {
+  min-height: 100vh;
+  width: calc(100% - 280px);
+  margin-left: 280px;
+  padding: 30px;
+  background: #f4f7ef;
+  overflow-x: hidden;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .sale-page {
+    width: calc(100% - 240px);
+    margin-left: 240px;
+    padding: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .sale-page {
+    width: 100%;
+    margin-left: 0;
+    padding: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .sale-page {
+    padding: 14px;
+  }
+}

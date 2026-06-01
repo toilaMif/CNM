@@ -1,0 +1,57 @@
+/* =========================================================
+   ADMIN COMMON LAYOUT
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #f4f7ef;
+  font-family: "Inter", Arial, sans-serif;
+  color: #1f2937;
+  overflow-x: hidden;
+}
+
+.admin-layout {
+  min-height: 100vh;
+  background: #f4f7ef;
+}
+
+.admin-page {
+  min-height: 100vh;
+  width: calc(100% - 280px);
+  margin-left: 280px;
+  padding: 32px;
+  background: linear-gradient(180deg, #f7fbf1 0%, #f4f7ef 100%);
+  overflow-x: hidden;
+}
+
+@media (max-width: 992px) {
+  .admin-page {
+    width: calc(100% - 240px);
+    margin-left: 240px;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-page {
+    width: 100%;
+    margin-left: 0;
+    padding: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .admin-page {
+    padding: 14px;
+  }
+}

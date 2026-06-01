@@ -1,0 +1,198 @@
+<%
+  const avatar =
+    user?.avatar_url ||
+    user?.avatar ||
+    user?.Avatar ||
+    'default-avatar.png';
+
+  const fullName =
+    user?.full_name ||
+    user?.FullName ||
+    user?.name ||
+    user?.username ||
+    'Người dùng chưa xác định';
+
+  const roleName =
+    user?.role_name ||
+    user?.RoleName ||
+    user?.role ||
+    '---';
+
+  const userId =
+    user?.id ||
+    user?.UserID ||
+    user?.user_id ||
+    '';
+
+  const email =
+    user?.email ||
+    user?.Email ||
+    '---';
+
+  const phone =
+    user?.phone_number ||
+    user?.PhoneNumber ||
+    user?.phone ||
+    '---';
+
+  const gender =
+    user?.gender ||
+    user?.Gender ||
+    '---';
+
+  const dob =
+    user?.date_of_birth ||
+    user?.DateOfBirth ||
+    user?.birthday ||
+    null;
+
+  const address =
+    user?.address ||
+    user?.Address ||
+    '---';
+
+  const createdAt =
+    user?.created_at ||
+    user?.CreatedAt ||
+    user?.createdAt ||
+    null;
+
+  const avatarSrc = avatar.startsWith('/uploads/')
+    ? avatar
+    : `/uploads/avatar/${avatar}`;
+%>
+
+<div class="profile-page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+
+    <div>
+      <h1>Thông tin tài khoản</h1>
+
+      <p>
+        Quản lý hồ sơ và thông tin cá nhân của bạn
+        trong hệ sinh thái AgroShop.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- PROFILE CONTENT -->
+  <div class="profile-wrapper">
+
+    <!-- LEFT CARD -->
+    <div class="profile-sidebar">
+
+      <div class="profile-avatar-box">
+
+        <img
+          src="<%= avatarSrc %>"
+          alt="Ảnh đại diện"
+          class="profile-avatar"
+          onerror="this.src='/uploads/avatar/default-avatar.png'"
+        >
+
+        <h2>
+          <%= fullName %>
+        </h2>
+
+        <span class="role-text">
+          <%= roleName %>
+        </span>
+
+      </div>
+
+      <div class="sidebar-info">
+
+        <div class="info-row">
+          <i class="fa-regular fa-id-badge"></i>
+          <span>
+            Mã:
+            <%= userId ? `AS-${String(userId).padStart(4, '0')}` : '---' %>
+          </span>
+        </div>
+
+        <div class="info-row">
+          <i class="fa-regular fa-calendar"></i>
+          <span>
+            Ngày tham gia:
+            <%= createdAt
+              ? new Date(createdAt).toLocaleDateString('vi-VN')
+              : '---'
+            %>
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT CONTENT -->
+    <div class="profile-content">
+
+      <div class="content-header">
+
+        <div class="title-box">
+          <i class="fa-regular fa-user"></i>
+          <h2>Thông tin cá nhân</h2>
+        </div>
+
+      </div>
+
+      <!-- GRID -->
+      <div class="profile-grid">
+
+        <div class="input-group">
+          <label>Họ và tên</label>
+          <div class="fake-input"><%= fullName %></div>
+        </div>
+
+        <div class="input-group">
+          <label>Số điện thoại</label>
+          <div class="fake-input"><%= phone %></div>
+        </div>
+
+        <div class="input-group">
+          <label>Email</label>
+          <div class="fake-input"><%= email %></div>
+        </div>
+
+        <div class="input-group">
+          <label>Giới tính</label>
+          <div class="fake-input"><%= gender %></div>
+        </div>
+
+        <div class="input-group">
+          <label>Ngày sinh</label>
+          <div class="fake-input">
+            <%= dob
+              ? new Date(dob).toLocaleDateString('vi-VN')
+              : '---'
+            %>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Vai trò</label>
+          <div class="fake-input role-box"><%= roleName %></div>
+        </div>
+
+      </div>
+
+      <!-- ADDRESS -->
+      <div class="input-group address-group">
+
+        <label>Địa chỉ</label>
+
+        <div class="fake-input textarea">
+          <%= address %>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

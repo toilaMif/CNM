@@ -1,0 +1,157 @@
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    
+<div class="logo">
+    <img src="/images/uploads/share/logo.png" alt="logo">
+    <span>AgroShop</span>
+</div>
+
+    <!-- MENU -->
+    <ul class="sidebar-menu">
+        <li>
+            <a
+                href="/warehouse/dashboard"
+                class="sidebar-link <%= activeMenu === 'dashboard' ? 'active' : '' %>"
+            >
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Tổng quan</span>
+            </a>
+        </li>
+
+        <li>
+            <a
+                href="/warehouse/inventory"
+                class="sidebar-link <%= activeMenu === 'inventory' ? 'active' : '' %>"
+            >
+                <i class="fa-solid fa-boxes-stacked"></i>
+                <span>Quản lý Tồn kho</span>
+            </a>
+        </li>
+        <li>
+            <a href="/warehouse/stocktakes"
+                class="sidebar-link <%= activeMenu === 'stocktakes' ? 'active' : '' %>">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Kiểm kê kho</span>
+            </a>
+
+        </li>
+
+
+
+        <!-- <li>
+            <a href="/warehouse/shipping">
+                <i class="fa-solid fa-truck-fast"></i>
+                <span>Điều phối Vận chuyển</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/warehouse/errors">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>Ghi nhận Hàng lỗi</span>
+            </a>
+        </li> -->
+
+        <!-- <li>
+            <a href="/warehouse/import-management">
+                <i class="fa-solid fa-clipboard-list"></i>
+                <span>Quản lý Nhập Kho</span>
+            </a>
+        </li> -->
+        <li>
+            <a
+                href="/warehouse/goods-receipts"
+                class="sidebar-link <%= activeMenu === 'goods-receipts' ? 'active' : '' %>"
+            >
+                <i class="fa-solid fa-box-open"></i>
+                <span>Nhận hàng</span>
+            </a>
+        </li>
+
+    </ul>
+
+
+    <!-- GOAL -->
+    <!-- <div class="goal-box">
+
+        <h4>Mục tiêu quý 4</h4>
+
+        <div class="progress">
+
+            <div class="progress-bar"></div>
+
+        </div>
+
+        <p>75% Hoàn thành</p>
+
+    </div> -->
+
+    <!-- LOGOUT -->
+    <div class="sidebar-footer">
+    <!-- USER INFO -->
+        <li class="sidebar-profile">
+
+            <a href="/warehouse/profile">
+
+                <img
+                    src="<%= user?.avatar || '/uploads/avatar/default-avatar.png' %>"
+                    alt="User Avatar"
+                    class="profile-avatar"
+                >
+
+                <div class="profile-info">
+
+                    <h4><%= user?.fullName || 'Warehouse Staff' %></h4>
+
+                    <p>Kho vận</p>
+
+                </div>
+                
+
+            </a>
+
+        </li>
+
+        <button
+            id="logoutBtn"
+            class="logout-btn"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            Đăng xuất
+
+        </button>
+
+    </div>
+
+</aside>
+
+<script>
+document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+
+  if (!confirm('Bạn có chắc muốn đăng xuất?')) return;
+
+  try {
+
+    const res = await fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Logout failed');
+    }
+
+    localStorage.clear();
+    window.location.href = '/login';
+
+  } catch (err) {
+    alert(err.message);
+  }
+});
+    
+</script>

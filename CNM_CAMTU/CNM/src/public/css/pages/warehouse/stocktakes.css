@@ -1,0 +1,803 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* =========================================================
+   WAREHOUSE STOCKTAKES PAGE
+   File: public/css/pages/warehouse/stocktakes.css
+
+   Layout chính dùng:
+   public/css/pages/warehouse/layout.css
+
+   File này chỉ style nội dung trang kiểm kê.
+========================================================= */
+
+:root {
+  --font-family: "Inter", Arial, sans-serif;
+
+  --st-bg: #f4f7ef;
+  --st-card: #ffffff;
+  --st-primary: #2f8f2f;
+  --st-primary-dark: #267826;
+  --st-border: #dce7d3;
+  --st-soft: #eef7e8;
+  --st-text: #243224;
+  --st-muted: #6b786b;
+  --st-danger: #d93025;
+  --st-warning: #f59e0b;
+  --st-blue: #2563eb;
+
+  --st-radius-sm: 10px;
+  --st-radius-md: 14px;
+  --st-radius-lg: 18px;
+
+  --st-shadow: 0 8px 22px rgba(33, 53, 33, 0.06);
+  --st-shadow-modal: 0 22px 70px rgba(0, 0, 0, 0.22);
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.stocktake-page {
+  width: 100%;
+  min-height: 100vh;
+  color: var(--st-text);
+}
+
+.stocktake-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.stocktake-header h1 {
+  margin: 0;
+  color: var(--st-text);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.stocktake-header p {
+  margin: 6px 0 0;
+  color: var(--st-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn-primary,
+.btn-secondary,
+.btn-light {
+  min-height: 40px;
+  border: none;
+  border-radius: var(--st-radius-sm);
+  padding: 11px 16px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--st-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: var(--st-primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--st-soft);
+  color: var(--st-primary-dark);
+  border: 1px solid #cfe4c4;
+}
+
+.btn-secondary:hover {
+  background: #e3f2dc;
+}
+
+.btn-light {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-light:hover {
+  background: #e5e7eb;
+}
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+.filter-card {
+  background: var(--st-card);
+  border: 1px solid var(--st-border);
+  border-radius: var(--st-radius-lg);
+  box-shadow: var(--st-shadow);
+
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.filter-group,
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.grow {
+  flex: 1;
+}
+
+label {
+  color: #4b5d4b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 40px;
+
+  border: 1px solid var(--st-border);
+  border-radius: var(--st-radius-sm);
+
+  padding: 10px 12px;
+
+  background: #ffffff;
+  color: var(--st-text);
+
+  font-size: 14px;
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--st-primary);
+  box-shadow: 0 0 0 3px rgba(47, 143, 47, 0.12);
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-card {
+  background: var(--st-card);
+  border: 1px solid var(--st-border);
+  border-radius: var(--st-radius-lg);
+  box-shadow: var(--st-shadow);
+
+  padding: 18px;
+}
+
+.table-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 13px;
+}
+
+.table-heading h2,
+.table-heading h3 {
+  margin: 0;
+  color: var(--st-text);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.table-heading span {
+  color: var(--st-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 960px;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f7faf5;
+}
+
+th {
+  padding: 13px 12px;
+  border-bottom: 1px solid var(--st-border);
+
+  color: #526152;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+td {
+  padding: 13px 12px;
+  border-bottom: 1px solid #edf2e9;
+
+  color: var(--st-text);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background: #fbfdf9;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.empty-cell {
+  padding: 28px !important;
+  color: var(--st-muted);
+  text-align: center;
+}
+
+.empty-box {
+  padding: 26px;
+
+  border: 1px dashed var(--st-border);
+  border-radius: var(--st-radius-md);
+
+  background: #ffffff;
+  color: var(--st-muted);
+
+  text-align: center;
+}
+
+/* =========================================================
+   BADGES / STATUS
+========================================================= */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.badge-draft {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.badge-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge-rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.action-btn {
+  border: none;
+  background: transparent;
+  color: var(--st-primary);
+
+  padding: 6px 8px;
+
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  text-decoration: underline;
+}
+
+.diff-plus {
+  color: var(--st-blue);
+  font-weight: 800;
+}
+
+.diff-minus {
+  color: var(--st-danger);
+  font-weight: 800;
+}
+
+.diff-zero {
+  color: #64748b;
+  font-weight: 800;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.modal {
+  width: 100%;
+  max-height: 92vh;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: var(--st-shadow-modal);
+}
+
+.large-modal {
+  max-width: 1180px;
+}
+
+.detail-modal {
+  max-width: 1000px;
+}
+
+.modal-header,
+.modal-footer {
+  padding: 18px 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--st-border);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--st-border);
+  justify-content: flex-end;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: var(--st-text);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.modal-header p {
+  margin: 4px 0 0;
+  color: var(--st-muted);
+  font-size: 14px;
+}
+
+.modal-close {
+  width: 38px;
+  height: 38px;
+
+  border: none;
+  border-radius: 999px;
+
+  background: #f3f4f6;
+  color: #374151;
+
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: #e5e7eb;
+}
+
+.modal-body {
+  padding: 22px;
+  overflow-y: auto;
+}
+
+/* =========================================================
+   FORM IN MODAL
+========================================================= */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+/* =========================================================
+   INVENTORY SELECT BOX
+========================================================= */
+
+.inventory-box {
+  border: 1px solid var(--st-border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 22px;
+
+  background: #fbfdf9;
+}
+
+.box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 14px;
+}
+
+.box-header h3 {
+  margin: 0;
+  color: var(--st-text);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.search-box {
+  display: flex;
+  gap: 8px;
+  min-width: 420px;
+}
+
+.inventory-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.inventory-card {
+  background: #ffffff;
+  border: 1px solid var(--st-border);
+  border-radius: var(--st-radius-md);
+  padding: 13px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.inventory-card h4 {
+  margin: 0 0 5px;
+  color: var(--st-text);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.inventory-card p {
+  margin: 3px 0;
+  color: var(--st-muted);
+  font-size: 13px;
+}
+
+.inventory-card strong {
+  color: var(--st-text);
+}
+
+.inventory-card button {
+  align-self: center;
+}
+
+/* =========================================================
+   SELECTED ITEMS TABLE
+========================================================= */
+
+.selected-wrapper table {
+  min-width: 1280px;
+}
+
+.selected-wrapper input,
+.selected-wrapper select {
+  min-width: 110px;
+}
+
+.selected-wrapper textarea {
+  min-width: 160px;
+  resize: vertical;
+}
+
+.remove-row-btn {
+  width: 32px;
+  height: 32px;
+
+  border: none;
+  border-radius: 999px;
+
+  background: #fee2e2;
+  color: var(--st-danger);
+
+  cursor: pointer;
+}
+
+.remove-row-btn:hover {
+  background: #fecaca;
+}
+
+/* =========================================================
+   DETAIL MODAL
+========================================================= */
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.detail-item {
+  padding: 13px;
+
+  border: 1px solid var(--st-border);
+  border-radius: 12px;
+
+  background: #fbfdf9;
+}
+
+.detail-item span {
+  display: block;
+  margin-bottom: 4px;
+
+  color: var(--st-muted);
+  font-size: 13px;
+}
+
+.detail-item strong {
+  color: var(--st-text);
+  font-size: 15px;
+}
+
+/* =========================================================
+   IMAGE UPLOAD
+========================================================= */
+
+.image-upload-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.image-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 8px 10px;
+  border-radius: var(--st-radius-sm);
+
+  background: var(--st-soft);
+  color: var(--st-primary-dark);
+  border: 1px solid #cfe4c4;
+
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.image-upload-btn:hover {
+  background: #e3f2dc;
+}
+
+.stocktake-preview-img,
+.detail-stocktake-img {
+  width: 76px;
+  height: 76px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+  border: 1px solid var(--st-border);
+}
+
+.no-image-text {
+  color: var(--st-muted);
+  font-size: 12px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1024px) {
+  .stocktake-header,
+  .filter-card,
+  .box-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    min-width: unset;
+  }
+
+  .form-grid,
+  .inventory-list,
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .stocktake-header h1 {
+    font-size: 24px;
+  }
+
+  .filter-card {
+    padding: 14px;
+  }
+
+  .table-card {
+    padding: 14px;
+  }
+
+  .modal-backdrop {
+    padding: 12px;
+  }
+
+  .modal-header,
+  .modal-footer {
+    padding: 16px;
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .modal-footer button {
+    width: 100%;
+  }
+}
+.stocktake-search-box {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 160px 180px auto;
+  gap: 8px;
+  width: 100%;
+}
+
+.box-subtitle {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.product-inventory-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.product-inventory-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.product-inventory-header h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.product-inventory-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.product-inventory-header span {
+  font-size: 13px;
+  color: var(--primary-dark);
+  font-weight: 800;
+}
+
+.shelf-list {
+  overflow-x: auto;
+}
+
+.shelf-list table {
+  min-width: 900px;
+}
+
+.stocktake-preview-list,
+.detail-stocktake-img-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.stocktake-preview-img,
+.detail-stocktake-img {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+@media (max-width: 1024px) {
+  .stocktake-search-box {
+    grid-template-columns: 1fr;
+  }
+}
+.input-error {
+  border-color: #d93025 !important;
+  box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.1) !important;
+}
+
+.field-error {
+  display: block;
+  margin-top: 5px;
+  color: #d93025;
+  font-size: 12px;
+  font-weight: 700;
+}

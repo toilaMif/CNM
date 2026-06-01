@@ -1,0 +1,493 @@
+/* =========================================================
+   SALE DASHBOARD PAGE
+   Dùng với sale/layout.ejs
+   Chỉ style nội dung dashboard, không đụng sidebar/layout
+========================================================= */
+
+.sale-dashboard-page {
+    color: #1f2937;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.sale-dashboard-page *,
+.sale-dashboard-page *::before,
+.sale-dashboard-page *::after {
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   WELCOME
+========================================================= */
+
+.sale-dashboard-page .welcome {
+    margin-bottom: 28px;
+}
+
+.sale-dashboard-page .welcome h2 {
+    margin: 0 0 10px;
+
+    color: #1f2a1f;
+
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+}
+
+.sale-dashboard-page .welcome p {
+    margin: 0;
+
+    color: #777;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.sale-dashboard-page .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.sale-dashboard-page .card {
+    background: #ffffff;
+
+    padding: 25px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 22px;
+
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+
+    transition: all 0.24s ease;
+}
+
+.sale-dashboard-page .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.09);
+}
+
+.sale-dashboard-page .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.sale-dashboard-page .card-top i {
+    width: 46px;
+    height: 46px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: #eef8ea;
+    color: #2f8f2f;
+
+    font-size: 21px;
+}
+
+.sale-dashboard-page .card h4 {
+    margin: 0 0 8px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.sale-dashboard-page .card h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 30px;
+    font-weight: 850;
+    line-height: 1.1;
+}
+
+.sale-dashboard-page .green {
+    color: #2f8f2f;
+    font-weight: 800;
+}
+
+.sale-dashboard-page .priority {
+    background: #fff1f1;
+    color: #dc2626;
+
+    padding: 6px 11px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+/* =========================================================
+   CONTENT GRID
+========================================================= */
+
+.sale-dashboard-page .content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+
+    gap: 20px;
+}
+
+.sale-dashboard-page .activity-box,
+.sale-dashboard-page .stock-box {
+    background: #ffffff;
+
+    padding: 25px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 22px;
+
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.sale-dashboard-page .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
+.sale-dashboard-page .section-header h3 {
+    margin: 0;
+
+    color: #1f2a1f;
+
+    font-size: 19px;
+    font-weight: 850;
+}
+
+.sale-dashboard-page .section-header a {
+    color: #2f8f2f;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.sale-dashboard-page .section-header a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+.sale-dashboard-page .activity-item {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid #f0f0f0;
+
+    transition: all 0.2s ease;
+}
+
+.sale-dashboard-page .activity-item:hover {
+    background: #fafdf8;
+
+    margin-left: -10px;
+    margin-right: -10px;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    border-radius: 14px;
+}
+
+.sale-dashboard-page .activity-item:last-child {
+    border-bottom: none;
+}
+
+.sale-dashboard-page .activity-icon {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    background: #eef3e7;
+    color: #2f8f2f;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+}
+
+.sale-dashboard-page .activity-info {
+    min-width: 0;
+}
+
+.sale-dashboard-page .activity-info h4 {
+    margin: 0 0 4px;
+
+    color: #111827;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sale-dashboard-page .activity-info p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.sale-dashboard-page .activity-info small {
+    display: inline-block;
+
+    margin-top: 5px;
+
+    color: #2f8f2f;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.sale-dashboard-page .right-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* =========================================================
+   PROMO CARD
+========================================================= */
+
+.sale-dashboard-page .promo-card {
+    background: linear-gradient(135deg, #1f7a1f, #2f8f2f);
+
+    color: #ffffff;
+
+    padding: 25px;
+
+    border-radius: 22px;
+
+    box-shadow: 0 12px 30px rgba(47, 143, 47, 0.22);
+}
+
+.sale-dashboard-page .promo-card span {
+    display: inline-block;
+
+    margin-bottom: 15px;
+
+    background: #ff9800;
+    color: #ffffff;
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 850;
+}
+
+.sale-dashboard-page .promo-card h3 {
+    margin: 0 0 8px;
+
+    color: #ffffff;
+
+    font-size: 22px;
+    font-weight: 850;
+    line-height: 1.3;
+}
+
+.sale-dashboard-page .promo-card p {
+    margin: 0;
+
+    color: rgba(255, 255, 255, 0.88);
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.sale-dashboard-page .promo-card button {
+    width: 100%;
+
+    margin-top: 20px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: #ff9800;
+    color: #ffffff;
+
+    padding: 14px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 850;
+
+    transition: all 0.22s ease;
+}
+
+.sale-dashboard-page .promo-card button:hover {
+    transform: translateY(-2px);
+    background: #fb8c00;
+}
+
+/* =========================================================
+   STOCK
+========================================================= */
+
+.sale-dashboard-page .stock-box h3 {
+    margin: 0 0 16px;
+
+    color: #1f2a1f;
+
+    font-size: 19px;
+    font-weight: 850;
+}
+
+.sale-dashboard-page .stock-item {
+    margin-top: 18px;
+}
+
+.sale-dashboard-page .stock-item:first-of-type {
+    margin-top: 0;
+}
+
+.sale-dashboard-page .stock-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 8px;
+}
+
+.sale-dashboard-page .stock-top span {
+    min-width: 0;
+
+    color: #374151;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sale-dashboard-page .stock-top strong {
+    flex-shrink: 0;
+
+    color: #dc2626;
+
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.sale-dashboard-page .stock-progress {
+    width: 100%;
+    height: 8px;
+
+    background: #e5e7eb;
+
+    border-radius: 999px;
+
+    overflow: hidden;
+}
+
+.sale-dashboard-page .stock-bar {
+    width: 35%;
+    height: 100%;
+
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+
+    border-radius: 999px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px) {
+    .sale-dashboard-page .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 992px) {
+    .sale-dashboard-page .welcome h2 {
+        font-size: 32px;
+    }
+
+    .sale-dashboard-page .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .sale-dashboard-page .welcome h2 {
+        font-size: 28px;
+    }
+
+    .sale-dashboard-page .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .sale-dashboard-page .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .sale-dashboard-page .card,
+    .sale-dashboard-page .activity-box,
+    .sale-dashboard-page .stock-box,
+    .sale-dashboard-page .promo-card {
+        padding: 18px;
+        border-radius: 18px;
+    }
+
+    .sale-dashboard-page .card h2 {
+        font-size: 26px;
+    }
+
+    .sale-dashboard-page .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

@@ -1,0 +1,115 @@
+<div class="page-header">
+  <div>
+    <h1>Quản lý sản phẩm</h1>
+    <p>Theo dõi hiệu quả sản phẩm, tồn kho và gợi ý nhập hàng.</p>
+  </div>
+</div>
+
+<!-- SUMMARY CARDS -->
+<section class="summary-grid">
+
+  <div class="summary-card">
+    <div class="summary-icon green">
+      <i class="fa-solid fa-box"></i>
+    </div>
+    <span>Tổng sản phẩm</span>
+    <h2 id="totalProducts">0</h2>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-icon blue">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+    <span>Đang kinh doanh</span>
+    <h2 id="activeProducts">0</h2>
+  </div>
+
+  <button
+    type="button"
+    class="summary-card summary-card-clickable"
+    id="openOutOfStockModalBtn"
+  >
+    <div class="summary-icon red">
+      <i class="fa-solid fa-circle-exclamation"></i>
+    </div>
+    <span>Sản phẩm hết hàng</span>
+    <h2 id="outOfStockProducts">0</h2>
+    <small>Bấm để xem danh sách</small>
+  </button>
+
+
+  <div class="summary-card">
+    <div class="summary-icon purple">
+      <i class="fa-solid fa-calendar-plus"></i>
+    </div>
+    <span>Sản phẩm mới tháng này</span>
+    <h2 id="newProductsThisMonth">0</h2>
+  </div>
+
+</section>
+
+<!-- DASHBOARD CONTENT -->
+<!-- <section class="dashboard-grid">
+
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h3>Sản phẩm bán chạy</h3>
+      <p>Top sản phẩm có số lượng bán cao nhất</p>
+    </div>
+
+    <div id="bestSellingProducts" class="list-box"></div>
+  </div>
+
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h3>Sản phẩm sắp hết hàng</h3>
+      <p>Các sản phẩm có tồn kho lớn hơn 0 nhưng nhỏ hơn mức tồn tối thiểu</p>
+    </div>
+
+    <div id="lowStockProductsList" class="list-box"></div>
+  </div>
+
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h3>Gợi ý nhập hàng</h3>
+      <p>Số lượng đề xuất nhập thêm</p>
+    </div>
+
+    <div id="reorderSuggestions" class="list-box"></div>
+  </div>
+
+</section> -->
+
+<!-- OUT OF STOCK MODAL -->
+<div id="outOfStockModal" class="pm-modal hidden">
+  <div class="pm-modal-content pm-modal-large">
+
+    <div class="pm-modal-header">
+      <div>
+        <h2>Sản phẩm hết hàng</h2>
+        <p>Chọn sản phẩm cần chuyển sang tạo phiếu nhập kho.</p>
+      </div>
+
+      <button type="button" class="pm-modal-close" id="closeOutOfStockModalBtn">
+        &times;
+      </button>
+    </div>
+
+    <div class="pm-modal-actions">
+      <label class="pm-check-all">
+        <input type="checkbox" id="selectAllOutOfStock">
+        Chọn tất cả
+      </label>
+
+      <button type="button" class="btn-primary" id="goToCreateImportBtn">
+        <i class="fa-solid fa-truck-ramp-box"></i>
+        Chuyển sang tạo phiếu nhập kho
+      </button>
+    </div>
+
+    <div id="outOfStockProductList" class="out-stock-list">
+      <p class="empty-text">Chưa có dữ liệu</p>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,225 @@
+<%
+/* =========================================================
+   SAFE FALLBACK DATA FOR WAREHOUSE DASHBOARD
+========================================================= */
+
+const safeStats = typeof stats !== 'undefined' ? stats : {
+  totalProducts: 0,
+  expiringSoonCount: 0,
+  shippingOrdersCount: 0,
+  pendingReceiptsCount: 0
+};
+
+const safeOrders = Array.isArray(orders) ? orders : [];
+%>
+
+<!-- TOPBAR -->
+<div class="dashboard-topbar">
+
+  <div class="topbar-title">
+    <h1>Dashboard kho</h1>
+    <p>Theo dõi tồn kho, hàng sắp hết hạn và đơn hàng chờ xuất kho.</p>
+  </div>
+
+  <div class="topbar-right">
+    <div class="weather-box">
+      <h4>Kho Miền Nam #1</h4>
+      <p>Trạng thái: <span>Đang hoạt động</span></p>
+    </div>
+  </div>
+
+</div>
+
+<!-- STATS -->
+<section class="stats-grid">
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <p>Tổng sản phẩm</p>
+      <h2><%= safeStats.totalProducts || 0 %></h2>
+    </div>
+
+    <div class="stat-icon green">
+      <i class="fa-solid fa-box"></i>
+    </div>
+  </div>
+
+  <div class="stat-card danger">
+    <div class="stat-info">
+      <p>Hàng sắp hết hạn</p>
+      <h2><%= safeStats.expiringSoonCount || 0 %></h2>
+    </div>
+
+    <div class="stat-icon red">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <p>Đơn chờ vận chuyển</p>
+      <h2><%= safeStats.shippingOrdersCount || 0 %></h2>
+    </div>
+
+    <div class="stat-icon orange">
+      <i class="fa-solid fa-truck"></i>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <p>Phiếu nhập đang xử lý</p>
+      <h2><%= safeStats.pendingReceiptsCount || 0 %></h2>
+    </div>
+
+    <div class="stat-icon green">
+      <i class="fa-solid fa-file-circle-check"></i>
+    </div>
+  </div>
+
+</section>
+
+<!-- CONTENT -->
+<section class="dashboard-content-grid">
+
+  <!-- LEFT CONTENT -->
+  <div class="left-content">
+
+    <div class="dashboard-card">
+      <div class="card-header">
+        <h3>
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          Lịch sử xuất nhập kho gần đây
+        </h3>
+
+        <a href="/warehouse/inventory">Xem tất cả</a>
+      </div>
+
+      <div class="table-wrapper">
+        <p class="empty-text">Chưa có dữ liệu xuất nhập kho gần đây</p>
+      </div>
+    </div>
+
+    <div class="bottom-grid">
+
+      <div class="dashboard-card">
+        <div class="card-header">
+          <h3>
+            <i class="fa-solid fa-box-open"></i>
+            Tồn kho cần chú ý
+          </h3>
+        </div>
+
+        <div class="quick-list">
+          <p class="empty-text">Chưa có dữ liệu cảnh báo tồn kho</p>
+        </div>
+      </div>
+
+      <div class="dashboard-card">
+        <div class="card-header">
+          <h3>
+            <i class="fa-solid fa-calendar-days"></i>
+            Hạn sử dụng
+          </h3>
+        </div>
+
+        <div class="quick-list">
+          <p class="empty-text">Chưa có dữ liệu hạn sử dụng</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT CONTENT -->
+  <div class="right-content">
+
+    <div class="dashboard-card shipping-card">
+
+      <div class="card-header">
+        <h3>
+          <i class="fa-solid fa-truck"></i>
+          Điều phối giao hàng
+        </h3>
+
+        <span class="live-badge">LIVE</span>
+      </div>
+
+      <div class="shipping-list">
+
+        <% if (safeOrders.length > 0) { %>
+
+          <% safeOrders.forEach(order => { %>
+
+            <div class="shipping-item" data-id="<%= order.order_id %>">
+
+              <p class="order-id">
+                #ORD-<%= order.order_id %>
+              </p>
+
+              <h4><%= order.company_name || 'Khách hàng' %></h4>
+
+              <p class="shipping-time">
+                <% if (order.created_at) { %>
+                  <%= new Date(order.created_at).toLocaleString('vi-VN') %>
+                <% } else { %>
+                  Chưa có thời gian
+                <% } %>
+              </p>
+
+              <button
+                type="button"
+                class="confirm-btn"
+                data-id="<%= order.order_id %>"
+              >
+                Xác nhận xuất kho
+              </button>
+
+              <div
+                class="order-detail"
+                id="order-detail-<%= order.order_id %>"
+                style="display:none;"
+              >
+                <h3>Chi tiết đơn hàng</h3>
+
+                <p>Mã đơn: <span class="d-order-id"></span></p>
+                <p>Khách hàng: <span class="d-customer"></span></p>
+                <p>Địa chỉ: <span class="d-address"></span></p>
+                <p>Trạng thái: <span class="d-status"></span></p>
+
+                <div class="table-responsive">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                        <th>Tổng</th>
+                      </tr>
+                    </thead>
+
+                    <tbody class="d-items"></tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+
+          <% }) %>
+
+        <% } else { %>
+
+          <p class="empty-text">
+            Không có đơn hàng chờ xử lý
+          </p>
+
+        <% } %>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

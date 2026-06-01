@@ -1,0 +1,279 @@
+<div class="warehouse-product-page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1>Quản lý tồn kho</h1>
+      <p>
+        Danh sách sản phẩm trong kho, theo dõi tồn kho khả dụng, lịch sử nhập/xuất và vị trí kệ.
+      </p>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="inventory-toolbar">
+
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input
+        type="text"
+        id="inventorySearchInput"
+        placeholder="Tìm theo tên hoặc mã sản phẩm..."
+      >
+    </div>
+
+    <div class="filter-box">
+      <select id="inventoryCategoryFilter">
+        <option value="all">-- Tất cả danh mục --</option>
+        <option value="1">Phân bón</option>
+        <option value="2">Thuốc bảo vệ thực vật</option>
+        <option value="3">Hạt giống</option>
+        <option value="4">Dụng cụ nông nghiệp</option>
+      </select>
+    </div>
+
+    <div class="filter-box">
+      <select id="inventoryStatusFilter">
+        <option value="all">-- Tất cả trạng thái --</option>
+        <option value="Bình thường">Bình thường</option>
+        <option value="Sắp hết">Sắp hết</option>
+        <option value="Hết hàng">Hết hàng</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="table-card">
+
+    <div class="table-header">
+      <div>
+        <h2>
+          <i class="fa-solid fa-box"></i>
+          Tồn kho sản phẩm
+        </h2>
+        <p>
+          Sử dụng cột thao tác để xem lịch sử nhập/xuất kho hoặc vị trí kệ của từng sản phẩm.
+        </p>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th style="width: 50px;">#</th>
+
+            <th class="sortable" data-sort="sku">
+              Mã SP
+              <i class="fa-solid fa-sort sort-icon"></i>
+            </th>
+
+            <th class="sortable" data-sort="name">
+              Tên sản phẩm
+              <i class="fa-solid fa-sort sort-icon"></i>
+            </th>
+
+            <th class="sortable" data-sort="category">
+              Danh mục
+              <i class="fa-solid fa-sort sort-icon"></i>
+            </th>
+
+            <th class="sortable" data-sort="unit">
+              Đơn vị
+              <i class="fa-solid fa-sort sort-icon"></i>
+            </th>
+
+            <th class="sortable" data-sort="quantity">
+              Tổng tồn
+              <i class="fa-solid fa-sort sort-icon"></i>
+            </th>
+
+            <th class="sortable" data-sort="allocated">
+              Đang giữ
+              <i class="fa-solid fa-sort sort-icon"></i>
+            </th>
+
+            <th class="sortable" data-sort="available">
+              Khả dụng
+              <i class="fa-solid fa-sort sort-icon"></i>
+            </th>
+
+            <th class="sortable" data-sort="batch">
+              Số lô
+              <i class="fa-solid fa-sort sort-icon"></i>
+            </th>
+
+            <th class="sortable" data-sort="status">
+              Trạng thái
+              <i class="fa-solid fa-sort sort-icon"></i>
+            </th>
+
+            <th style="width: 190px;">
+              Thao tác
+            </th>
+          </tr>
+        </thead>
+
+        <tbody id="inventoryTableBody">
+          <tr>
+            <td colspan="11" class="empty-cell">
+              Đang tải dữ liệu tồn kho...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- MODAL: INVENTORY LOG -->
+<div id="inventoryLogModal" class="modal-overlay">
+  <div class="modal-container modal-container-large">
+
+    <div class="modal-header">
+      <div>
+        <h2>
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          Lịch sử nhập / xuất kho
+        </h2>
+        <p id="selectedProductLogInfo">
+          Chọn sản phẩm để xem lịch sử biến động tồn kho.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        id="closeInventoryLogModalBtn"
+        class="close-modal-btn"
+        aria-label="Đóng"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="inventory-log-toolbar">
+
+      <div class="filter-box">
+        <select id="inventoryLogTypeFilter">
+          <option value="all">-- Tất cả giao dịch --</option>
+          <option value="IMPORT">Nhập kho</option>
+          <option value="EXPORT">Xuất kho</option>
+          <option value="ADJUSTMENT">Điều chỉnh</option>
+          <option value="STOCKTAKE">Kiểm kê</option>
+        </select>
+      </div>
+
+      <div class="filter-box">
+        <input
+          type="date"
+          id="inventoryLogFromDate"
+          title="Từ ngày"
+        >
+      </div>
+
+      <div class="filter-box">
+        <input
+          type="date"
+          id="inventoryLogToDate"
+          title="Đến ngày"
+        >
+      </div>
+
+      <button
+        type="button"
+        id="reloadInventoryLogBtn"
+        class="reload-log-btn"
+      >
+        <i class="fa-solid fa-rotate-right"></i>
+        Tải lại
+      </button>
+
+    </div>
+
+    <div class="table-wrapper">
+      <table class="product-table inventory-log-table">
+        <thead>
+          <tr>
+            <th style="width: 60px;">#</th>
+            <th>Thời gian</th>
+            <th>Loại</th>
+            <th>Số lượng</th>
+            <th>Batch</th>
+            <th>Kệ</th>
+            <th>Người thực hiện</th>
+            <th>Ghi chú</th>
+            <th>Tham chiếu</th>
+          </tr>
+        </thead>
+
+        <tbody id="inventoryLogTableBody">
+          <tr>
+            <td colspan="9" class="empty-cell">
+              Chưa có dữ liệu lịch sử kho.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- MODAL: VỊ TRÍ KỆ / LÔ HÀNG -->
+<div id="rackLocationModal" class="modal-overlay">
+  <div class="modal-container modal-container-large">
+
+    <div class="modal-header">
+      <div>
+        <h2>
+          <i class="fa-solid fa-location-dot"></i>
+          Vị trí kệ / lô hàng
+        </h2>
+        <p id="selectedProductRackInfo">
+          Chọn sản phẩm để xem vị trí kệ và thông tin từng lô hàng.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        id="closeRackLocationModalBtn"
+        class="close-modal-btn"
+        aria-label="Đóng"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="product-table rack-location-table">
+        <thead>
+          <tr>
+            <th style="width: 60px;">#</th>
+            <th>Batch</th>
+            <th>Hạn sử dụng</th>
+            <th>Kệ</th>
+            <th>Số lượng</th>
+            <th>Đang giữ</th>
+            <th>Khả dụng</th>
+            <th>Trạng thái hạn</th>
+            <th>Cập nhật</th>
+          </tr>
+        </thead>
+
+        <tbody id="rackLocationTableBody">
+          <tr>
+            <td colspan="9" class="empty-cell">
+              Chưa có dữ liệu vị trí kệ.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

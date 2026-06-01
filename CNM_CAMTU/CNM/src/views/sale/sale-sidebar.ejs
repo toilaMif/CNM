@@ -1,0 +1,75 @@
+<!-- =========================================================
+     SALE SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+  <div class="sidebar-top">
+
+    <div class="logo">
+      <img src="/images/uploads/share/logo.png" alt="AgroShop Logo">
+      <span>AgroShop</span>
+    </div>
+
+    <ul class="sidebar-menu">
+
+      <li>
+        <a
+          href="/sale/customer-manager"
+          class="<%= activeMenu === 'customer-manager' ? 'active' : '' %>"
+        >
+          <i class="fa-regular fa-user"></i>
+          <span>Quản lý khách hàng</span>
+        </a>
+      </li>
+
+      <li>
+        <a
+          href="/sale/order-manager"
+          class="<%= activeMenu === 'order-manager' ? 'active' : '' %>"
+        >
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>Quản lý đơn hàng</span>
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+
+  <div class="sidebar-footer">
+
+    <ul class="sidebar-profile">
+      <li>
+        <a
+          href="/sale/profile"
+          class="<%= activeMenu === 'profile' ? 'active' : '' %>"
+        >
+          <img
+            src="<%= user?.avatar || user?.Avatar || '/uploads/avatar/default-avatar.png' %>"
+            alt="User Avatar"
+            class="profile-avatar"
+          >
+
+          <div class="profile-info">
+            <h4>
+              <%= user?.full_name || user?.FullName || user?.email || 'Thông tin cá nhân' %>
+            </h4>
+            <p>Nhân viên Sale</p>
+          </div>
+        </a>
+      </li>
+    </ul>
+
+    <button
+      id="saleLogoutBtn"
+      class="logout-btn"
+      type="button"
+    >
+      <i class="fa-solid fa-right-from-bracket"></i>
+      <span>Đăng xuất</span>
+    </button>
+
+  </div>
+
+</aside>

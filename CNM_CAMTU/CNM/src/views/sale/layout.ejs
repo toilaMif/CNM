@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title><%= typeof title !== 'undefined' ? title : 'Sale' %></title>
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
+
+  <!-- CSS sidebar Sale -->
+  <link rel="stylesheet" href="/css/pages/sale/sale-sidebar.css">
+
+  <!-- CSS layout chung Sale -->
+  <link rel="stylesheet" href="/css/pages/sale/sale-layout.css">
+
+  <!-- CSS riêng từng trang -->
+  <% if (typeof pageCss !== 'undefined' && pageCss) { %>
+    <link rel="stylesheet" href="<%= pageCss %>">
+  <% } %>
+</head>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('saleLogoutBtn');
+
+    if (!logoutBtn) return;
+
+    logoutBtn.addEventListener('click', async () => {
+      if (!confirm('Bạn có chắc muốn đăng xuất?')) return;
+
+      try {
+        const res = await fetch('/api/auth/logout', {
+          method: 'POST',
+          credentials: 'include'
+        });
+
+        if (!res.ok) {
+          let message = 'Đăng xuất thất bại';
+
+          try {
+            const data = await res.json();
+            message = data.message || message;
+          } catch (_) {}
+
+          throw new Error(message);
+        }
+
+        localStorage.clear();
+        sessionStorage.clear();
+
+        window.location.href = '/login';
+
+      } catch (err) {
+        alert(err.message || 'Đăng xuất thất bại');
+      }
+    });
+  });
+</script>
+
+<body>
+
+  <div class="sale-layout">
+
+    <%- include('./sale-sidebar') %>
+
+    <main class="sale-page <%= typeof pageClass !== 'undefined' ? pageClass : '' %>">
+      <%- include(pageView) %>
+    </main>
+
+  </div>
+
+  <!-- JS riêng từng trang -->
+  <% if (typeof pageJs !== 'undefined' && pageJs) { %>
+    <script src="<%= pageJs %>"></script>
+  <% } %>
+
+</body>
+
+</html>

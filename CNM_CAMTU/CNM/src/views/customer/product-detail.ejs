@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title || 'Chi tiết sản phẩm - AgroShop' %></title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/pages/customer/product-detail.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" class="brand">
+          <img src="/images/uploads/share/logo1.png" alt="AgroShop" />
+          <span>AgroShop</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Điều hướng chính">
+          <a href="/">Trang chủ</a>
+          <a href="/#productList">Sản phẩm</a>
+          <a href="/#categorySection">Danh mục</a>
+        </nav>
+
+        <div class="site-actions">
+          <button class="icon-btn" type="button" aria-label="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </button>
+          <button class="icon-btn" type="button" aria-label="Tài khoản">
+            <i class="fa-solid fa-circle-user"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="detail-page">
+      <button id="backBtn" class="back-btn" type="button">
+        <i class="fa-solid fa-arrow-left"></i>
+        Quay lại
+      </button>
+
+      <section id="loadingBox" class="state-box">
+        Đang tải thông tin sản phẩm...
+      </section>
+
+      <section id="productDetail" class="product-detail hidden">
+        <div class="product-image-box">
+          <img
+            id="productImage"
+            src="/images/uploads/products/default.jpg"
+            alt="Product image"
+          />
+        </div>
+
+        <div class="product-info-box">
+          <div class="product-badges">
+            <span id="categoryName" class="badge green">Danh mục</span>
+            <span id="statusName" class="badge gray">Trạng thái</span>
+          </div>
+
+          <h1 id="productName">Tên sản phẩm</h1>
+          <p id="skuText" class="sku-text">SKU: Đang cập nhật</p>
+
+          <div class="price-box">
+            <span id="productPrice">0đ</span>
+          </div>
+
+          <div class="quick-info-grid">
+            <div class="quick-info-item">
+              <i class="fa-solid fa-boxes-stacked"></i>
+              <div>
+                <span>Tồn khả dụng</span>
+                <strong id="availableQuantity">Đang cập nhật</strong>
+              </div>
+            </div>
+
+            <div class="quick-info-item">
+              <i class="fa-solid fa-scale-balanced"></i>
+              <div>
+                <span>Đơn vị</span>
+                <strong id="unitName">Đang cập nhật</strong>
+              </div>
+            </div>
+
+            <div class="quick-info-item">
+              <i class="fa-solid fa-tags"></i>
+              <div>
+                <span>Thương hiệu</span>
+                <strong id="brandName">Đang cập nhật</strong>
+              </div>
+            </div>
+
+            <div class="quick-info-item">
+              <i class="fa-solid fa-earth-asia"></i>
+              <div>
+                <span>Xuất xứ</span>
+                <strong id="originCountry">Đang cập nhật</strong>
+              </div>
+            </div>
+
+            <div class="quick-info-item">
+              <i class="fa-solid fa-weight-hanging"></i>
+              <div>
+                <span>Khối lượng</span>
+                <strong id="weightText">Đang cập nhật</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-box">
+            <a class="primary-btn" id="askAiBtn" href="/ai-chat">
+              <i class="fa-solid fa-robot"></i>
+              Hỏi AI tư vấn
+            </a>
+            <button class="secondary-btn" type="button">
+              <i class="fa-solid fa-phone"></i>
+              Liên hệ tư vấn
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="productContent" class="product-content hidden">
+        <article class="content-card">
+          <h2>Mô tả sản phẩm</h2>
+          <div id="descriptionText" class="detail-list">Đang cập nhật</div>
+        </article>
+
+        <article class="content-card">
+          <h2>Thành phần / hàm lượng kỹ thuật</h2>
+          <div id="technicalContentText" class="detail-list">Đang cập nhật</div>
+        </article>
+
+        <article class="content-card">
+          <h2>Hướng dẫn sử dụng</h2>
+          <div id="usageInstructionsText" class="detail-list">Đang cập nhật</div>
+        </article>
+      </section>
+
+      <section id="errorBox" class="state-box error hidden">
+        Không tìm thấy sản phẩm hoặc có lỗi khi tải dữ liệu.
+      </section>
+    </main>
+
+    <script src="/js/pages/customer/product-detail.js"></script>
+  </body>
+</html>

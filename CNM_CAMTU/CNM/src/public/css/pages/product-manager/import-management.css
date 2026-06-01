@@ -1,0 +1,1019 @@
+/* =========================================================
+   PRODUCT MANAGER - IMPORT / PROCUREMENT MANAGEMENT PAGE
+   Dùng với layout.ejs
+   Chỉ style nội dung trang import-management
+   Không style sidebar, không định khung .pm-page
+========================================================= */
+
+:root {
+    --green: #2f8f2f;
+    --green-dark: #1f6f28;
+    --green-light: #4caf50;
+    --green-soft: #e9f8e6;
+
+    --orange: #f59e0b;
+    --orange-dark: #d97706;
+    --orange-soft: #fff7ed;
+
+    --red: #dc2626;
+    --red-soft: #fee2e2;
+
+    --blue: #2563eb;
+    --blue-soft: #eff6ff;
+
+    --text: #1f2a1f;
+    --heading: #223322;
+    --muted: #77806f;
+
+    --line: #e7ecdf;
+    --line-soft: #f0f3ec;
+
+    --bg: #f5faef;
+    --card: #ffffff;
+
+    --shadow-sm: 0 4px 14px rgba(36, 64, 25, 0.05);
+    --shadow-md: 0 10px 30px rgba(36, 64, 25, 0.08);
+    --shadow-lg: 0 30px 90px rgba(0, 0, 0, 0.18);
+
+    --font-main: "Inter", Arial, sans-serif;
+
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 22px;
+    --radius-2xl: 26px;
+
+    --font-main: "Inter", "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
+}
+
+/* =========================================================
+   PAGE BASE
+========================================================= */
+
+.import-management-page {
+    color: var(--text);
+    font-family: var(--font-main);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.import-management-page .pm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.import-management-page .pm-header h1 {
+    margin: 0;
+    color: var(--heading);
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 850;
+    letter-spacing: -0.04em;
+}
+
+.import-management-page .pm-header p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.import-management-page .pm-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.import-management-page .btn,
+.import-management-page .icon-btn,
+.modal-overlay .btn,
+.modal-overlay .icon-btn {
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 750;
+    line-height: 1;
+
+    border-radius: 14px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.import-management-page .btn,
+.modal-overlay .btn {
+    min-height: 42px;
+    padding: 12px 17px;
+}
+
+.import-management-page .btn i,
+.import-management-page .icon-btn i,
+.modal-overlay .btn i,
+.modal-overlay .icon-btn i {
+    font-size: 15px;
+}
+
+.import-management-page .btn:hover,
+.import-management-page .icon-btn:hover,
+.modal-overlay .btn:hover,
+.modal-overlay .icon-btn:hover {
+    transform: translateY(-1px);
+}
+
+.import-management-page .btn:active,
+.import-management-page .icon-btn:active,
+.modal-overlay .btn:active,
+.modal-overlay .icon-btn:active {
+    transform: translateY(0);
+}
+
+.import-management-page .btn-primary,
+.modal-overlay .btn-primary {
+    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(245, 158, 11, 0.22);
+}
+
+.import-management-page .btn-success,
+.modal-overlay .btn-success {
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(47, 143, 47, 0.20);
+}
+
+.import-management-page .btn-outline,
+.modal-overlay .btn-outline {
+    background: #fff;
+    color: var(--green-dark);
+    border: 1px solid rgba(47, 143, 47, 0.35);
+}
+
+.import-management-page .btn-outline:hover,
+.modal-overlay .btn-outline:hover {
+    background: var(--green-soft);
+    border-color: #bfe8bd;
+}
+
+.import-management-page .btn-light,
+.modal-overlay .btn-light {
+    background: #eef3e8;
+    color: #43513e;
+}
+
+.import-management-page .btn-light:hover,
+.modal-overlay .btn-light:hover {
+    background: #e5eddd;
+}
+
+.import-management-page .btn-sm,
+.modal-overlay .btn-sm {
+    min-height: 36px;
+    padding: 9px 13px;
+    font-size: 13px;
+}
+
+.import-management-page .icon-btn,
+.modal-overlay .icon-btn {
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    color: #44513e;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+}
+
+/* =========================================================
+   TABS
+========================================================= */
+
+.import-management-page .pm-tabs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.import-management-page .tab-btn {
+    min-height: 44px;
+    padding: 12px 17px;
+
+    border: 1px solid var(--line);
+    border-radius: 15px;
+
+    background: #fff;
+    color: #586352;
+
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 800;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.import-management-page .tab-btn:hover {
+    background: #f8fbf4;
+    color: var(--green-dark);
+}
+
+.import-management-page .tab-btn.active {
+    background: var(--green-soft);
+    color: var(--green-dark);
+    border-color: #bfe8bd;
+    box-shadow: 0 8px 18px rgba(47, 143, 47, 0.08);
+}
+
+.import-management-page .tab-panel {
+    display: none;
+}
+
+.import-management-page .tab-panel.active {
+    display: block;
+}
+
+/* =========================================================
+   FILTER CARD
+========================================================= */
+
+.import-management-page .filter-card {
+    width: 100%;
+
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(140px, 1fr)) auto;
+    gap: 14px;
+    align-items: end;
+
+    box-shadow: var(--shadow-md);
+    margin-bottom: 22px;
+    backdrop-filter: blur(10px);
+}
+
+.import-management-page .filter-group,
+.import-management-page .form-group,
+.modal-overlay .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.import-management-page label,
+.modal-overlay label {
+    font-size: 13px;
+    font-weight: 750;
+    color: #5d6757;
+}
+
+.import-management-page label span,
+.modal-overlay label span {
+    color: var(--red);
+}
+
+/* =========================================================
+   FORM INPUTS
+========================================================= */
+
+.import-management-page input,
+.import-management-page select,
+.import-management-page textarea,
+.modal-overlay input,
+.modal-overlay select,
+.modal-overlay textarea {
+    width: 100%;
+    min-height: 43px;
+
+    border: 1px solid var(--line);
+    border-radius: 13px;
+
+    background: #fff;
+    color: #243024;
+
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 500;
+
+    padding: 12px 13px;
+    outline: none;
+
+    transition: all 0.2s ease;
+}
+
+.import-management-page textarea,
+.modal-overlay textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.import-management-page input::placeholder,
+.import-management-page textarea::placeholder,
+.modal-overlay input::placeholder,
+.modal-overlay textarea::placeholder {
+    color: #9aa591;
+    font-weight: 500;
+}
+
+.import-management-page input:focus,
+.import-management-page select:focus,
+.import-management-page textarea:focus,
+.modal-overlay input:focus,
+.modal-overlay select:focus,
+.modal-overlay textarea:focus {
+    border-color: #8bd187;
+    box-shadow: 0 0 0 4px rgba(47, 143, 47, 0.09);
+}
+
+.import-management-page .input-icon {
+    position: relative;
+}
+
+.import-management-page .input-icon i {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9aa591;
+    font-size: 14px;
+}
+
+.import-management-page .input-icon input {
+    padding-left: 38px;
+}
+
+/* =========================================================
+   TABLE CARD
+========================================================= */
+
+.import-management-page .table-card,
+.modal-overlay .table-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.import-management-page .table-head,
+.modal-overlay .table-head {
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--line);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.import-management-page .table-head h2,
+.modal-overlay .table-head h2 {
+    margin: 0;
+    color: #2c362c;
+    font-size: 20px;
+    font-weight: 850;
+    letter-spacing: -0.02em;
+}
+
+.import-management-page .table-head p,
+.modal-overlay .table-head p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.import-management-page .table-wrap,
+.modal-overlay .table-wrap {
+    width: 100%;
+    overflow: auto;
+}
+
+.import-management-page table,
+.modal-overlay table {
+    width: 100%;
+    min-width: 920px;
+    border-collapse: collapse;
+    font-family: var(--font-main);
+}
+
+.import-management-page th,
+.modal-overlay th {
+    text-align: left;
+    padding: 15px 18px;
+
+    background: #f8fbf4;
+    border-bottom: 1px solid var(--line);
+
+    color: #66705f;
+    font-size: 12px;
+    font-weight: 850;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.import-management-page td,
+.modal-overlay td {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--line-soft);
+
+    color: #293529;
+    font-size: 14px;
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+.import-management-page tr:hover td,
+.modal-overlay tr:hover td {
+    background: #fcfef9;
+}
+
+.import-management-page .empty-cell,
+.modal-overlay .empty-cell {
+    text-align: center;
+    color: var(--muted);
+    padding: 36px !important;
+    font-weight: 650;
+}
+
+.import-management-page .sku,
+.modal-overlay .sku {
+    font-weight: 900;
+    color: var(--green-dark);
+    letter-spacing: 0.02em;
+}
+
+/* =========================================================
+   BADGES / STATUS
+========================================================= */
+
+.import-management-page .badge,
+.modal-overlay .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+    padding: 5px 10px;
+
+    background: var(--green-soft);
+    color: var(--green-dark);
+
+    font-size: 12px;
+    font-weight: 850;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.import-management-page .badge.red,
+.modal-overlay .badge.red {
+    background: var(--red-soft);
+    color: #b91c1c;
+}
+
+.import-management-page .badge.orange,
+.modal-overlay .badge.orange {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.import-management-page .badge.blue,
+.modal-overlay .badge.blue {
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+.import-management-page .status-dot,
+.modal-overlay .status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    background: var(--green);
+    margin-right: 6px;
+}
+
+.import-management-page .status-dot.red,
+.modal-overlay .status-dot.red {
+    background: var(--red);
+}
+
+.import-management-page .status-dot.orange,
+.modal-overlay .status-dot.orange {
+    background: var(--orange);
+}
+
+.import-management-page .status-dot.green,
+.modal-overlay .status-dot.green {
+    background: var(--green);
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 22px;
+    background: rgba(15, 23, 15, 0.45);
+
+    z-index: 999;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-overlay .modal-card {
+    width: min(720px, 100%);
+    max-height: 92vh;
+    overflow: auto;
+
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: var(--shadow-lg);
+
+    padding: 24px;
+}
+
+.modal-overlay .modal-lg {
+    width: min(820px, 100%);
+}
+
+.modal-overlay .modal-xl {
+    width: min(1080px, 100%);
+}
+
+.modal-overlay .modal-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+
+    border-bottom: 1px solid var(--line);
+}
+
+.modal-overlay .modal-head h3 {
+    margin: 0;
+    color: #263326;
+    font-size: 22px;
+    font-weight: 850;
+    letter-spacing: -0.03em;
+}
+
+.modal-overlay .modal-head p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.modal-overlay .modal-close {
+    flex: 0 0 auto;
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #f1f5ec;
+    color: #566150;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-overlay .modal-close:hover {
+    background: #e5eddd;
+    transform: rotate(90deg);
+}
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.modal-overlay .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.modal-overlay .full {
+    grid-column: 1 / -1;
+}
+
+.modal-overlay .form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+/* =========================================================
+   INVENTORY DETAIL
+========================================================= */
+
+.modal-overlay .info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.modal-overlay .info-grid div {
+    background: #f8fbf4;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px;
+}
+
+.modal-overlay .info-grid span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.modal-overlay .info-grid strong {
+    color: var(--green-dark);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/* =========================================================
+   PURCHASE ORDER LINES
+========================================================= */
+
+.modal-overlay .receipt-lines-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin: 22px 0 12px;
+}
+
+.modal-overlay .receipt-lines-head h4 {
+    margin: 0;
+    color: #263326;
+    font-size: 17px;
+    font-weight: 850;
+}
+
+.modal-overlay .receipt-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-overlay .receipt-line {
+    border: 1px solid var(--line);
+    background: #fbfdf7;
+    border-radius: 18px;
+    padding: 14px;
+}
+
+.modal-overlay .line-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 10px;
+    align-items: end;
+}
+
+.modal-overlay .line-grid .wide {
+    min-width: 0;
+}
+
+.modal-overlay .line-remove {
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: var(--red-soft);
+    color: #b91c1c;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-overlay .line-remove:hover {
+    background: #fecaca;
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.import-management-page .toast-container {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    z-index: 1200;
+}
+
+.import-management-page .toast {
+    min-width: 280px;
+
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--green);
+    border-radius: 16px;
+
+    padding: 14px 16px;
+
+    color: #253025;
+    font-size: 14px;
+    font-weight: 800;
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.import-management-page .toast.error {
+    border-left-color: var(--red);
+}
+
+.import-management-page .toast small {
+    display: block;
+    margin-top: 4px;
+
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.import-management-page .table-wrap::-webkit-scrollbar,
+.modal-overlay .table-wrap::-webkit-scrollbar,
+.modal-overlay .modal-card::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.import-management-page .table-wrap::-webkit-scrollbar-track,
+.modal-overlay .table-wrap::-webkit-scrollbar-track,
+.modal-overlay .modal-card::-webkit-scrollbar-track {
+    background: #f1f5ec;
+    border-radius: 999px;
+}
+
+.import-management-page .table-wrap::-webkit-scrollbar-thumb,
+.modal-overlay .table-wrap::-webkit-scrollbar-thumb,
+.modal-overlay .modal-card::-webkit-scrollbar-thumb {
+    background: #c8d7c2;
+    border-radius: 999px;
+}
+
+.import-management-page .table-wrap::-webkit-scrollbar-thumb:hover,
+.modal-overlay .table-wrap::-webkit-scrollbar-thumb:hover,
+.modal-overlay .modal-card::-webkit-scrollbar-thumb:hover {
+    background: #a9c39f;
+}
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.import-management-page .pagination {
+    padding: 18px 22px;
+    border-top: 1px solid var(--line);
+    background: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.import-management-page .pagination-info {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.import-management-page .pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.import-management-page .page-btn {
+    min-width: 38px;
+    height: 38px;
+
+    border: 1px solid var(--line);
+    border-radius: 12px;
+
+    background: #fff;
+    color: var(--green-dark);
+
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.import-management-page .page-btn:hover:not(:disabled) {
+    background: var(--green-soft);
+    border-color: #bfe8bd;
+    transform: translateY(-1px);
+}
+
+.import-management-page .page-btn.active {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+}
+
+.import-management-page .page-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* =========================================================
+   INVENTORY ROW
+========================================================= */
+
+.import-management-page .inventory-row {
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.import-management-page .inventory-row:hover {
+    background: #f4f8ef;
+}
+
+.modal-overlay .detail-table-card {
+    margin-top: 20px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1280px) {
+    .import-management-page .filter-card {
+        grid-template-columns: repeat(3, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 1200px) {
+    .modal-overlay .line-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .modal-overlay .line-remove {
+        width: 100%;
+    }
+}
+
+@media (max-width: 992px) {
+    .import-management-page .pm-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .import-management-page .pm-actions {
+        justify-content: flex-start;
+    }
+
+    .import-management-page .filter-card {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .modal-overlay .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .modal-overlay .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .import-management-page .pm-header h1 {
+        font-size: 24px;
+    }
+
+    .import-management-page .pm-actions {
+        width: 100%;
+    }
+
+    .import-management-page .pm-actions .btn {
+        flex: 1;
+    }
+
+    .import-management-page .pm-tabs {
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .import-management-page .tab-btn {
+        white-space: nowrap;
+    }
+
+    .import-management-page .filter-card,
+    .modal-overlay .form-grid,
+    .modal-overlay .line-grid,
+    .modal-overlay .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .import-management-page .table-head,
+    .modal-overlay .table-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .modal-overlay {
+        padding: 14px;
+    }
+
+    .modal-overlay .modal-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .modal-overlay .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .modal-overlay .form-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .import-management-page .filter-card,
+    .import-management-page .table-card,
+    .modal-overlay .modal-card {
+        border-radius: 18px;
+    }
+
+    .import-management-page .btn,
+    .modal-overlay .btn {
+        width: 100%;
+    }
+
+    .import-management-page .toast-container {
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+    }
+
+    .import-management-page .toast {
+        min-width: unset;
+        width: 100%;
+    }
+}

@@ -1,0 +1,451 @@
+<main class="wm-page">
+
+  <header class="wm-header">
+    <div>
+      <h1>Warehouse Management</h1>
+      <p>Quản lý tồn kho, nhà cung cấp và các phiếu nhập kho.</p>
+    </div>
+
+    <div class="wm-actions">
+      <button class="btn btn-outline" data-open-modal="supplierModal">
+        <i class="fa-solid fa-user-plus"></i>
+        Tạo nhà cung cấp
+      </button>
+
+      <button class="btn btn-outline" data-open-modal="receiptModal">
+        <i class="fa-solid fa-file-circle-plus"></i>
+        Tạo phiếu nhập kho
+      </button>
+
+      <button class="btn btn-primary" data-open-modal="productModal">
+        <i class="fa-solid fa-square-plus"></i>
+        Tạo sản phẩm
+      </button>
+    </div>
+  </header>
+
+  <section class="wm-tabs">
+    <button class="tab-btn active" data-tab="inventoryTab">
+      <i class="fa-solid fa-boxes-stacked"></i>
+      Tồn kho
+    </button>
+
+    <button class="tab-btn" data-tab="suppliersTab">
+      <i class="fa-solid fa-users"></i>
+      Nhà cung cấp
+    </button>
+
+    <button class="tab-btn" data-tab="receiptsTab">
+      <i class="fa-solid fa-receipt"></i>
+      Phiếu nhập kho
+    </button>
+  </section>
+
+  <section class="filter-card">
+    <div class="filter-group">
+      <label>Mã sản phẩm / SKU</label>
+      <div class="input-icon">
+        <i class="fa-solid fa-barcode"></i>
+        <input id="filterSku" type="text" placeholder="Tìm SKU...">
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label>Tên sản phẩm</label>
+      <div class="input-icon">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="filterProduct" type="text" placeholder="Tên sản phẩm...">
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label>Danh mục sản phẩm</label>
+      <select id="filterCategory">
+        <option value="">Tất cả danh mục</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Trạng thái tồn kho</label>
+      <select id="filterStockStatus">
+        <option value="">Tất cả trạng thái</option>
+        <option value="NO_INVENTORY">Chưa nhập kho</option>
+        <option value="OUT_OF_STOCK">Hết hàng</option>
+        <option value="LOW_STOCK">Sắp hết</option>
+        <option value="AVAILABLE">Ổn định</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Nhà cung cấp</label>
+      <select id="filterSupplier">
+        <option value="">Tất cả nhà cung cấp</option>
+      </select>
+    </div>
+
+    <button id="btnApplyFilter" class="btn btn-success">
+      Lọc dữ liệu
+    </button>
+  </section>
+
+  <section id="inventoryTab" class="tab-panel active">
+    <div class="table-card">
+      <div class="table-head">
+        <div>
+          <h2>Danh sách sản phẩm tồn kho</h2>
+          <p id="inventoryCount">Đang tải dữ liệu...</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>SKU</th>
+              <th>Sản phẩm</th>
+              <th>Phân loại</th>
+              <th>Số lượng</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+
+          <tbody id="inventoryTableBody">
+            <tr>
+              <td colspan="6" class="empty-cell">Đang tải...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="suppliersTab" class="tab-panel">
+    <div class="table-card">
+      <div class="table-head">
+        <div>
+          <h2>Danh sách nhà cung cấp</h2>
+          <p id="supplierCount">Đang tải dữ liệu...</p>
+        </div>
+
+        <button class="btn btn-outline" data-open-modal="supplierModal">
+          <i class="fa-solid fa-user-plus"></i>
+          Thêm nhà cung cấp
+        </button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Tên nhà cung cấp</th>
+              <th>Người liên hệ</th>
+              <th>SĐT</th>
+              <th>Email</th>
+              <th>MST</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+
+          <tbody id="supplierTableBody">
+            <tr>
+              <td colspan="7" class="empty-cell">Đang tải...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="receiptsTab" class="tab-panel">
+    <div class="table-card placeholder-card">
+      <i class="fa-solid fa-file-invoice"></i>
+      <h2>Phiếu nhập kho</h2>
+      <p>
+        Phần giao diện tạo phiếu đã sẵn sàng. Khi bạn hoàn thiện API
+        <b>POST /api/inventory/goods-receipts</b>, form sẽ gửi dữ liệu trực tiếp.
+      </p>
+
+      <button class="btn btn-outline" data-open-modal="receiptModal">
+        Tạo phiếu nhập kho
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- SUPPLIER MODAL -->
+<div id="supplierModal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <h3>Tạo nhà cung cấp</h3>
+        <p>Nhập thông tin nhà cung cấp phục vụ nghiệp vụ nhập hàng.</p>
+      </div>
+
+      <button class="modal-close" data-close-modal="supplierModal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <form id="supplierForm" class="form-grid">
+      <div class="form-group full">
+        <label>Tên nhà cung cấp <span>*</span></label>
+        <input
+          name="supplier_name"
+          type="text"
+          placeholder="VD: Công ty TNHH Nông Nghiệp Xanh"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Người liên hệ</label>
+        <input name="contact_name" type="text" placeholder="Nguyễn Văn A">
+      </div>
+
+      <div class="form-group">
+        <label>Số điện thoại</label>
+        <input name="phone_number" type="text" placeholder="0909123456">
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input name="email" type="email" placeholder="supplier@example.com">
+      </div>
+
+      <div class="form-group">
+        <label>Mã số thuế</label>
+        <input name="tax_code" type="text" placeholder="1800999888">
+      </div>
+
+      <div class="form-group full">
+        <label>Địa chỉ</label>
+        <textarea name="address" rows="3" placeholder="Địa chỉ nhà cung cấp"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Trạng thái</label>
+        <select name="status">
+          <option value="ACTIVE">Đang hoạt động</option>
+          <option value="INACTIVE">Ngừng hoạt động</option>
+        </select>
+      </div>
+
+      <div class="form-actions full">
+        <button type="button" class="btn btn-light" data-close-modal="supplierModal">
+          Hủy
+        </button>
+
+        <button type="submit" class="btn btn-success">
+          Lưu nhà cung cấp
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div id="productModal" class="modal-overlay">
+  <div class="modal-card modal-lg">
+    <div class="modal-head">
+      <div>
+        <h3>Tạo sản phẩm</h3>
+        <p>Thêm sản phẩm mới để sử dụng trong tồn kho và phiếu nhập.</p>
+      </div>
+
+      <button class="modal-close" data-close-modal="productModal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <form id="productForm" class="form-grid">
+      <div class="form-group">
+        <label>Tên sản phẩm <span>*</span></label>
+        <input
+          name="ProductName"
+          type="text"
+          placeholder="VD: Phân NPK 16-16-8"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Giá bán <span>*</span></label>
+        <input name="Price" type="number" min="0" placeholder="320000" required>
+      </div>
+
+      <div class="form-group">
+        <label>Danh mục <span>*</span></label>
+        <select name="CategoryID" id="productCategorySelect" required>
+          <option value="">Chọn danh mục</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Đơn vị <span>*</span></label>
+        <select name="UnitID" id="productUnitSelect" required>
+          <option value="">Chọn đơn vị</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Trạng thái</label>
+        <select name="StatusID">
+          <option value="1">Còn hàng</option>
+          <option value="2">Không có hàng</option>
+          <option value="3">Sắp hết hàng</option>
+          <option value="4">Ngừng kinh doanh</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Thương hiệu</label>
+        <input name="Brand" type="text" placeholder="VD: Agro Bio">
+      </div>
+
+      <div class="form-group full">
+        <label>Mô tả</label>
+        <textarea name="Description" rows="3" placeholder="Mô tả ngắn về sản phẩm"></textarea>
+      </div>
+
+      <div class="form-group full">
+        <label>Thành phần kỹ thuật</label>
+        <textarea
+          name="TechnicalContent"
+          rows="2"
+          placeholder="VD: Đạm 16%, Lân 16%, Kali 8%"
+        ></textarea>
+      </div>
+
+      <div class="form-group full">
+        <label>Hướng dẫn sử dụng</label>
+        <textarea
+          name="UsageInstructions"
+          rows="2"
+          placeholder="Hướng dẫn sử dụng sản phẩm"
+        ></textarea>
+      </div>
+
+      <div class="form-actions full">
+        <button type="button" class="btn btn-light" data-close-modal="productModal">
+          Hủy
+        </button>
+
+        <button type="submit" class="btn btn-primary">
+          Lưu sản phẩm
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- GOODS RECEIPT MODAL -->
+<div id="receiptModal" class="modal-overlay">
+  <div class="modal-card modal-xl">
+    <div class="modal-head">
+      <div>
+        <h3>Tạo phiếu nhập kho</h3>
+        <p>Ghi nhận hàng thực tế nhận từ nhà cung cấp.</p>
+      </div>
+
+      <button class="modal-close" data-close-modal="receiptModal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <form id="receiptForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nhà cung cấp <span>*</span></label>
+          <select id="receiptSupplierSelect" name="supplier_id" required>
+            <option value="">Chọn nhà cung cấp</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Ngày nhận</label>
+          <input name="received_date" type="datetime-local">
+        </div>
+
+        <div class="form-group full">
+          <label>Ghi chú</label>
+          <textarea name="note" rows="2" placeholder="Ghi chú phiếu nhập kho"></textarea>
+        </div>
+      </div>
+
+      <div class="receipt-lines-head">
+        <h4>Chi tiết hàng nhập</h4>
+
+        <button type="button" id="btnAddReceiptLine" class="btn btn-outline btn-sm">
+          <i class="fa-solid fa-plus"></i>
+          Thêm dòng
+        </button>
+      </div>
+
+      <div id="receiptLines" class="receipt-lines"></div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-light" data-close-modal="receiptModal">
+          Hủy
+        </button>
+
+        <button type="submit" class="btn btn-success">
+          Lưu phiếu nhập
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<template id="receiptLineTemplate">
+  <div class="receipt-line">
+    <div class="line-grid">
+
+      <div class="form-group wide">
+        <label>Sản phẩm <span>*</span></label>
+        <select class="line-product" required>
+          <option value="">Chọn sản phẩm</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>SL nhận <span>*</span></label>
+        <input class="line-received" type="number" min="1" value="1" required>
+      </div>
+
+      <div class="form-group">
+        <label>SL lỗi</label>
+        <input class="line-faulty" type="number" min="0" value="0">
+      </div>
+
+      <div class="form-group">
+        <label>Đơn giá nhập</label>
+        <input class="line-price" type="number" min="0" value="0">
+      </div>
+
+      <div class="form-group">
+        <label>Số lô</label>
+        <input class="line-batch" type="text" placeholder="BATCH-052026">
+      </div>
+
+      <div class="form-group">
+        <label>Hạn dùng</label>
+        <input class="line-expiry" type="date">
+      </div>
+
+      <div class="form-group">
+        <label>Vị trí kệ</label>
+        <input class="line-rack" type="text" placeholder="Kệ A1">
+      </div>
+
+      <button type="button" class="line-remove" title="Xóa dòng">
+        <i class="fa-solid fa-trash"></i>
+      </button>
+
+    </div>
+  </div>
+</template>

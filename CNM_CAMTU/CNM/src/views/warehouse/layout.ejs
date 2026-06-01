@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title><%= typeof title !== 'undefined' ? title : 'Warehouse' %></title>
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
+
+  <!-- Layout CSS dùng chung -->
+  <link rel="stylesheet" href="/css/pages/warehouse/layout.css">
+
+  <!-- Sidebar CSS dùng chung -->
+  <link rel="stylesheet" href="/css/pages/warehouse/warehouse-sidebar.css">
+
+  <!-- CSS riêng từng trang -->
+  <% if (typeof pageCss !== 'undefined' && pageCss) { %>
+    <link rel="stylesheet" href="<%= pageCss %>">
+  <% } %>
+</head>
+
+<body>
+
+  <div class="warehouse-layout">
+
+    <!-- Sidebar -->
+    <%- include('./warehouse-sidebar', {
+      currentPage: typeof currentPage !== 'undefined' ? currentPage : '',
+      activeMenu: typeof activeMenu !== 'undefined' ? activeMenu : '',
+      user: typeof user !== 'undefined' ? user : null
+    }) %>
+
+    <!-- Main content -->
+    <main class="warehouse-main <%= typeof pageClass !== 'undefined' ? pageClass : '' %>">
+      <%
+        const viewToRender =
+          typeof pageView !== 'undefined' && pageView
+            ? pageView
+            : (
+                typeof contentPage !== 'undefined' && contentPage
+                  ? contentPage
+                  : null
+              );
+      %>
+
+      <% if (viewToRender) { %>
+        <%- include(viewToRender) %>
+      <% } else { %>
+        <div class="layout-error-card">
+          <h2>Không tìm thấy nội dung trang</h2>
+          <p>Route chưa truyền <strong>pageView</strong> hoặc <strong>contentPage</strong>.</p>
+
+          <a href="/warehouse/dashboard" class="btn-primary">
+            Quay về Dashboard kho
+          </a>
+        </div>
+      <% } %>
+    </main>
+
+  </div>
+
+  <!-- JS riêng từng trang -->
+  <% if (typeof pageJs !== 'undefined' && pageJs) { %>
+    <script src="<%= pageJs %>"></script>
+  <% } %>
+
+</body>
+
+</html>

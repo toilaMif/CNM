@@ -1,0 +1,443 @@
+<main class="wr-page">
+
+  <header class="wr-header">
+    <div>
+      <h1>Nhận hàng theo phiếu đặt</h1>
+      <p>Tiếp nhận hàng thực tế từ các phiếu đặt hàng đã được Product Manager gửi cho nhà cung cấp.</p>
+    </div>
+
+    <button id="btnReload" class="btn btn-outline">
+      <i class="fa-solid fa-rotate-right"></i>
+      Tải lại
+    </button>
+  </header>
+
+  <!-- SUMMARY -->
+  <section class="summary-grid">
+
+    <div class="summary-card">
+      <div class="summary-icon green">
+        <i class="fa-solid fa-file-invoice"></i>
+      </div>
+
+      <div>
+        <span>PO chờ nhận</span>
+        <strong id="totalPendingPO">0</strong>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon blue">
+        <i class="fa-solid fa-envelope-circle-check"></i>
+      </div>
+
+      <div>
+        <span>Email đã gửi</span>
+        <strong id="totalEmailSent">0</strong>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon orange">
+        <i class="fa-solid fa-boxes-packing"></i>
+      </div>
+
+      <div>
+        <span>Nhận một phần</span>
+        <strong id="totalPartial">0</strong>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- VIEW SWITCH -->
+  <section class="view-switch">
+    <button type="button" class="view-btn active" data-view="pending">
+      <i class="fa-solid fa-truck-ramp-box"></i>
+      PO cần nhận
+    </button>
+
+    <button type="button" class="view-btn" data-view="history">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      Lịch sử phiếu nhập
+    </button>
+  </section>
+
+  <!-- VIEW 1: PO CẦN NHẬN -->
+  <section id="pendingView" class="view-panel active">
+
+    <section class="filter-card">
+
+      <div class="filter-group">
+        <label>Tìm kiếm</label>
+
+        <div class="input-icon">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input 
+            id="searchInput" 
+            type="text" 
+            placeholder="Tìm theo mã PO hoặc nhà cung cấp..."
+          >
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label>Trạng thái</label>
+
+        <select id="statusFilter">
+          <option value="">Tất cả trạng thái</option>
+          <option value="ORDERED">Đã đặt hàng</option>
+          <option value="PARTIAL_RECEIVED">Nhận một phần</option>
+        </select>
+      </div>
+
+    </section>
+
+    <section class="table-card">
+
+      <div class="table-head">
+        <div>
+          <h2>Danh sách phiếu đặt hàng chờ nhận</h2>
+          <p id="poCount">Đang tải dữ liệu...</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Mã PO</th>
+              <th>Nhà cung cấp</th>
+              <th>Email NCC</th>
+              <th>Ngày giao dự kiến</th>
+              <th>Tổng tiền</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+
+          <tbody id="pendingPOTableBody">
+            <tr>
+              <td colspan="8" class="empty-cell">
+                Đang tải dữ liệu...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+  </section>
+
+  <!-- VIEW 2: LỊCH SỬ PHIẾU NHẬP -->
+  <section id="historyView" class="view-panel">
+
+    <section class="filter-card">
+
+      <div class="filter-group">
+        <label>Tìm phiếu nhập / PO / nhà cung cấp</label>
+
+        <div class="input-icon">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input 
+            id="historySearchInput" 
+            type="text" 
+            placeholder="Tìm mã phiếu nhập, mã PO hoặc nhà cung cấp..."
+          >
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label>Loại phiếu</label>
+
+        <select id="historyRejectedFilter">
+          <option value="">Tất cả phiếu nhập</option>
+          <option value="1">Có hàng lỗi</option>
+          <option value="0">Không có hàng lỗi</option>
+        </select>
+      </div>
+
+    </section>
+
+    <section class="table-card">
+
+      <div class="table-head">
+        <div>
+          <h2>Lịch sử phiếu nhập kho</h2>
+          <p id="receiptHistoryCount">Đang tải dữ liệu...</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Mã phiếu nhập</th>
+              <th>Mã PO</th>
+              <th>Nhà cung cấp</th>
+              <th>Ngày nhận</th>
+              <th>SL nhận</th>
+              <th>SL đạt</th>
+              <th>SL lỗi</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+
+          <tbody id="receiptHistoryTableBody">
+            <tr>
+              <td colspan="10" class="empty-cell">
+                Đang tải lịch sử phiếu nhập...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+  </section>
+
+</main>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- MODAL: TẠO PHIẾU NHẬN HÀNG -->
+<div id="goodsReceiptModal" class="modal-overlay">
+
+  <div class="modal-card modal-xl">
+
+    <div class="modal-head">
+      <div>
+        <h3>Tạo phiếu nhận hàng</h3>
+        <p id="modalSubtitle">Thông tin phiếu đặt hàng</p>
+      </div>
+
+      <button type="button" class="modal-close" id="btnCloseModal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <form id="goodsReceiptForm">
+
+      <input type="hidden" id="purchaseOrderId">
+
+      <section class="po-info-grid">
+
+        <div>
+          <span>Mã PO</span>
+          <strong id="detailPOCode">---</strong>
+        </div>
+
+        <div>
+          <span>Nhà cung cấp</span>
+          <strong id="detailSupplierName">---</strong>
+        </div>
+
+        <div>
+          <span>Ngày giao dự kiến</span>
+          <strong id="detailExpectedDate">---</strong>
+        </div>
+
+        <div>
+          <span>Trạng thái</span>
+          <strong id="detailStatus">---</strong>
+        </div>
+
+      </section>
+
+      <div class="form-group full">
+        <label>Ghi chú nhận hàng</label>
+        <textarea 
+          id="receiptNote" 
+          rows="2" 
+          placeholder="VD: Nhận hàng đợt 1, kiểm tra đủ chứng từ..."
+        ></textarea>
+      </div>
+
+      <div class="receipt-lines-head">
+        <div>
+          <h4>Chi tiết hàng nhận</h4>
+          <p>
+            Nhập số lượng thực nhận, số lượng đạt, hàng lỗi, số lô nhà sản xuất,
+            hạn dùng, vị trí kệ và ảnh minh chứng nếu có hàng lỗi.
+          </p>
+        </div>
+      </div>
+
+      <div id="receiptLines" class="receipt-lines"></div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-light" id="btnCancelReceipt">
+          Hủy
+        </button>
+
+        <button type="submit" class="btn btn-success">
+          <i class="fa-solid fa-check"></i>
+          Xác nhận nhập kho
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- MODAL: CHI TIẾT PHIẾU NHẬP -->
+<div id="receiptDetailModal" class="modal-overlay">
+
+  <div class="modal-card modal-xl">
+
+    <div class="modal-head">
+      <div>
+        <h3>Chi tiết phiếu nhập kho</h3>
+        <p id="receiptDetailSubtitle">Thông tin phiếu nhập</p>
+      </div>
+
+      <button type="button" class="modal-close" id="btnCloseReceiptDetail">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <section class="po-info-grid">
+      <div>
+        <span>Mã phiếu nhập</span>
+        <strong id="detailReceiptCode">---</strong>
+      </div>
+
+      <div>
+        <span>Mã PO</span>
+        <strong id="detailReceiptPOCode">---</strong>
+      </div>
+
+      <div>
+        <span>Nhà cung cấp</span>
+        <strong id="detailReceiptSupplier">---</strong>
+      </div>
+
+      <div>
+        <span>Trạng thái</span>
+        <strong id="detailReceiptStatus">---</strong>
+      </div>
+    </section>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Sản phẩm</th>
+            <th>SKU</th>
+            <th>SL nhận</th>
+            <th>SL đạt</th>
+            <th>SL lỗi</th>
+            <th>Lý do lỗi</th>
+            <th>Batch nội bộ</th>
+            <th>Số lô NSX</th>
+            <th>HSD</th>
+            <th>Kệ</th>
+            <th>Ảnh lỗi</th>
+          </tr>
+        </thead>
+
+        <tbody id="receiptDetailTableBody">
+          <tr>
+            <td colspan="12" class="empty-cell">
+              Đang tải chi tiết phiếu nhập...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- RECEIPT LINE TEMPLATE -->
+<template id="receiptLineTemplate">
+
+  <div class="receipt-line">
+
+    <input type="hidden" class="line-po-detail-id">
+    <input type="hidden" class="line-product-id">
+    <input type="hidden" class="line-unit-price">
+    <input type="hidden" class="line-remaining-value">
+
+    <div class="line-product-info">
+      <h4 class="line-product-name">Tên sản phẩm</h4>
+
+      <p>
+        SKU: <span class="line-sku">---</span>
+        |
+        Đặt: <strong class="line-ordered">0</strong>
+        |
+        Đã nhận: <strong class="line-received-before">0</strong>
+        |
+        Còn lại: <strong class="line-remaining">0</strong>
+      </p>
+    </div>
+
+    <div class="line-grid">
+
+      <div class="form-group">
+        <label>Thực nhận <span>*</span></label>
+        <input class="line-received" type="number" min="0" value="0" required>
+      </div>
+
+      <div class="form-group">
+        <label>Số lượng đạt <span>*</span></label>
+        <input class="line-accepted" type="number" min="0" value="0" required>
+      </div>
+
+      <div class="form-group">
+        <label>Số lượng lỗi</label>
+        <input class="line-rejected" type="number" min="0" value="0">
+      </div>
+
+      <div class="form-group">
+        <label>Lý do lỗi</label>
+        <input class="line-reject-reason" type="text" placeholder="VD: Rách bao bì">
+      </div>
+
+      <div class="form-group">
+        <label>Ảnh hàng lỗi</label>
+        <input 
+          class="line-fault-images" 
+          type="file" 
+          accept="image/*" 
+          multiple
+        >
+        <small class="file-help">
+          Có thể chọn nhiều ảnh. Chỉ cần chọn nếu dòng này có hàng lỗi.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>Số lô nhà sản xuất</label>
+        <input 
+          class="line-manufacturer-batch" 
+          type="text" 
+          placeholder="VD: NSX-A5EC-0526"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Hạn sử dụng</label>
+        <input class="line-expiry" type="date">
+      </div>
+
+      <div class="form-group">
+        <label>Vị trí kệ <span>*</span></label>
+        <input class="line-rack" type="text" placeholder="A1-03">
+      </div>
+
+    </div>
+
+  </div>
+
+</template>

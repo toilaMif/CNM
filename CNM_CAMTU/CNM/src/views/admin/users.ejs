@@ -1,0 +1,403 @@
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <h1>👤 Quản lý tài khoản</h1>
+  <p>Tạo, chỉnh sửa, khóa/mở khóa tài khoản người dùng</p>
+</div>
+
+<!-- ALERTS -->
+<div id="alertContainer"></div>
+
+<!-- SEARCH AND FILTER -->
+<div class="search-filter">
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Tìm kiếm email, tên hoặc số điện thoại..." />
+  </div>
+  
+  <select id="roleFilter" class="form-control" style="max-width: 200px;">
+    <option value="">Tất cả quyền</option>
+    <option value="1">👨‍💼 Admin</option>
+    <option value="2">👤 User</option>
+  </select>
+
+  <select id="statusFilter" class="form-control" style="max-width: 200px;">
+    <option value="">Tất cả trạng thái</option>
+    <option value="active">✅ Hoạt động</option>
+    <option value="locked">🔒 Bị khóa</option>
+  </select>
+
+  <a href="/admin/users/create" class="btn btn-primary">+ Tạo tài khoản</a>
+</div>
+
+<!-- USERS TABLE -->
+<div class="table-container">
+  <div class="table-header">
+    <h3>📋 Danh sách tài khoản</h3>
+    <span style="color: #b0b8cc; font-size: 14px;">Tổng: <strong id="totalCount">0</strong></span>
+  </div>
+
+  <div class="table-wrapper">
+    <table id="usersTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Tên đầy đủ</th>
+          <th>Số điện thoại</th>
+          <th>Giới tính</th>
+          <th>Quyền</th>
+          <th>Trạng thái</th>
+          <th>Ngày tạo</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody id="usersTableBody">
+        <tr>
+          <td colspan="9" style="text-align: center; padding: 30px;">Đang tải...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODALS -->
+<!-- Edit User Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Chỉnh sửa tài khoản</h3>
+      <button class="modal-close" onclick="closeModal('editModal')">&times;</button>
+    </div>
+    
+    <div id="editFormContainer">
+      <form id="editForm">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="editEmail" readonly />
+        </div>
+
+        <div class="form-group">
+          <label>Tên đầy đủ</label>
+          <input type="text" id="editFullName" placeholder="Nhập tên đầy đủ" />
+        </div>
+
+        <div class="form-group">
+          <label>Số điện thoại</label>
+          <input type="tel" id="editPhoneNumber" placeholder="Nhập số điện thoại" />
+        </div>
+
+        <div class="form-group">
+          <label>Giới tính</label>
+          <select id="editGender">
+            <option value="hidden">Chưa xác định</option>
+            <option value="male">Nam</option>
+            <option value="female">Nữ</option>
+            <option value="other">Khác</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Địa chỉ</label>
+          <input type="text" id="editAddress" placeholder="Nhập địa chỉ" />
+        </div>
+
+        <div class="form-group">
+          <label>Ngày sinh</label>
+          <input type="date" id="editDateOfBirth" />
+        </div>
+
+        <div class="form-group">
+          <label>Quyền</label>
+          <select id="editRole">
+            <option value="2">👤 User thường</option>
+            <option value="1">👨‍💼 Admin</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('editModal')">Hủy</button>
+          <button type="submit" class="btn btn-primary">💾 Lưu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Lock User Modal -->
+<div id="lockModal" class="modal">
+  <div class="modal-content" style="max-width: 400px;">
+    <div class="modal-header">
+      <h3 id="lockTitle">Khóa tài khoản</h3>
+      <button class="modal-close" onclick="closeModal('lockModal')">&times;</button>
+    </div>
+    
+    <p id="lockMessage" style="margin: 20px 0; color: #b0b8cc;"></p>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" onclick="closeModal('lockModal')">Hủy</button>
+      <button type="button" class="btn btn-danger" id="confirmLockBtn" onclick="confirmLock()">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentUserId = null;
+let currentUserLocked = false;
+let allUsers = [];
+
+// Load users on page load
+document.addEventListener('DOMContentLoaded', loadUsers);
+
+// Load users function
+async function loadUsers() {
+  try {
+    const token = localStorage.getItem('access_token');
+    
+    const response = await fetch('/api/users', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        window.location.href = '/auth/login';
+        return;
+      }
+      throw new Error('Failed to load users');
+    }
+
+    allUsers = await response.json();
+    displayUsers(allUsers);
+    document.getElementById('totalCount').textContent = allUsers.length;
+
+  } catch (error) {
+    console.error('Error loading users:', error);
+    showAlert('Lỗi tải dữ liệu tài khoản', 'danger');
+  }
+}
+
+// Display users in table
+function displayUsers(users) {
+  const tbody = document.getElementById('usersTableBody');
+  
+  if (!users || users.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">Không có tài khoản</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = users.map(user => {
+    const createdDate = new Date(user.created_at).toLocaleDateString('vi-VN');
+    const genderDisplay = {
+      'male': '👨 Nam',
+      'female': '👩 Nữ',
+      'hidden': '❓ Chưa xác định',
+      'other': '❓ Khác'
+    };
+
+    return `
+      <tr>
+        <td>#${user.id}</td>
+        <td>${user.email}</td>
+        <td>${user.full_name || '-'}</td>
+        <td>${user.phone_number || '-'}</td>
+        <td>${genderDisplay[user.gender] || '-'}</td>
+        <td>
+          <span class="badge ${user.role_id === 1 ? 'badge-info' : 'badge-success'}">
+            ${user.role_id === 1 ? '👨‍💼 Admin' : '👤 User'}
+          </span>
+        </td>
+        <td>
+          <span class="badge ${!user.is_locked ? 'badge-success' : 'badge-danger'}">
+            ${!user.is_locked ? '✅ Hoạt động' : '🔒 Bị khóa'}
+          </span>
+        </td>
+        <td>${createdDate}</td>
+        <td>
+          <div class="action-buttons">
+            <button class="btn-icon btn-edit" onclick="openEditModal(${user.id})" title="Chỉnh sửa">✏️</button>
+            <button class="btn-icon btn-lock" onclick="openLockModal(${user.id}, ${user.is_locked})" title="Khóa/Mở">
+              ${!user.is_locked ? '🔒' : '🔓'}
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// Open edit modal
+function openEditModal(userId) {
+  const user = allUsers.find(u => u.id === userId);
+  if (!user) return;
+
+  currentUserId = userId;
+
+  document.getElementById('editEmail').value = user.email;
+  document.getElementById('editFullName').value = user.full_name || '';
+  document.getElementById('editPhoneNumber').value = user.phone_number || '';
+  document.getElementById('editGender').value = user.gender || 'hidden';
+  document.getElementById('editAddress').value = user.address || '';
+  document.getElementById('editDateOfBirth').value = user.date_of_birth ? user.date_of_birth.split(' ')[0] : '';
+  document.getElementById('editRole').value = user.role_id;
+
+  openModal('editModal');
+}
+
+// Submit edit form
+document.getElementById('editForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  try {
+    const token = localStorage.getItem('access_token');
+    
+    const response = await fetch(`/api/users/${currentUserId}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        full_name: document.getElementById('editFullName').value,
+        phone_number: document.getElementById('editPhoneNumber').value,
+        gender: document.getElementById('editGender').value,
+        address: document.getElementById('editAddress').value,
+        date_of_birth: document.getElementById('editDateOfBirth').value
+      })
+    });
+
+    if (!response.ok) throw new Error('Failed to update user');
+
+    // Update role if changed
+    const newRole = parseInt(document.getElementById('editRole').value);
+    const currentRole = allUsers.find(u => u.id === currentUserId).role_id;
+
+    if (newRole !== currentRole) {
+      await fetch(`/api/users/${currentUserId}/role`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ role: newRole })
+      });
+    }
+
+    closeModal('editModal');
+    showAlert('Cập nhật tài khoản thành công!', 'success');
+    loadUsers();
+
+  } catch (error) {
+    console.error('Error:', error);
+    showAlert('Lỗi: ' + error.message, 'danger');
+  }
+});
+
+// Open lock modal
+function openLockModal(userId, isCurrentlyLocked) {
+  currentUserId = userId;
+  currentUserLocked = isCurrentlyLocked;
+
+  const user = allUsers.find(u => u.id === userId);
+  
+  if (isCurrentlyLocked) {
+    document.getElementById('lockTitle').textContent = '🔓 Mở khóa tài khoản';
+    document.getElementById('lockMessage').textContent = `Bạn có chắc muốn mở khóa tài khoản ${user.email}?`;
+    document.getElementById('confirmLockBtn').textContent = '🔓 Mở khóa';
+    document.getElementById('confirmLockBtn').className = 'btn btn-warning';
+  } else {
+    document.getElementById('lockTitle').textContent = '🔒 Khóa tài khoản';
+    document.getElementById('lockMessage').textContent = `Bạn có chắc muốn khóa tài khoản ${user.email}?`;
+    document.getElementById('confirmLockBtn').textContent = '🔒 Khóa';
+    document.getElementById('confirmLockBtn').className = 'btn btn-danger';
+  }
+
+  openModal('lockModal');
+}
+
+// Confirm lock/unlock
+async function confirmLock() {
+  try {
+    const token = localStorage.getItem('access_token');
+    
+    const response = await fetch(`/api/users/${currentUserId}/lock`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ lock: !currentUserLocked })
+    });
+
+    if (!response.ok) throw new Error('Failed to toggle lock');
+
+    closeModal('lockModal');
+    showAlert(currentUserLocked ? 'Mở khóa tài khoản thành công!' : 'Khóa tài khoản thành công!', 'success');
+    loadUsers();
+
+  } catch (error) {
+    console.error('Error:', error);
+    showAlert('Lỗi: ' + error.message, 'danger');
+  }
+}
+
+// Modal functions
+function openModal(modalId) {
+  document.getElementById(modalId).classList.add('active');
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove('active');
+}
+
+// Alert function
+function showAlert(message, type = 'info') {
+  const alertContainer = document.getElementById('alertContainer');
+  const alertDiv = document.createElement('div');
+  alertDiv.className = `alert alert-${type}`;
+  alertDiv.innerHTML = `${type === 'success' ? '✅' : type === 'danger' ? '❌' : 'ℹ️'} ${message}`;
+  
+  alertContainer.appendChild(alertDiv);
+  
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 4000);
+}
+
+// Search and filter
+document.getElementById('searchInput').addEventListener('keyup', filterUsers);
+document.getElementById('roleFilter').addEventListener('change', filterUsers);
+document.getElementById('statusFilter').addEventListener('change', filterUsers);
+
+function filterUsers() {
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  const roleFilter = document.getElementById('roleFilter').value;
+  const statusFilter = document.getElementById('statusFilter').value;
+
+  const filtered = allUsers.filter(user => {
+    const matchSearch = !searchTerm || 
+      user.email.toLowerCase().includes(searchTerm) ||
+      (user.full_name && user.full_name.toLowerCase().includes(searchTerm)) ||
+      (user.phone_number && user.phone_number.includes(searchTerm));
+
+    const matchRole = !roleFilter || user.role_id === parseInt(roleFilter);
+
+    const matchStatus = !statusFilter || 
+      (statusFilter === 'active' && !user.is_locked) ||
+      (statusFilter === 'locked' && user.is_locked);
+
+    return matchSearch && matchRole && matchStatus;
+  });
+
+  displayUsers(filtered);
+}
+
+// Close modal when clicking outside
+document.querySelectorAll('.modal').forEach(modal => {
+  modal.addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('active');
+    }
+  });
+});
+</script>

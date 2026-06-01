@@ -1,0 +1,234 @@
+<main class="stocktake-page">
+
+  <div class="stocktake-header">
+    <div>
+      <h1>Kiểm kê kho vật tư</h1>
+      <p>Tạo phiếu kiểm kê, chọn đúng kệ/lô cần kiểm kê, nhập số lượng thực tế, đính kèm ảnh và gửi quản lý sản phẩm duyệt.</p>
+    </div>
+
+    <button class="btn-primary" id="btnOpenCreateModal" type="button">
+      <i class="fa-solid fa-plus"></i>
+      Tạo phiếu kiểm kê
+    </button>
+  </div>
+
+  <section class="filter-card">
+    <div class="filter-group">
+      <label>Trạng thái</label>
+      <select id="filterStatus">
+        <option value="">Tất cả</option>
+        <option value="draft">Nháp</option>
+        <option value="pending">Chờ duyệt</option>
+        <option value="approved">Đã duyệt</option>
+        <option value="rejected">Từ chối</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Từ ngày</label>
+      <input type="date" id="filterFromDate">
+    </div>
+
+    <div class="filter-group">
+      <label>Đến ngày</label>
+      <input type="date" id="filterToDate">
+    </div>
+
+    <div class="filter-group grow">
+      <label>Tìm kiếm</label>
+      <input type="text" id="filterKeyword" placeholder="Mã phiếu, khu vực kho...">
+    </div>
+
+    <button class="btn-secondary" id="btnFilter" type="button">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      Lọc
+    </button>
+  </section>
+
+  <section class="table-card">
+    <div class="table-heading">
+      <h2>Danh sách phiếu kiểm kê</h2>
+      <span id="stocktakeCount">0 phiếu</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Mã phiếu</th>
+            <th>Ngày kiểm kê</th>
+            <th>Khu vực kho</th>
+            <th>Người tạo</th>
+            <th>Số vật tư</th>
+            <th>Tổng lệch</th>
+            <th>Trạng thái</th>
+            <th class="text-right">Thao tác</th>
+          </tr>
+        </thead>
+
+        <tbody id="stocktakeTableBody">
+          <tr>
+            <td colspan="8" class="empty-cell">Đang tải dữ liệu...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- MODAL TẠO PHIẾU -->
+<div class="modal-backdrop" id="createModal">
+  <div class="modal large-modal">
+
+    <div class="modal-header">
+      <div>
+        <h2>Tạo phiếu kiểm kê</h2>
+        <p>Chọn sản phẩm, xem danh sách kệ/lô/ngày nhập, chọn đúng vị trí cần kiểm kê và đính kèm tối đa 5 ảnh tình trạng.</p>
+      </div>
+
+      <button class="modal-close" id="btnCloseCreateModal" type="button">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Ngày kiểm kê</label>
+          <input type="date" id="stocktakeDate">
+        </div>
+
+        <div class="form-group">
+          <label>Khu vực kho</label>
+          <input type="text" id="warehouseArea" placeholder="Ví dụ: Kệ A, Kho vật tư 1">
+        </div>
+
+        <div class="form-group full">
+          <label>Ghi chú</label>
+          <textarea id="stocktakeNote" rows="2" placeholder="Ghi chú chung cho phiếu kiểm kê"></textarea>
+        </div>
+      </div>
+
+      <div class="inventory-box">
+        <div class="box-header">
+          <div>
+            <h3>Danh sách sản phẩm tồn kho</h3>
+            <p class="box-subtitle">
+              Tìm theo tên sản phẩm, SKU hoặc danh mục. Sau đó chọn đúng kệ/lô cần kiểm kê.
+            </p>
+          </div>
+
+          <div class="search-box stocktake-search-box">
+            <input
+              type="text"
+              id="inventoryKeyword"
+              placeholder="Tên sản phẩm..."
+            >
+
+            <input
+              type="text"
+              id="inventorySkuKeyword"
+              placeholder="SKU..."
+            >
+
+            <input
+              type="text"
+              id="inventoryCategoryKeyword"
+              placeholder="Danh mục..."
+            >
+
+            <button class="btn-secondary" id="btnSearchInventory" type="button">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              Tìm
+            </button>
+          </div>
+        </div>
+
+        <div class="inventory-list" id="inventoryList">
+          <div class="empty-box">Đang tải vật tư...</div>
+        </div>
+      </div>
+
+      <div class="selected-box">
+        <div class="table-heading">
+          <h3>Vật tư đã chọn kiểm kê</h3>
+          <span id="selectedCount">0 dòng</span>
+        </div>
+
+        <div class="table-wrapper selected-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Vật tư / Kệ / Ngày nhập</th>
+                <th>Lô / HSD</th>
+                <th>ĐVT</th>
+                <th>Tồn HT</th>
+                <th>Thực tế</th>
+                <th>Chênh lệch</th>
+                <th>Tình trạng</th>
+                <th>Lý do</th>
+                <th>Ảnh tình trạng</th>
+                <th>Ghi chú</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody id="selectedItemsBody">
+              <tr>
+                <td colspan="11" class="empty-cell">Chưa chọn vật tư nào.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-light" id="btnCancelCreate" type="button">
+        Hủy
+      </button>
+
+      <button class="btn-secondary" id="btnSaveDraft" type="button">
+        <i class="fa-solid fa-floppy-disk"></i>
+        Lưu nháp
+      </button>
+
+      <button class="btn-primary" id="btnSubmitStocktake" type="button">
+        <i class="fa-solid fa-paper-plane"></i>
+        Gửi duyệt
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- MODAL CHI TIẾT -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal detail-modal">
+
+    <div class="modal-header">
+      <div>
+        <h2>Chi tiết phiếu kiểm kê</h2>
+        <p id="detailSubtitle">Thông tin phiếu kiểm kê, kệ/lô, ngày nhập và ảnh tình trạng</p>
+      </div>
+
+      <button class="modal-close" id="btnCloseDetailModal" type="button">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="modal-body" id="detailContent">
+      <div class="empty-box">Đang tải chi tiết...</div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-light" id="btnCloseDetailFooter" type="button">
+        Đóng
+      </button>
+    </div>
+
+  </div>
+</div>

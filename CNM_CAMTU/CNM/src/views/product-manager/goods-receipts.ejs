@@ -1,0 +1,286 @@
+<!-- =====================================================
+     PAGE HEADER
+====================================================== -->
+<header class="pm-header">
+  <div>
+    <h1>Xử lý phiếu nhận hàng</h1>
+
+    <p>
+      Theo dõi phiếu nhập kho do Warehouse tạo, xem hàng lỗi,
+      ảnh minh chứng và gửi email phản hồi cho nhà cung cấp.
+    </p>
+  </div>
+
+  <button id="btnReload" class="btn btn-outline">
+    <i class="fa-solid fa-rotate-right"></i>
+    Tải lại
+  </button>
+</header>
+
+<!-- =====================================================
+     SUMMARY
+====================================================== -->
+<section class="summary-grid">
+
+  <div class="summary-card">
+    <div class="summary-icon green">
+      <i class="fa-solid fa-file-invoice"></i>
+    </div>
+
+    <div>
+      <span>Tổng phiếu nhập</span>
+      <strong id="totalReceipts">0</strong>
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-icon red">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+
+    <div>
+      <span>Phiếu có hàng lỗi</span>
+      <strong id="totalRejectedReceipts">0</strong>
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-icon orange">
+      <i class="fa-solid fa-hourglass-half"></i>
+    </div>
+
+    <div>
+      <span>Chờ xử lý</span>
+      <strong id="totalWaitingReview">0</strong>
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-icon blue">
+      <i class="fa-solid fa-paper-plane"></i>
+    </div>
+
+    <div>
+      <span>Đã gửi email NCC</span>
+      <strong id="totalEmailSent">0</strong>
+    </div>
+  </div>
+
+</section>
+
+<!-- =====================================================
+     FILTER
+====================================================== -->
+<section class="filter-card">
+
+  <div class="filter-group">
+    <label>Tìm kiếm</label>
+
+    <div class="input-icon">
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Tìm mã phiếu nhập, mã PO hoặc nhà cung cấp..."
+      >
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <label>Trạng thái xử lý</label>
+
+    <select id="issueStatusFilter">
+      <option value="">Tất cả</option>
+      <option value="NONE">Không có hàng lỗi</option>
+      <option value="WAITING_REVIEW">Chờ xử lý</option>
+      <option value="EMAIL_SENT">Đã gửi email cho NCC</option>
+    </select>
+  </div>
+
+</section>
+
+<!-- =====================================================
+     RECEIPT TABLE
+====================================================== -->
+<section class="table-card">
+
+  <div class="table-head">
+    <div>
+      <h2>Danh sách phiếu nhận hàng</h2>
+      <p id="receiptCount">Đang tải dữ liệu...</p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Mã phiếu nhập</th>
+          <th>Nhà cung cấp</th>
+          <th>Ngày nhận</th>
+          <th>SL nhận</th>
+          <th>SL đạt</th>
+          <th>SL lỗi</th>
+          <th>Xử lý lỗi</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+
+      <tbody id="receiptTableBody">
+        <tr>
+          <td colspan="12" class="empty-cell">
+            Đang tải dữ liệu...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- =====================================================
+     DETAIL MODAL
+====================================================== -->
+<div id="receiptDetailModal" class="modal-overlay">
+
+  <div class="modal-card modal-xl">
+
+    <div class="modal-head">
+      <div>
+        <h3>Chi tiết phiếu nhận hàng</h3>
+        <p id="modalSubtitle">Thông tin phiếu nhập</p>
+      </div>
+
+      <button type="button" class="modal-close" id="btnCloseModal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- =====================================================
+         RECEIPT INFO
+    ====================================================== -->
+    <section class="info-grid">
+
+      <div>
+        <span>Mã phiếu nhập</span>
+        <strong id="detailReceiptCode">---</strong>
+      </div>
+
+      <div>
+        <span>Mã PO</span>
+        <strong id="detailPOCode">---</strong>
+      </div>
+
+      <div>
+        <span>Nhà cung cấp</span>
+        <strong id="detailSupplierName">---</strong>
+      </div>
+
+      <div>
+        <span>Email NCC</span>
+        <strong id="detailSupplierEmail">---</strong>
+      </div>
+
+      <div>
+        <span>Trạng thái nhập</span>
+        <strong id="detailStatus">---</strong>
+      </div>
+
+      <div>
+        <span>Xử lý hàng lỗi</span>
+        <strong id="detailIssueStatus">---</strong>
+      </div>
+
+      <div>
+        <span>Người nhận hàng</span>
+        <strong id="detailReceivedBy">---</strong>
+      </div>
+
+      <div>
+        <span>Ngày nhận</span>
+        <strong id="detailReceivedDate">---</strong>
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         NOTE
+    ====================================================== -->
+    <section class="note-box">
+      <span>Ghi chú phiếu nhập</span>
+      <p id="detailNote">---</p>
+    </section>
+
+    <!-- =====================================================
+         ISSUE ACTION
+    ====================================================== -->
+    <section id="issueActionBox" class="issue-action-box">
+
+      <div>
+        <h4>
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          Xử lý hàng lỗi
+        </h4>
+
+        <p id="issueActionText">
+          Chỉ gửi email cho nhà cung cấp khi phiếu có hàng lỗi và đang chờ xử lý.
+        </p>
+      </div>
+
+      <button type="button" id="btnSendIssueEmail" class="btn btn-danger">
+        <i class="fa-solid fa-paper-plane"></i>
+        Gửi email NCC
+      </button>
+
+    </section>
+
+    <!-- =====================================================
+         DETAIL ITEMS
+    ====================================================== -->
+    <section class="table-card detail-table-card">
+
+      <div class="table-head">
+        <div>
+          <h2>Chi tiết sản phẩm nhận</h2>
+          <p id="detailItemCount">Danh sách sản phẩm trong phiếu</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Sản phẩm</th>
+              <th>SKU</th>
+              <th>SL nhận</th>
+              <th>SL đạt</th>
+              <th>SL lỗi</th>
+              <th>Lý do lỗi</th>
+              <th>Ảnh lỗi</th>
+              <th>Batch nội bộ</th>
+              <th>Số lô NSX</th>
+              <th>HSD</th>
+              <th>Kệ</th>
+            </tr>
+          </thead>
+
+          <tbody id="detailTableBody">
+            <tr>
+              <td colspan="12" class="empty-cell">
+                Đang tải chi tiết...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+  </div>
+
+</div>

@@ -1,0 +1,517 @@
+<%
+    orders = Array.isArray(orders) ? orders : [];
+%>
+
+<main class="main-content">
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+        <div class="page-title">
+            <h1>Quản lý Đơn hàng</h1>
+            <p>Hệ thống theo dõi và xử lý đơn hàng</p>
+        </div>
+
+        <button id="openCreateOrder" class="primary-btn">
+            <i class="fa-solid fa-cart-plus"></i>
+            Tạo đơn hàng mới
+        </button>
+    </header>
+
+    <!-- STATS -->
+    <section class="stats-grid">
+
+        <div class="card card--green stat-card" data-filter="PENDING">
+            <h3>Chờ xử lý</h3>
+            <p><%= orders.filter(o => o.status === 'PENDING').length %> Đơn</p>
+        </div>
+
+        <div class="card card--blue stat-card" data-filter="SHIPPED">
+            <h3>Đã vận chuyển</h3>
+            <p><%= orders.filter(o => o.status === 'SHIPPED').length %> Đơn</p>
+        </div>
+
+        <div class="card card--purple stat-card" data-filter="COMPLETED">
+            <h3>Hoàn tất</h3>
+            <p><%= orders.filter(o => o.status === 'COMPLETED').length %> Đơn</p>
+        </div>
+
+        <div class="card card--red stat-card" data-filter="CANCELLED">
+            <h3>Huỷ</h3>
+            <p><%= orders.filter(o => o.status === 'CANCELLED').length %> Đơn</p>
+        </div>
+
+        <div class="card card--dark stat-card" data-filter="ALL">
+            <h3>Doanh thu</h3>
+            <p>
+                <%= orders.reduce((sum, o) => sum + Number(o.total_amount || 0), 0).toLocaleString('vi-VN') %> đ
+            </p>
+        </div>
+
+    </section>
+
+    <!-- FILTER BAR -->
+    <section class="filter-bar">
+
+        <div class="filter-group">
+            <label>Từ ngày / Lọc đơn ngày</label>
+            <input type="date" id="filterStartDate">
+        </div>
+
+        <div class="filter-group">
+            <label>Đến ngày</label>
+            <input type="date" id="filterEndDate">
+        </div>
+
+        <div class="filter-group filter-customer">
+            <label>Tìm kiếm khách hàng</label>
+
+            <input 
+                type="text" 
+                id="filterCustomerInput" 
+                list="customerDataList" 
+                placeholder="Gõ để tìm tên khách hàng..."
+            >
+
+            <datalist id="customerDataList">
+                <% 
+                    const uniqueCustomers = [];
+
+                    orders.forEach(o => {
+                        if (o.customer_name && !uniqueCustomers.includes(o.customer_name)) {
+                            uniqueCustomers.push(o.customer_name);
+                        }
+                    });
+
+                    uniqueCustomers.sort().forEach(customer => { 
+                %>
+                    <option value="<%= customer %>"></option>
+                <% }) %>
+            </datalist>
+        </div>
+
+        <button type="button" id="btnClearFilters" class="secondary-btn">
+            <i class="fa-solid fa-rotate-left"></i>
+            Xoá bộ lọc
+        </button>
+
+    </section>
+
+    <!-- ORDER TABLE -->
+    <section class="table-box">
+
+        <table id="orderTable">
+
+            <thead>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Người tạo</th>
+                    <th>Ngày đặt</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th class="action-column">Hành động</th>
+                </tr>
+            </thead>
+
+            <tbody id="orderTableBody">
+                <% if (!orders.length) { %>
+                    <tr>
+                        <td colspan="7" class="empty-cell">
+                            Chưa có đơn hàng nào
+                        </td>
+                    </tr>
+                <% } %>
+
+                <% orders.forEach(order => { %>
+
+                    <tr 
+                        class="order-row" 
+                        data-id="<%= order.order_id %>" 
+                        data-status="<%= order.status %>"
+                    >
+
+                        <td>#<%= order.order_id %></td>
+
+                        <td><%= order.customer_name || '---' %></td>
+
+                        <td><%= order.created_by_email || order.created_by_name || '---' %></td>
+
+                        <td>
+                            <%= order.created_at ? new Date(order.created_at).toLocaleDateString('vi-VN') : '---' %>
+                        </td>
+
+                        <td>
+                            <%= Number(order.total_amount || 0).toLocaleString('vi-VN') %> đ
+                        </td>
+
+                        <td>
+                            <span class="badge badge--<%= String(order.status || 'PENDING').toLowerCase() %>">
+                                <%= order.status || 'PENDING' %>
+                            </span>
+                        </td>
+
+                        <td class="action-cell">
+                            <button
+                                type="button"
+                                class="payment-order-btn"
+                                data-id="<%= order.order_id %>"
+                            >
+                                <i class="fa-solid fa-qrcode"></i>
+                                Thanh toán
+                            </button>
+
+                            <% if (order.status === 'PENDING') { %>
+                                <button class="cancel-order-btn" data-id="<%= order.order_id %>">
+                                    <i class="fa-solid fa-ban"></i>
+                                    Hủy
+                                </button>
+                            <% } %>
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <!-- ORDER DETAIL MODAL -->
+    <div id="orderModal" class="modal hidden">
+        <div class="modal-content">
+
+            <span class="close">&times;</span>
+
+            <h2>Chi tiết đơn hàng</h2>
+
+            <div id="orderDetail"></div>
+
+        </div>
+    </div>
+
+    <!-- PAYMENT MODAL -->
+    <div id="paymentModal" class="modal hidden">
+        <div class="modal-content payment-modal-content">
+
+            <div class="modal-header">
+                <h2>Thanh toán đơn hàng</h2>
+                <span class="close-payment">&times;</span>
+            </div>
+
+            <div class="payment-layout">
+
+                <section class="payment-panel payment-summary-panel">
+                    <h3>Thông tin đơn hàng</h3>
+
+                    <div id="paymentOrderSummary" class="payment-summary">
+                        Đang tải thông tin đơn hàng...
+                    </div>
+
+                    <form id="createPaymentForm" class="payment-form">
+                        <input type="hidden" id="paymentOrderId">
+
+                        <div class="form-group">
+                            <label>Số tiền muốn thanh toán</label>
+                            <input
+                                type="number"
+                                id="paymentAmountInput"
+                                min="1"
+                                step="1"
+                                inputmode="numeric"
+                                placeholder="Nhập số tiền khách cần chuyển"
+                                required
+                            >
+                            <small>Có thể thanh toán một phần hoặc toàn bộ số tiền còn lại.</small>
+                        </div>
+
+                        <div class="payment-actions">
+                            <button type="button" id="btnFillRemainingAmount" class="secondary-btn">
+                                Điền số tiền còn lại
+                            </button>
+
+                            <button type="submit" id="btnCreatePaymentQr" class="primary-btn">
+                                <i class="fa-solid fa-qrcode"></i>
+                                Tạo mã QR
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="payment-panel payment-qr-panel">
+                    <h3>Mã QR chuyển khoản</h3>
+
+                    <div id="paymentQrBox" class="payment-qr-empty">
+                        Chọn đơn hàng và tạo mã QR để khách thanh toán.
+                    </div>
+                </section>
+
+            </div>
+
+            <section class="payment-panel payment-history-panel">
+                <div class="payment-history-header">
+                    <h3>Danh sách giao dịch thành công</h3>
+
+                    <button type="button" id="btnReloadInstallments" class="secondary-btn">
+                        <i class="fa-solid fa-rotate"></i>
+                        Tải lại
+                    </button>
+                </div>
+
+                <div id="paymentInstallmentList" class="payment-installment-list">
+                    Chưa có giao dịch thành công.
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- CREATE ORDER MODAL -->
+    <div id="createOrderModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2>Tạo đơn hàng</h2>
+                <span class="close-create">&times;</span>
+            </div>
+
+            <form id="createOrderForm" class="modal-form">
+
+                <!-- CUSTOMER AREA -->
+                <section class="form-section">
+
+                    <h3>Thông tin khách hàng</h3>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Khu vực khách hàng</label>
+
+                            <select id="regionSelect">
+                                <option value="">-- Tất cả khu vực --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Khách hàng <span>*</span></label>
+
+                            <select id="customerSelect" required>
+                                <option value="">-- Chọn khách hàng --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full">
+                            <label>Người tạo</label>
+
+                            <input 
+                                type="text" 
+                                value="<%= currentUser ? currentUser.full_name : 'Nhân viên hệ thống' %>" 
+                                readonly
+                            >
+
+                            <input 
+                                type="hidden" 
+                                name="staff_id" 
+                                value="<%= currentUser ? currentUser.id : '' %>"
+                            >
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- SHIPPING ADDRESS -->
+                <section class="form-section address-picker-box">
+
+                    <h3>Địa chỉ giao hàng</h3>
+
+                    <div class="form-grid">
+
+                        <div class="form-group full">
+                            <label>Số nhà / Tên đường <span>*</span></label>
+
+                            <input
+                                type="text"
+                                id="shippingHouseNumberInput"
+                                placeholder="VD: 123 Nguyễn Văn Cừ"
+                                autocomplete="off"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tỉnh / Thành phố <span>*</span></label>
+
+                            <select id="shippingProvinceSelect">
+                                <option value="">-- Chọn tỉnh / thành phố --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quận / Huyện <span>*</span></label>
+
+                            <select id="shippingDistrictSelect" disabled>
+                                <option value="">-- Chọn quận / huyện --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phường / Xã <span>*</span></label>
+
+                            <select id="shippingWardSelect" disabled>
+                                <option value="">-- Chọn phường / xã --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full">
+                            <label>Địa chỉ nhận hàng hoàn chỉnh</label>
+
+                            <input 
+                                type="text" 
+                                id="shippingAddressInput" 
+                                readonly
+                                placeholder="Địa chỉ sẽ tự ghép sau khi chọn đầy đủ"
+                            >
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- PRODUCT PICKER -->
+                <section class="form-section">
+
+                    <h3>Chọn sản phẩm</h3>
+
+                    <div class="product-picker-box">
+
+                        <div class="form-group full">
+                            <label>Chương trình khuyến mãi / chính sách thanh toán <span>*</span></label>
+
+                            <select id="paymentTermTemplateSelect" name="payment_term_template_id" required>
+                                <option value="">-- Chọn chương trình khuyến mãi --</option>
+                            </select>
+
+                            <div id="paymentTermHint" class="payment-term-hint">
+                                Chọn chương trình để lưu chính sách thanh toán cho đơn hàng.
+                            </div>
+                        </div>
+
+                        <div class="form-group product-search-group">
+                            <label>Tìm sản phẩm / SKU</label>
+
+                            <input
+                                type="text"
+                                id="orderProductSearchInput"
+                                placeholder="Nhập tên sản phẩm hoặc mã SKU..."
+                                autocomplete="off"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sản phẩm</label>
+
+                            <select id="orderProductSelect">
+                                <option value="">-- Chọn sản phẩm --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Số lượng</label>
+
+                            <input 
+                                type="number" 
+                                id="orderProductQuantity" 
+                                min="1" 
+                                step="1" 
+                                value="1"
+                            >
+                        </div>
+
+                        <button type="button" id="addSelectedProductBtn" class="secondary-btn">
+                            <i class="fa-solid fa-plus"></i>
+                            Thêm vào danh sách
+                        </button>
+
+                    </div>
+
+                </section>
+
+                <!-- SELECTED PRODUCTS -->
+                <section class="selected-product-box">
+
+                    <h4>Danh sách sản phẩm đã chọn</h4>
+
+                    <div class="table-wrap">
+
+                        <table class="table-detail">
+
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>SKU</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Danh mục</th>
+                                    <th>Đơn giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                    <th>Xóa</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="selectedProductTableBody">
+                                <tr>
+                                    <td colspan="8" class="empty-cell">
+                                        Chưa chọn sản phẩm nào
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+                <!-- TOTAL -->
+                <section class="form-section">
+
+                    <div class="form-group">
+                        <label>Tổng tiền đơn hàng</label>
+
+                        <input 
+                            type="text" 
+                            id="totalAmountDisplay" 
+                            class="total-highlight" 
+                            value="0 đ" 
+                            readonly
+                        >
+
+                        <input 
+                            type="hidden" 
+                            id="totalAmountInput" 
+                            name="total_amount" 
+                            value="0"
+                        >
+                    </div>
+
+                </section>
+
+                <!-- FOOTER -->
+                <div class="modal-footer">
+                    <button type="button" class="secondary-btn close-create">
+                        Huỷ
+                    </button>
+
+                    <button type="submit" class="primary-btn">
+                        Tạo đơn
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>

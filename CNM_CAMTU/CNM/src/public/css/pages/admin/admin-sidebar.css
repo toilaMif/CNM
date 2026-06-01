@@ -1,0 +1,398 @@
+/* =========================================================
+   MODERN SIDEBAR UI
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+    width:270px;
+    height:100vh;
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    display:flex;
+    flex-direction:column;
+
+    padding:20px 16px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f4ffe9 0%,
+            #eaf8db 45%,
+            #e1f1d1 100%
+        );
+
+    border-right:1px solid rgba(0,0,0,.05);
+
+    box-shadow:
+        8px 0 30px rgba(0,0,0,.05);
+
+    backdrop-filter:blur(12px);
+
+    overflow:hidden;
+
+    z-index:999;
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    margin-bottom:22px;
+}
+
+.logo img{
+    width:78px;
+    height:78px;
+
+    object-fit:contain;
+
+    margin-bottom:10px;
+
+    transition:.3s ease;
+}
+
+.logo img:hover{
+    transform:scale(1.05);
+}
+
+.logo span{
+    font-size:22px;
+    font-weight:800;
+
+    color:#1f2d1f;
+
+    letter-spacing:.5px;
+}
+
+/* =========================================================
+   PROFILE CARD
+========================================================= */
+
+.sidebar-profile{
+    margin-bottom:18px;
+}
+
+.sidebar-profile a{
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    padding:12px;
+
+    border-radius:18px;
+
+    text-decoration:none;
+
+    background:rgba(255,255,255,.65);
+
+    border:1px solid rgba(255,255,255,.6);
+
+    backdrop-filter:blur(10px);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.04);
+
+    transition:.25s ease;
+}
+
+.sidebar-profile a:hover{
+    transform:translateY(-2px);
+
+    background:rgba(255,255,255,.9);
+
+    box-shadow:
+        0 10px 22px rgba(0,0,0,.06);
+}
+
+.profile-avatar{
+    width:50px;
+    height:50px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:3px solid #fff;
+
+    box-shadow:
+        0 3px 10px rgba(0,0,0,.08);
+}
+
+.profile-info h4{
+    font-size:14px;
+    font-weight:700;
+
+    color:#1f2b1f;
+
+    margin-bottom:4px;
+}
+
+.profile-info p{
+    font-size:12px;
+    color:#6f7d6b;
+}
+
+/* =========================================================
+   MENU AREA
+========================================================= */
+
+.menu{
+    flex:1;
+
+    overflow-y:auto;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:8px;
+
+    list-style:none;
+
+    padding-right:4px;
+}
+
+/* scrollbar */
+
+.menu::-webkit-scrollbar{
+    width:5px;
+}
+
+.menu::-webkit-scrollbar-thumb{
+    background:#bdd8af;
+    border-radius:20px;
+}
+
+/* =========================================================
+   MENU ITEM
+========================================================= */
+
+.menu li a{
+    display:flex;
+    align-items:center;
+
+    gap:14px;
+
+    padding:13px 15px;
+
+    border-radius:16px;
+
+    text-decoration:none;
+
+    font-size:14px;
+    font-weight:600;
+
+    color:#445244;
+
+    transition:.25s ease;
+}
+
+/* icon */
+
+.menu li a i{
+    width:18px;
+
+    text-align:center;
+
+    font-size:15px;
+}
+
+/* hover */
+
+.menu li a:hover{
+    background:rgba(63,155,63,.10);
+
+    color:#1e7d1e;
+
+    transform:translateX(4px);
+}
+
+/* active */
+
+.menu li a.active{
+    background:
+        linear-gradient(
+            135deg,
+            #37a537,
+            #59c959
+        );
+
+    color:#fff;
+
+    box-shadow:
+        0 10px 22px rgba(55,165,55,.25);
+}
+
+/* =========================================================
+   GOAL BOX
+========================================================= */
+
+.goal-box{
+    margin-top:14px;
+
+    padding:16px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.6);
+
+    border:1px solid rgba(255,255,255,.5);
+
+    backdrop-filter:blur(8px);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.04);
+}
+
+.goal-box h4{
+    font-size:14px;
+    margin-bottom:6px;
+
+    color:#233223;
+}
+
+.goal-box p{
+    font-size:12px;
+    color:#71806d;
+}
+
+/* progress */
+
+.progress{
+    height:8px;
+
+    margin:12px 0;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    background:#dcead6;
+}
+
+.progress-bar{
+    width:75%;
+    height:100%;
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #37a537,
+            #63d463
+        );
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.sidebar-footer{
+    margin-top:16px;
+
+    padding-top:16px;
+
+    border-top:1px solid rgba(0,0,0,.05);
+}
+
+/* =========================================================
+   LOGOUT BUTTON
+========================================================= */
+
+.logout-btn{
+    width:100%;
+    height:46px;
+
+    border:none;
+    border-radius:16px;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    font-size:14px;
+    font-weight:700;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d32f2f,
+            #ef5350
+        );
+
+    box-shadow:
+        0 8px 18px rgba(211,47,47,.2);
+
+    transition:.25s ease;
+}
+
+.logout-btn:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 12px 24px rgba(211,47,47,.28);
+}
+
+/* =========================================================
+   FIX FORM / CONTENT
+========================================================= */
+
+/* phần content bên phải */
+
+.main-content,
+.dashboard-content,
+.page-content{
+    margin-left:270px;
+
+    min-height:100vh;
+
+    padding:24px;
+
+    background:#f7faf5;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width:768px){
+
+    .sidebar{
+        width:100%;
+        height:auto;
+
+        position:relative;
+    }
+
+    .main-content,
+    .dashboard-content,
+    .page-content{
+        margin-left:0;
+    }
+
+}

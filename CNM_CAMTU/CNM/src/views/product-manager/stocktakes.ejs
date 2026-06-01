@@ -1,0 +1,197 @@
+<div class="page-header">
+  <div>
+    <h1>Duyệt phiếu kiểm kê</h1>
+    <p>Kiểm tra phiếu kiểm kê do nhân viên kho gửi, xem ảnh minh chứng và xác nhận điều chỉnh tồn kho.</p>
+  </div>
+</div>
+
+<section class="summary-grid">
+  <div class="summary-card status-filter-card active" data-status="pending">
+    <div class="summary-icon pending">
+      <i class="fa-solid fa-clock"></i>
+    </div>
+
+    <div>
+      <span>Chờ duyệt</span>
+      <strong id="pendingCount">0</strong>
+    </div>
+  </div>
+
+  <div class="summary-card status-filter-card" data-status="approved">
+    <div class="summary-icon approved">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+
+    <div>
+      <span>Đã duyệt</span>
+      <strong id="approvedCount">0</strong>
+    </div>
+  </div>
+
+  <div class="summary-card status-filter-card" data-status="rejected">
+    <div class="summary-icon rejected">
+      <i class="fa-solid fa-circle-xmark"></i>
+    </div>
+
+    <div>
+      <span>Từ chối</span>
+      <strong id="rejectedCount">0</strong>
+    </div>
+  </div>
+
+  <div class="summary-card status-filter-card" data-status="">
+    <div class="summary-icon total">
+      <i class="fa-solid fa-clipboard-list"></i>
+    </div>
+
+    <div>
+      <span>Tổng phiếu</span>
+      <strong id="totalCount">0</strong>
+    </div>
+  </div>
+</section>
+
+<section class="filter-card">
+  <div class="filter-group">
+    <label>Trạng thái</label>
+
+    <select id="filterStatus">
+      <option value="">Tất cả</option>
+      <option value="pending" selected>Chờ duyệt</option>
+      <option value="approved">Đã duyệt</option>
+      <option value="rejected">Từ chối</option>
+      <option value="draft">Nháp</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label>Từ ngày</label>
+    <input type="date" id="filterFromDate">
+  </div>
+
+  <div class="filter-group">
+    <label>Đến ngày</label>
+    <input type="date" id="filterToDate">
+  </div>
+
+  <div class="filter-group grow">
+    <label>Tìm kiếm</label>
+    <input
+      type="text"
+      id="filterKeyword"
+      placeholder="Mã phiếu, khu vực kho, người tạo..."
+    >
+  </div>
+
+  <button class="btn-secondary" id="btnFilter" type="button">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    Lọc
+  </button>
+</section>
+
+<section class="table-card">
+  <div class="table-heading">
+    <h2>Danh sách phiếu kiểm kê</h2>
+    <span id="stocktakeCount">0 phiếu</span>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Mã phiếu</th>
+          <th>Ngày kiểm kê</th>
+          <th>Khu vực kho</th>
+          <th>Người tạo</th>
+          <th>Số vật tư</th>
+          <th>Tổng lệch</th>
+          <th>Trạng thái</th>
+          <th class="text-right">Thao tác</th>
+        </tr>
+      </thead>
+
+      <tbody id="stocktakeTableBody">
+        <tr>
+          <td colspan="8" class="empty-cell">Đang tải dữ liệu...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- MODAL CHI TIẾT + DUYỆT -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal detail-modal">
+    <div class="modal-header">
+      <div>
+        <h2>Chi tiết phiếu kiểm kê</h2>
+        <p id="detailSubtitle">Thông tin kiểm kê, chênh lệch và ảnh minh chứng</p>
+      </div>
+
+      <button class="modal-close" id="btnCloseDetailModal" type="button">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="modal-body" id="detailContent">
+      <div class="empty-box">Đang tải chi tiết...</div>
+    </div>
+
+    <div class="modal-footer" id="detailFooter">
+      <button class="btn-light" id="btnCloseDetailFooter" type="button">
+        Đóng
+      </button>
+
+      <button class="btn-danger" id="btnOpenRejectBox" type="button">
+        <i class="fa-solid fa-xmark"></i>
+        Từ chối
+      </button>
+
+      <button class="btn-primary" id="btnApproveStocktake" type="button">
+        <i class="fa-solid fa-check"></i>
+        Duyệt phiếu
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL TỪ CHỐI -->
+<div class="modal-backdrop" id="rejectModal">
+  <div class="modal reject-modal">
+    <div class="modal-header">
+      <div>
+        <h2>Từ chối phiếu kiểm kê</h2>
+        <p>Nhập lý do từ chối để nhân viên kho kiểm tra lại.</p>
+      </div>
+
+      <button class="modal-close" id="btnCloseRejectModal" type="button">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Lý do từ chối</label>
+
+        <textarea
+          id="rejectReason"
+          rows="5"
+          placeholder="Ví dụ: Số lượng thực tế chưa có ảnh minh chứng hoặc ghi chú chưa rõ ràng..."
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-light" id="btnCancelReject" type="button">
+        Hủy
+      </button>
+
+      <button class="btn-danger" id="btnConfirmReject" type="button">
+        <i class="fa-solid fa-paper-plane"></i>
+        Xác nhận từ chối
+      </button>
+    </div>
+  </div>
+</div>

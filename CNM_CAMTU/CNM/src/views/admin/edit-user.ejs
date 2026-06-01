@@ -1,0 +1,150 @@
+<link rel="stylesheet" href="/css/pages/admin/edit-user.css" />
+<link rel="stylesheet" href="/css/pages/admin/admin-sidebar.css" />
+
+<%- include('./admin-sidebar') %>
+
+<div class="edit-user-page">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1>✏️ Chỉnh sửa tài khoản</h1>
+      <p>Cập nhật thông tin, vai trò và trạng thái người dùng</p>
+    </div>
+
+    <a href="/admin/dashboard" class="btn-back">
+      ← Quay lại
+    </a>
+  </div>
+
+  <!-- ALERT -->
+  <div id="alertContainer"></div>
+
+  <!-- EDIT CARD -->
+  <div class="edit-card">
+
+    <div class="card-header">
+      <div>
+        <h3>Thông tin tài khoản</h3>
+        <p>Quản lý hồ sơ người dùng trong hệ thống</p>
+      </div>
+
+      <div id="userStatus" class="status-box">
+        Đang tải...
+      </div>
+    </div>
+
+    <form id="editUserForm" class="edit-form">
+
+      <input type="hidden" id="userId" value="<%= userId %>" />
+
+      <!-- EMAIL -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          readonly
+          placeholder="Email người dùng"
+        />
+      </div>
+
+      <!-- ROLE -->
+<!-- ROLE -->
+      <div class="form-group">
+        <label>Vai trò</label>
+
+        <select id="roleId">
+
+          <option value="1">ADMIN</option>
+
+          <option value="2">SALE</option>
+
+          <option value="3">CUSTOMER</option>
+
+          <option value="4">WAREHOUSE_EMPLOYEE</option>
+
+          <option value="5">MANAGER</option>
+
+          <option value="6">PRODUCT_MANAGER</option>
+
+        </select>
+      </div>
+
+      <!-- FULL NAME -->
+      <div class="form-group">
+        <label for="fullName">Họ tên</label>
+        <input
+          type="text"
+          id="fullName"
+          placeholder="Nhập họ tên"
+        />
+      </div>
+
+      <!-- PHONE -->
+      <div class="form-group">
+        <label for="phoneNumber">Số điện thoại</label>
+        <input
+          type="tel"
+          id="phoneNumber"
+          placeholder="VD: 0987654321"
+        />
+      </div>
+
+      <!-- GENDER -->
+      <div class="form-group">
+        <label for="gender">Giới tính</label>
+        <select id="gender">
+          <option value="hidden">Chưa xác định</option>
+          <option value="male">Nam</option>
+          <option value="female">Nữ</option>
+          <option value="other">Khác</option>
+        </select>
+      </div>
+
+      <!-- DOB -->
+      <div class="form-group">
+        <label for="dateOfBirth">Ngày sinh</label>
+        <input
+          type="date"
+          id="dateOfBirth"
+        />
+      </div>
+
+      <!-- ADDRESS -->
+      <div class="form-group form-group-full">
+        <label for="address">Địa chỉ</label>
+        <input
+          type="text"
+          id="address"
+          placeholder="Nhập địa chỉ"
+        />
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="form-actions">
+
+        <button
+          type="button"
+          id="lockBtn"
+          class="btn btn-warning"
+        >
+          🔒 Lock
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          💾 Lưu thay đổi
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<script src="/js/pages/admin/edit-user.js"></script>

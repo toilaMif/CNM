@@ -1,0 +1,284 @@
+
+
+<div class="create-user-page">
+
+    <!-- ================= PAGE HEADER ================= -->
+
+    <!-- <div class="page-header">
+
+        <div class="page-header-content">
+            <h1>Tạo tài khoản mới</h1>
+        </div>
+    </div> -->
+
+    <!-- ================= ALERT ================= -->
+
+    <div id="alertContainer"></div>
+
+    <!-- ================= FORM CARD ================= -->
+
+    <div class="form-card">
+
+        <div class="card-header">
+            <div>
+                <h2>Thông tin tài khoản</h2>
+                <p>Thông tin cơ bản của người dùng</p>
+            </div>
+        </div>
+
+        <!-- ================= FORM ================= -->
+
+        <form id="createUserForm" class="create-form">
+
+            <!-- EMAIL -->
+
+            <div class="form-group full-width">
+
+                <label for="email">
+                    Email <span>*</span>
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Nhập email đăng nhập..."
+                    autocomplete="off"
+                    required
+                />
+
+                <small>
+                    Email sẽ được dùng để đăng nhập hệ thống
+                </small>
+
+            </div>
+
+            <!-- FULL NAME -->
+
+            <div class="form-group">
+
+                <label for="fullName">
+                    Họ và tên
+                </label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="Nhập họ và tên..."
+                />
+
+            </div>
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+                <label for="phoneNumber">
+                    Số điện thoại
+                </label>
+
+                <input
+                    type="tel"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    placeholder="Nhập số điện thoại..."
+                />
+
+            </div>
+
+            <!-- GENDER -->
+
+            <div class="form-group">
+
+                <label for="gender">
+                    Giới tính
+                </label>
+
+                <select id="gender" name="gender">
+
+                    <option value="hidden">
+                        Chưa xác định
+                    </option>
+
+                    <option value="male">
+                        Nam
+                    </option>
+
+                    <option value="female">
+                        Nữ
+                    </option>
+
+                    <option value="other">
+                        Khác
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- DATE OF BIRTH -->
+
+            <div class="form-group">
+
+                <label for="dateOfBirth">
+                    Ngày sinh
+                </label>
+
+                <input
+                    type="date"
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                />
+
+            </div>
+
+            <!-- ADDRESS -->
+
+            <div class="form-group full-width">
+
+                <label for="houseNumber">
+                    Số nhà / Tên đường
+                </label>
+
+                <input
+                    type="text"
+                    id="houseNumber"
+                    name="houseNumber"
+                    placeholder="VD: 123 Nguyễn Văn Cừ"
+                />
+
+            </div>
+
+            <!-- PROVINCE -->
+
+            <div class="form-group">
+
+                <label for="province">
+                    Tỉnh / Thành phố
+                </label>
+
+                <select id="province" name="province">
+                    <option value="">
+                        -- Chọn tỉnh / thành phố --
+                    </option>
+                </select>
+
+            </div>
+
+            <!-- DISTRICT -->
+
+            <div class="form-group">
+
+                <label for="district">
+                    Quận / Huyện
+                </label>
+
+                <select
+                    id="district"
+                    name="district"
+                    disabled
+                >
+                    <option value="">
+                        -- Chọn quận / huyện --
+                    </option>
+                </select>
+
+            </div>
+
+            <!-- WARD -->
+
+            <div class="form-group">
+
+                <label for="ward">
+                    Phường / Xã
+                </label>
+
+                <select
+                    id="ward"
+                    name="ward"
+                    disabled
+                >
+                    <option value="">
+                        -- Chọn phường / xã --
+                    </option>
+                </select>
+
+            </div>
+
+            <!-- ROLE -->
+
+            <div class="form-group">
+
+                <label for="roleId">
+                    Vai trò <span>*</span>
+                </label>
+
+                <select
+                    id="roleId"
+                    name="roleId"
+                    required
+                >
+
+                    <option value="">
+                        -- Chọn vai trò --
+                    </option>
+
+                    <option value="2">
+                        Nhân viên bán hàng
+                    </option>
+
+                    <option value="3">
+                        Khách hàng
+                    </option>
+
+                    <option value="4">
+                        Nhân viên kho
+                    </option>
+
+                    <option value="5">
+                        Quản lý
+                    </option>
+
+                    <option value="6">
+                        Nhân viên quản lý sản phẩm
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- ================= ACTIONS ================= -->
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    + Tạo tài khoản
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ================= STYLES ================= -->
+
+<link
+    rel="stylesheet"
+    href="/css/pages/admin/admin-sidebar.css"
+/>
+
+<link
+    rel="stylesheet"
+    href="/css/pages/admin/create-user.css"
+/>
+
+<!-- ================= SCRIPT ================= -->
+
+<script src="/js/pages/admin/create-user.js"></script>

@@ -1,0 +1,361 @@
+/* =========================================================
+   PRODUCT MANAGER SIDEBAR
+   Modern centered menu + active highlight
+========================================================= */
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 280px;
+    min-height: 100vh;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    box-shadow: 4px 0 24px rgba(15, 23, 42, 0.06);
+
+    padding: 26px 18px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #d8e6d2;
+    border-radius: 999px;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    margin: 0 0 28px;
+
+    color: #1f2a1f;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.logo img {
+    width: 92px;
+    height: 92px;
+
+    border-radius: 22px;
+    object-fit: cover;
+}
+
+/* =========================
+   MENU
+========================= */
+
+.sidebar-menu {
+    list-style: none;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 12px;
+
+    flex: 1;
+
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-menu li {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-menu a {
+    width: 100%;
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 13px;
+
+    padding: 14px 18px;
+
+    border-radius: 18px;
+
+    text-decoration: none;
+
+    color: #4b5563;
+    background: transparent;
+
+    font-size: 15px;
+    font-weight: 750;
+    line-height: 1.35;
+
+    transition: all 0.22s ease;
+}
+
+.sidebar-menu a i {
+    width: 22px;
+    min-width: 22px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    color: inherit;
+}
+
+.sidebar-menu a span {
+    flex: 1;
+    min-width: 0;
+
+    white-space: normal;
+    word-break: normal;
+}
+
+/* Hover */
+
+.sidebar-menu a:hover {
+    background: #f3f8f0;
+    color: #267826;
+
+    transform: translateX(4px);
+}
+
+/* Active - ô đang chọn tô đậm */
+
+.sidebar-menu a.active {
+    background: linear-gradient(135deg, #43a047, #66bb6a);
+    color: #ffffff;
+
+    font-weight: 850;
+
+    box-shadow: 0 10px 24px rgba(76, 175, 80, 0.28);
+}
+
+.sidebar-menu a.active i,
+.sidebar-menu a.active span {
+    color: #ffffff;
+}
+
+.sidebar-menu a.active:hover {
+    transform: translateX(4px);
+    background: linear-gradient(135deg, #388e3c, #5fbf63);
+}
+
+/* =========================
+   USER PROFILE
+========================= */
+
+.sidebar-profile {
+    list-style: none;
+
+    width: 100%;
+
+    margin: 28px 0 14px;
+    padding: 0;
+}
+
+.sidebar-profile a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+
+    padding: 13px;
+
+    border-radius: 18px;
+
+    text-decoration: none;
+
+    background: #f6f9f3;
+    border: 1px solid #edf3e8;
+
+    transition: all 0.22s ease;
+}
+
+.sidebar-profile a:hover {
+    background: #edf7e8;
+    transform: translateY(-1px);
+}
+
+.profile-avatar {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+    object-fit: cover;
+
+    border: 2px solid #d9e6d1;
+    background: #ffffff;
+}
+
+.profile-info {
+    min-width: 0;
+}
+
+.profile-info h4 {
+    margin: 0 0 4px;
+
+    color: #1f2937;
+
+    font-size: 14px;
+    font-weight: 850;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-info p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.sidebar-footer {
+    width: 100%;
+
+    margin-top: 14px;
+    padding-top: 18px;
+
+    border-top: 1px solid #ececec;
+}
+
+/* =========================
+   LOGOUT BUTTON
+========================= */
+
+.logout-btn {
+    width: 100%;
+    min-height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 14px;
+
+    border: none;
+    border-radius: 18px;
+
+    background: #fff3f3;
+    color: #dc2626;
+
+    font-size: 15px;
+    font-weight: 850;
+
+    cursor: pointer;
+
+    transition: all 0.22s ease;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #ffffff;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 10px 22px rgba(220, 38, 38, 0.22);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 992px) {
+    .sidebar {
+        width: 240px;
+        padding: 22px 14px;
+    }
+
+    .logo {
+        font-size: 20px;
+        margin-bottom: 24px;
+    }
+
+    .logo img {
+        width: 82px;
+        height: 82px;
+        border-radius: 20px;
+    }
+
+    .sidebar-menu {
+        gap: 10px;
+    }
+
+    .sidebar-menu a {
+        min-height: 48px;
+        padding: 13px 14px;
+
+        font-size: 14px;
+        border-radius: 16px;
+    }
+
+    .sidebar-menu a i {
+        width: 20px;
+        min-width: 20px;
+        font-size: 15px;
+    }
+
+    .profile-avatar {
+        width: 44px;
+        height: 44px;
+    }
+
+    .profile-info h4 {
+        font-size: 13px;
+    }
+
+    .profile-info p {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+}

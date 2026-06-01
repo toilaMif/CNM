@@ -1,0 +1,320 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: "Inter", Arial, sans-serif;
+}
+
+body{
+    background:#f3f6ef;
+    color:#222;
+}
+
+.profile-page{
+    padding:30px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.page-header h1{
+    font-size:55px;
+    /* font-weight:700; */
+}
+
+.page-header p{
+    margin-top:10px;
+    color:#666;
+    font-size:18px;
+}
+
+/* =========================
+   WRAPPER
+========================= */
+
+.profile-wrapper{
+    display:grid;
+    grid-template-columns:320px 1fr;
+    gap:25px;
+
+    margin-top:30px;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.profile-sidebar{
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:35px 25px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+
+    height:fit-content;
+}
+
+.profile-avatar-box{
+    text-align:center;
+}
+
+.profile-avatar{
+    width:140px;
+    height:140px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:5px solid #e5e5e5;
+}
+
+.profile-avatar-box h2{
+    margin-top:20px;
+    font-size:30px;
+}
+
+.role-text{
+    display:block;
+
+    margin-top:10px;
+
+    color:#2d7a39;
+
+    font-weight:700;
+
+    font-size:15px;
+}
+
+.sidebar-info{
+    margin-top:40px;
+
+    border-top:1px solid #eee;
+
+    padding-top:25px;
+}
+
+.info-row{
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:20px;
+
+    color:#555;
+}
+
+.info-row i{
+    font-size:18px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.profile-content{
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:40px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.content-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:35px;
+}
+
+.title-box{
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+}
+
+.title-box i{
+    color:#2d7a39;
+    font-size:22px;
+}
+
+.title-box h2{
+    font-size:35px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.profile-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.input-group label{
+    display:block;
+
+    margin-bottom:10px;
+
+    color:#666;
+
+    font-weight:600;
+}
+
+.fake-input{
+    background:#eef5ed;
+
+    min-height:58px;
+
+    border-radius:10px;
+
+    padding:18px;
+
+    display:flex;
+    align-items:center;
+
+    color:#333;
+
+    font-size:16px;
+}
+
+.role-box{
+    border:2px dashed #b9d6b5;
+
+    color:#2d7a39;
+
+    font-weight:700;
+}
+
+.address-group{
+    margin-top:25px;
+}
+
+.textarea{
+    min-height:110px;
+
+    align-items:flex-start;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge-section{
+    margin-top:35px;
+}
+
+.badge-section h4{
+    color:#888;
+
+    font-size:14px;
+
+    letter-spacing:1px;
+
+    margin-bottom:15px;
+}
+
+.badge-list{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:12px;
+}
+
+.badge{
+    background:#e9f5e6;
+
+    color:#2d7a39;
+
+    padding:10px 16px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:992px){
+
+    .profile-wrapper{
+        grid-template-columns:1fr;
+    }
+
+    .profile-grid{
+        grid-template-columns:1fr;
+    }
+
+    .page-header h1{
+        font-size:40px;
+    }
+}
+
+.dashboard{
+    display:flex;
+    min-height:100vh;
+}
+
+.main-content{
+    flex:1;
+    margin-left:30px;
+    width:calc(100% - 260px);
+}
+.main-container{
+    padding:30px;
+}
+/* ================= WRAPPER ================= */
+.dashboard {
+    display: flex;
+}
+
+/* ================= SIDEBAR FIXED ================= */
+.warehouse-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 260px;
+    height: 100vh;
+
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #c9e3aa;
+}
+
+/* ================= MAIN CONTENT OFFSET ================= */
+.main-content {
+    /* margin-left: 260px; */
+    width: calc(100% - 260px);
+
+    min-height: 100vh;
+    background: #f5f7f3;
+}
+
+/* ================= INNER CONTAINER ================= */
+.main-container {
+    padding: 20px;
+}

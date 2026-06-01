@@ -1,0 +1,343 @@
+/* =========================================================
+   EDIT USER PAGE - SCOPED
+========================================================= */
+
+.edit-user-page,
+.edit-user-page * {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.edit-user-page {
+  margin-left: 100px;
+  padding: 30px;
+  min-height: 100vh;
+
+  background: #f8faf7;
+  color: #222;
+}
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.edit-user-page .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 28px;
+}
+
+.edit-user-page .page-header h1 {
+  font-size: 32px;
+  color: #33cc00;
+  margin-bottom: 8px;
+}
+
+.edit-user-page .page-header p {
+  color: #888;
+  font-size: 14px;
+}
+
+.btn-back {
+  background: #f5f5f5;
+  color: #333;
+
+  padding: 10px 16px;
+
+  border-radius: 10px;
+
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+.btn-back:hover {
+  background: #e8e8e8;
+}
+
+/* =========================================================
+   ALERT
+========================================================= */
+
+#alertContainer {
+  margin-bottom: 18px;
+}
+
+.alert {
+  padding: 14px 16px;
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  margin-bottom: 12px;
+}
+
+.alert-success {
+  background: #e9ffe0;
+  color: #33cc00;
+  border: 1px solid #b8e2bc;
+}
+
+.alert-danger {
+  background: #ffe5e5;
+  color: red;
+  border: 1px solid #ffcaca;
+}
+
+.alert-warning {
+  background: #fff7db;
+  color: #b7791f;
+  border: 1px solid #ffe8a3;
+}
+
+.alert-info {
+  background: #e5f5ff;
+  color: #0099ff;
+  border: 1px solid #bee7ff;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.edit-card {
+  width: 100%;
+  max-width: 880px;
+
+  background: #ffffff;
+
+  border-radius: 18px;
+  border: 1px solid #eeeeee;
+
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 24px 28px;
+
+  background: #f7faf4;
+  border-bottom: 1px solid #e8eee5;
+}
+
+.card-header h3 {
+  font-size: 20px;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.card-header p {
+  font-size: 13px;
+  color: #777;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status-box {
+  min-width: 110px;
+  text-align: right;
+}
+
+.badge {
+  display: inline-block;
+
+  padding: 7px 13px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.badge-success,
+.bg-success {
+  background: #e9ffe0;
+  color: #33cc00;
+}
+
+.badge-danger,
+.bg-danger {
+  background: #ffe5e5;
+  color: red;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.edit-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+
+  padding: 28px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group-full {
+  grid-column: span 2;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #444;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 14px;
+
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  outline: none;
+
+  font-size: 14px;
+
+  transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #33cc00;
+  box-shadow: 0 0 0 3px rgba(51, 204, 0, 0.12);
+}
+
+.form-group input[readonly] {
+  background: #f3f4f6;
+  color: #777;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.form-actions {
+  grid-column: span 2;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  padding-top: 22px;
+  margin-top: 8px;
+
+  border-top: 1px solid #eef2ea;
+}
+
+.btn {
+  border: none;
+
+  padding: 12px 18px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  transition: 0.2s;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: #33cc00;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #2eb800;
+}
+
+.btn-warning {
+  background: #fff3cd;
+  color: #9a6700;
+}
+
+.btn-warning:hover {
+  background: #ffe69c;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .edit-user-page {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .edit-user-page .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .edit-user-page .page-header h1 {
+    font-size: 26px;
+  }
+
+  .btn-back {
+    width: 100%;
+    text-align: center;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .status-box {
+    text-align: left;
+  }
+
+  .edit-form {
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+
+  .form-group-full {
+    grid-column: span 1;
+  }
+
+  .form-actions {
+    grid-column: span 1;
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

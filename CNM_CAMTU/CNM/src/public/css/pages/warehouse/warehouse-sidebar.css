@@ -1,0 +1,369 @@
+/* =========================================================
+   WAREHOUSE SIDEBAR
+   File: public/css/pages/warehouse/warehouse-sidebar.css
+========================================================= */
+
+:root {
+  --wh-sidebar-width: 300px;
+  --wh-sidebar-width-tablet: 240px;
+
+  --wh-sidebar-bg: #ffffff;
+  --wh-sidebar-border: #e5e7eb;
+  --wh-sidebar-text: #4b5563;
+  --wh-sidebar-heading: #1f2a1f;
+
+  --wh-primary: #2f8f2f;
+  --wh-primary-dark: #267826;
+  --wh-primary-soft: #f3f7f1;
+
+  --wh-danger: #e53935;
+  --wh-danger-soft: #fff3f3;
+
+  --wh-muted: #777;
+  --wh-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* =========================================================
+   SIDEBAR WRAPPER
+   Hỗ trợ cả class cũ .sidebar và class mới .warehouse-sidebar
+========================================================= */
+
+.sidebar,
+.warehouse-sidebar {
+  width: var(--wh-sidebar-width);
+  height: 100vh;
+  min-height: 100vh;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 24px 18px;
+
+  background: var(--wh-sidebar-bg);
+  border-right: 1px solid var(--wh-sidebar-border);
+  box-shadow: var(--wh-shadow);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   LOGO / BRAND
+========================================================= */
+
+.logo,
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 22px;
+  color: var(--wh-sidebar-heading);
+}
+
+.logo img {
+  width: 86px;
+  height: 86px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.logo span,
+.sidebar-brand h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--wh-sidebar-heading);
+}
+
+.sidebar-brand p {
+  margin: 3px 0 0;
+  color: var(--wh-muted);
+  font-size: 13px;
+}
+
+.brand-icon {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+  background: #e7f6e4;
+  color: var(--wh-primary);
+
+  font-size: 20px;
+}
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.sidebar-menu {
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  flex: 1;
+
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-menu li {
+  width: 100%;
+}
+
+.sidebar-menu a,
+.sidebar-link {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 16px;
+
+  border-radius: 16px;
+
+  text-decoration: none;
+  color: var(--wh-sidebar-text);
+
+  font-size: 15px;
+  font-weight: 700;
+
+  transition: 0.22s ease;
+}
+
+.sidebar-menu a i,
+.sidebar-link i {
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* Hover */
+.sidebar-menu a:hover,
+.sidebar-link:hover {
+  background: var(--wh-primary-soft);
+  color: var(--wh-primary-dark);
+  transform: translateX(4px);
+}
+
+/* Active */
+.sidebar-menu a.active,
+.sidebar-link.active {
+  background: linear-gradient(135deg, #4caf50, #66bb6a);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.25);
+}
+
+.sidebar-menu a.active:hover,
+.sidebar-link.active:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.sidebar-profile {
+  list-style: none;
+  margin: 18px 0;
+  padding: 0;
+}
+
+.sidebar-profile a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px;
+
+  border-radius: 14px;
+
+  text-decoration: none;
+  background: #f5f7f3;
+
+  transition: 0.22s ease;
+}
+
+.sidebar-profile a:hover {
+  background: #e7efe2;
+}
+
+.profile-avatar {
+  width: 46px;
+  height: 46px;
+
+  border-radius: 50%;
+  object-fit: cover;
+
+  border: 2px solid #d9e6d1;
+}
+
+.profile-info h4 {
+  margin: 0 0 4px;
+
+  color: #222;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.profile-info p {
+  margin: 0;
+
+  color: var(--wh-muted);
+  font-size: 13px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.sidebar-footer {
+  margin-top: 22px;
+  padding-top: 18px;
+
+  border-top: 1px solid #ececec;
+}
+
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px;
+  margin-bottom: 12px;
+
+  border-radius: 14px;
+  background: #f5f7f3;
+}
+
+.user-box i {
+  color: var(--wh-primary);
+  font-size: 24px;
+}
+
+.user-box strong {
+  display: block;
+  color: #222;
+  font-size: 14px;
+}
+
+.user-box span {
+  display: block;
+  margin-top: 2px;
+  color: var(--wh-muted);
+  font-size: 12px;
+}
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+.logout-btn,
+.logout-link {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 14px;
+
+  border: none;
+  border-radius: 16px;
+
+  background: var(--wh-danger-soft);
+  color: var(--wh-danger);
+
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.22s ease;
+}
+
+.logout-btn:hover,
+.logout-link:hover {
+  background: var(--wh-danger);
+  color: #ffffff;
+
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(229, 57, 53, 0.2);
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.sidebar::-webkit-scrollbar,
+.warehouse-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track,
+.warehouse-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.warehouse-sidebar::-webkit-scrollbar-thumb {
+  background: #d5dfce;
+  border-radius: 999px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .sidebar,
+  .warehouse-sidebar {
+    width: var(--wh-sidebar-width-tablet);
+  }
+
+  .logo span,
+  .sidebar-brand h2 {
+    font-size: 18px;
+  }
+
+  .logo img {
+    width: 74px;
+    height: 74px;
+  }
+
+  .sidebar-menu a,
+  .sidebar-link {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar,
+  .warehouse-sidebar {
+    transform: translateX(-100%);
+    transition: 0.3s ease;
+  }
+
+  .sidebar.active,
+  .warehouse-sidebar.active {
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,308 @@
+<main class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+        <div>
+            <h2>Quản lý khách hàng</h2>
+            <p>Danh sách khách hàng và công nợ</p>
+        </div>
+
+        <button id="openCreateModal" class="create-btn">
+            <i class="fa-solid fa-plus"></i>
+            Tạo khách hàng
+        </button>
+
+    </header>
+
+    <!-- STATS -->
+    <section class="stats">
+
+        <div class="stat-card">
+            <span>Tổng khách hàng</span>
+            <h3 id="totalCustomers">0</h3>
+        </div>
+
+        <div class="stat-card">
+            <span>Tổng công nợ</span>
+            <h3 id="totalDebt">0đ</h3>
+        </div>
+
+    </section>
+
+    <!-- SEARCH -->
+    <section class="toolbar">
+
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Tìm khách hàng..."
+            >
+        </div>
+
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Mã KH</th>
+                    <th>Mã số thuế</th>
+                    <th>Công ty</th>
+                    <th>Địa chỉ</th>
+                    <th>Email</th>
+                    <th>Công nợ</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody id="customerTableBody">
+
+                <tr>
+                    <td colspan="8" class="empty">
+                        Đang tải dữ liệu...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <!-- MODAL CREATE CUSTOMER -->
+    <div class="modal" id="createModal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h3>Tạo tài khoản khách hàng</h3>
+
+                <button type="button" id="closeModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+            <form id="createCustomerForm">
+
+                <!-- USER INFO -->
+                <div class="form-section">
+                    <h4>Thông tin đăng nhập</h4>
+
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+
+                <!-- PROFILE INFO -->
+                <div class="form-section">
+                    <h4>Thông tin người đại diện</h4>
+
+                    <div class="form-group">
+                        <label>Họ và tên</label>
+                        <input type="text" id="fullName" name="full_name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" id="phoneNumber" name="phone_number">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Giới tính</label>
+                        <select id="gender" name="gender">
+                            <option value="hidden">Không hiển thị</option>
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ngày sinh</label>
+                        <input type="date" id="dob" name="date_of_birth">
+                    </div>
+                </div>
+
+                <!-- CUSTOMER INFO -->
+                <div class="form-section">
+                    <h4>Thông tin công ty</h4>
+
+                    <div class="form-group">
+                        <label>Tên công ty *</label>
+                        <input type="text" id="companyName" name="company_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mã số thuế</label>
+                        <input type="text" id="taxCode" name="tax_code">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tỉnh / Thành phố *</label>
+                        <select id="province" name="province" required>
+                            <option value="">Chọn tỉnh / thành phố</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quận / Huyện *</label>
+                        <select id="district" name="district" required disabled>
+                            <option value="">Chọn quận / huyện</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phường / Xã *</label>
+                        <select id="ward" name="ward" disabled required>
+                            <option value="">Chọn phường / xã</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số nhà, đường</label>
+                        <input type="text" id="street" name="street" placeholder="VD: 12 Nguyễn Trãi">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Hạn mức tín dụng</label>
+                        <input type="number" id="creditLimit" name="credit_limit" value="10000000">
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Tạo khách hàng
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- MODAL EDIT CUSTOMER -->
+    <div class="modal" id="editModal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h3>Chỉnh sửa khách hàng</h3>
+
+                <button type="button" id="closeEditModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+            <form id="editCustomerForm">
+
+                <input type="hidden" id="editCustomerId">
+
+                <!-- USER INFO -->
+                <div class="form-section">
+                    <h4>Thông tin đăng nhập</h4>
+
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="editEmail" required>
+                    </div>
+                </div>
+
+                <!-- PROFILE -->
+                <div class="form-section">
+                    <h4>Thông tin người đại diện</h4>
+
+                    <div class="form-group">
+                        <label>Họ và tên</label>
+                        <input type="text" id="editFullName">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" id="editPhoneNumber">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Giới tính</label>
+                        <select id="editGender">
+                            <option value="hidden">Không hiển thị</option>
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ngày sinh</label>
+                        <input type="date" id="editDob">
+                    </div>
+                </div>
+
+                <!-- COMPANY -->
+                <div class="form-section">
+                    <h4>Thông tin công ty</h4>
+
+                    <div class="form-group">
+                        <label>Tên công ty *</label>
+                        <input type="text" id="editCompanyName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mã số thuế</label>
+                        <input type="text" id="editTaxCode">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tỉnh / Thành phố *</label>
+                        <select id="editProvince" required>
+                            <option value="">Chọn tỉnh / thành phố</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quận / Huyện *</label>
+                        <select id="editDistrict" required disabled>
+                            <option value="">Chọn quận / huyện</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phường / Xã *</label>
+                        <select id="editWard" required disabled>
+                            <option value="">Chọn phường / xã</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số nhà, đường</label>
+                        <input type="text" id="editStreet">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Hạn mức tín dụng</label>
+                        <input type="number" id="editCreditLimit">
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Cập nhật khách hàng
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>

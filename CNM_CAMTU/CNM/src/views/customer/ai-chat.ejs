@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title || 'Agro AI Assistant' %></title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/pages/customer/ai-chat.css" />
+  </head>
+
+  <body>
+    <aside class="chat-sidebar">
+      <a class="chat-brand" href="/">
+        <span>AgroShop</span>
+      </a>
+
+      <nav class="chat-nav" aria-label="Dieu huong Agro AI">
+        <a class="active" href="/ai-chat">
+          <i class="fa-regular fa-square-plus"></i>
+          <span>New Chat</span>
+        </a>
+        <button type="button" data-action="clear-chat">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </button>
+        <a href="/#productList">
+          <i class="fa-solid fa-box"></i>
+          <span>Products</span>
+        </a>
+
+        <a>
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="chat-sidebar__bottom">
+        <button class="upgrade-btn" type="button">
+          <i class="fa-solid fa-rocket"></i>
+          <span>Upgrade to Pro</span>
+        </button>
+
+        <div class="sidebar-links">
+          <a>
+            <i class="fa-regular fa-circle-question"></i>
+            <span>Help</span>
+          </a>
+          <a class="danger" href="/">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>Exit</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="chat-shell">
+      <header class="chat-topbar">
+        <button class="mobile-menu" type="button" aria-label="Mo menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="assistant-meta">
+          <div class="assistant-avatar" aria-hidden="true">
+            <span class="assistant-avatar__halo"></span>
+            <i class="fa-solid fa-robot"></i>
+            <span class="assistant-avatar__status"></span>
+          </div>
+          <div class="assistant-copy">
+            <div class="assistant-title-row">
+              <h1>AgroBot</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button type="button" aria-label="Thong bao">
+            <i class="fa-regular fa-bell"></i>
+          </button>
+          <button type="button" aria-label="Tai khoan">
+            <i class="fa-regular fa-circle-user"></i>
+          </button>
+        </div>
+      </header>
+
+      <section class="chat-messages" id="chatMessages" aria-live="polite">
+        <div class="message-row bot">
+          <div class="message-avatar bot">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="message-stack">
+            <div class="message-bubble bot">
+              Xin chào. Tôi là Agro AI Assistant. Bạn muốn tìm sản phẩm, phân
+              bón, thuốc BVTV hay chẩn đoán triệu chứng cây trồng?
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chat-composer-panel">
+        <div class="quick-suggestions"></div>
+
+        <div
+          class="composer-attachment"
+          id="composerAttachment"
+          hidden
+          aria-live="polite"
+        >
+          <img id="composerAttachmentImage" alt="Dinh kem" />
+          <div class="composer-attachment__info">
+            <strong id="composerAttachmentName"></strong>
+            <span id="composerAttachmentMeta"></span>
+          </div>
+          <button
+            class="composer-attachment__remove"
+            id="removeAttachmentBtn"
+            type="button"
+            aria-label="Xoa dinh kem"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="chat-composer" id="chatForm">
+          <button
+            class="composer-icon image-upload-btn"
+            id="attachImageBtn"
+            type="button"
+            aria-label="Chon anh"
+          >
+            <i class="fa-regular fa-image"></i>
+          </button>
+          <input
+            id="chatInput"
+            type="text"
+            autocomplete="off"
+            placeholder="Đặt câu hỏi về nông nghiệp cho Agro AI..."
+          />
+
+          <input
+            class="chat-image-input"
+            id="chatImageInput"
+            type="file"
+            accept="image/*"
+          />
+          <button class="send-btn" id="sendChat" type="submit" aria-label="Gui">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <script src="/js/pages/customer/ai-chat.js"></script>
+  </body>
+</html>
